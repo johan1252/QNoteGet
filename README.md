@@ -5,7 +5,6 @@ CISC/CMPE 320 C++ Course.
 
 ## Authors
 
-* Arash Ashtari
 * Johan Cornelissen
 * Maytha Nassor
 * Krysta Peralto
