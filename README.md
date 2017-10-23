@@ -10,3 +10,4 @@ CISC/CMPE 320 C++ Course.
 * Krysta Peralto
 * Marshall Ruse
 * Ganesha Thirumurthi
+* Peter Li
