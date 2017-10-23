@@ -2,6 +2,7 @@
 
 Initial repository for Team Simcoe. 
 CISC/CMPE 320 C++ Course.
+Woo!
 
 ## Authors
 
