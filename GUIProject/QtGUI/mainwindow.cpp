@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "signinform.h"
+#include "signupform.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -15,13 +17,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-    static bool clicked = false;
-    if(!clicked){
-     ui->label->setText("I've been clicked!");
-     clicked = true;
-    }
-    else{
-     ui->label->setText("Click the button!");
-     clicked = false;
-    }
+    SignInForm *w = new SignInForm(this);
+    w->show(); //show window
+}
+
+void MainWindow::on_pushButton_2_clicked()
+{
+    SignUpForm *w = new SignUpForm(this);
+    w->show(); //show window
 }

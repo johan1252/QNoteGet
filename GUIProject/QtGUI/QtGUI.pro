@@ -13,8 +13,14 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    signinform.cpp \
+    signupform.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    signinform.h \
+    signupform.h
 
-FORMS    += mainwindow.ui
+FORMS    += mainwindow.ui \
+    signinform.ui \
+    signupform.ui
