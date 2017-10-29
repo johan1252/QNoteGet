@@ -394,7 +394,77 @@ curlLibExample.o: ../curlLibExample.cpp \
   /usr/local/Cellar/boost/1.65.1/include/boost/range/const_iterator.hpp \
   /usr/local/Cellar/boost/1.65.1/include/boost/filesystem/convenience.hpp \
   /usr/local/Cellar/boost/1.65.1/include/boost/filesystem/string_file.hpp \
-  /usr/local/Cellar/boost/1.65.1/include/boost/filesystem/fstream.hpp
+  /usr/local/Cellar/boost/1.65.1/include/boost/filesystem/fstream.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/config.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/user.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/config/cwchar.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/regex.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/regex_workaround.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/limits.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/scoped_ptr.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/smart_ptr/scoped_ptr.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/scoped_array.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/smart_ptr/scoped_array.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex_fwd.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/regex_fwd.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/regex_traits.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/regex_traits.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/syntax_type.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/error_type.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/regex_traits_defaults.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/type_traits/make_unsigned.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/type_traits/conditional.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/type_traits/is_signed.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/type_traits/is_unsigned.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/type_traits/add_volatile.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/cpp_regex_traits.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/integer.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/integer_fwd.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/integer_traits.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/pattern_except.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/pending/static_mutex.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/primary_transform.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/pending/object_cache.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/c_regex_traits.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/match_flags.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/regex_raw_buffer.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/char_regex_traits.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/states.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/regbase.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/iterator_traits.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/basic_regex.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/functional/hash.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/functional/hash/hash.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/functional/hash/detail/hash_float.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/functional/hash/detail/float_functions.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/config/no_tr1/cmath.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/functional/hash/detail/limits.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/integer/static_log2.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/functional/hash/extensions.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/detail/container_fwd.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/preprocessor/repetition/repeat_from_to.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/basic_regex_creator.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/basic_regex_parser.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/sub_match.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/regex_format.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/ref.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/core/ref.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/match_results.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/protected_call.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/perl_matcher.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/iterator_category.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/perl_matcher_non_recursive.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/perl_matcher_common.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/instances.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/regex_match.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/regex_search.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/regex_iterator.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/regex_token_iterator.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/regex_grep.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/regex_replace.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/regex_merge.hpp \
+  /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/regex_split.hpp
 
 /usr/local/Cellar/boost/1.65.1/include/boost/filesystem.hpp:
 
@@ -1187,3 +1257,143 @@ curlLibExample.o: ../curlLibExample.cpp \
 /usr/local/Cellar/boost/1.65.1/include/boost/filesystem/string_file.hpp:
 
 /usr/local/Cellar/boost/1.65.1/include/boost/filesystem/fstream.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/config.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/user.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/config/cwchar.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/regex.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/regex_workaround.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/limits.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/scoped_ptr.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/smart_ptr/scoped_ptr.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/scoped_array.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/smart_ptr/scoped_array.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex_fwd.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/regex_fwd.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/regex_traits.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/regex_traits.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/syntax_type.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/error_type.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/regex_traits_defaults.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/type_traits/make_unsigned.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/type_traits/conditional.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/type_traits/is_signed.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/type_traits/is_unsigned.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/type_traits/add_volatile.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/cpp_regex_traits.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/integer.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/integer_fwd.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/integer_traits.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/pattern_except.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/pending/static_mutex.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/primary_transform.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/pending/object_cache.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/c_regex_traits.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/match_flags.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/regex_raw_buffer.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/char_regex_traits.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/states.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/regbase.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/iterator_traits.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/basic_regex.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/functional/hash.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/functional/hash/hash.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/functional/hash/detail/hash_float.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/functional/hash/detail/float_functions.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/config/no_tr1/cmath.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/functional/hash/detail/limits.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/integer/static_log2.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/functional/hash/extensions.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/detail/container_fwd.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/preprocessor/repetition/repeat_from_to.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/basic_regex_creator.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/basic_regex_parser.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/sub_match.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/regex_format.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/ref.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/core/ref.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/match_results.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/protected_call.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/perl_matcher.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/iterator_category.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/perl_matcher_non_recursive.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/perl_matcher_common.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/instances.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/regex_match.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/regex_search.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/regex_iterator.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/regex_token_iterator.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/regex_grep.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/regex_replace.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/regex_merge.hpp:
+
+/usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/regex_split.hpp:
