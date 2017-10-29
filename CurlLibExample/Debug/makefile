@@ -43,7 +43,7 @@ all: curlLibExample
 curlLibExample: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: MacOS X C++ Linker'
-	g++ -lcurl -I /usr/local/Cellar/boost/1.65.1/lib/ -l boost_system -l boost_filesystem -o "curlLibExample" $(OBJS) $(USER_OBJS) $(LIBS)
+	g++ -lcurl -I /usr/local/Cellar/boost/1.65.1/lib/ -l boost_system -l boost_filesystem -l boost_regex -o "curlLibExample" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
