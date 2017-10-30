@@ -23,7 +23,7 @@ class CourseScraper;
 class CourseScraper
 {
 public:
-	void listAllFilesFoundInURL(string userInput);
+	void recursivelyListUrls(string userInput);
 	void listPdfFilesInPage (string inputUrl);
 
 	std::map<string, string> courses_map = {
