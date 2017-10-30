@@ -33,7 +33,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="HomePage">
      <widget class="QFrame" name="frame_2">
@@ -336,8 +336,8 @@
       <widget class="QWidget" name="formLayoutWidget">
        <property name="geometry">
         <rect>
-         <x>10</x>
-         <y>130</y>
+         <x>260</x>
+         <y>150</y>
          <width>581</width>
          <height>281</height>
         </rect>
