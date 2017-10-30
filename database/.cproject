@@ -27,6 +27,7 @@
 								</option>
 								<option id="macosx.cpp.link.option.paths.130846448" name="Library search path (-L)" superClass="macosx.cpp.link.option.paths" useByScannerDiscovery="false" valueType="libPaths">
 									<listOptionValue builtIn="false" value="/usr/local/Cellar/libpqxx/4.0.1_2/lib"/>
+									<listOptionValue builtIn="false" value="/usr/local/Cellar/libpq/9.6.5/lib"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.macosx.cpp.linker.input.1423295830" superClass="cdt.managedbuild.tool.macosx.cpp.linker.input">
 									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
