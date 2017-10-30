@@ -323,7 +323,7 @@ bool CourseScraper::checkUrlValidity(string fullUrl) {
 	return false;
 }
 
-void CourseScraper::listAllFilesFoundInURL(string userInput) {
+void CourseScraper::recursivelyListUrls(string userInput) {
 		// IMPORTANT, DATA MUST BE CLEARED FIRST
 		data = "";
 
@@ -475,7 +475,7 @@ void CourseScraper::listAllFilesFoundInURL(string userInput) {
 	    for (auto i: htmlPagesVector)
 	    {
 	    		//cout << "Calling API again using " << i << endl;
-	    		listAllFilesFoundInURL(i);
+	    		recursivelyListUrls(i);
 	    }
 
 	    //cout << "Pdf Files Found:" << endl;
@@ -497,7 +497,7 @@ int main()
     transform(userInput.begin(), userInput.end(), userInput.begin(), ::toupper);
     string courseUrl = scraper.courses_map[userInput];
 
-    scraper.listAllFilesFoundInURL(courseUrl);
+    scraper.recursivelyListUrls(courseUrl);
     cout << endl << "Websites Found:" << endl;
     for (auto i: scraper.urlVisitedVector)
     {
