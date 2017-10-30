@@ -1,4 +1,4 @@
-curlLibExample.o: ../curlLibExample.cpp \
+curlLibExample.o: ../curlLibExample.cpp ../curlLibExample.hpp \
   /usr/local/Cellar/boost/1.65.1/include/boost/filesystem.hpp \
   /usr/local/Cellar/boost/1.65.1/include/boost/filesystem/config.hpp \
   /usr/local/Cellar/boost/1.65.1/include/boost/config.hpp \
@@ -465,6 +465,8 @@ curlLibExample.o: ../curlLibExample.cpp \
   /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/regex_replace.hpp \
   /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/regex_merge.hpp \
   /usr/local/Cellar/boost/1.65.1/include/boost/regex/v4/regex_split.hpp
+
+../curlLibExample.hpp:
 
 /usr/local/Cellar/boost/1.65.1/include/boost/filesystem.hpp:
 
