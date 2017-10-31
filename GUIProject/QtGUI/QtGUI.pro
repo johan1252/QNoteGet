@@ -24,3 +24,7 @@ HEADERS  += mainwindow.h \
 FORMS    += mainwindow.ui \
     signinform.ui \
     signupform.ui
+
+RESOURCES += \
+    images.qrc \
+    examplefolderstructure.qrc
