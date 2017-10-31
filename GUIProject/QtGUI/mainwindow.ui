@@ -33,7 +33,11 @@
      </rect>
     </property>
     <property name="currentIndex">
+<<<<<<< HEAD
      <number>3</number>
+=======
+     <number>1</number>
+>>>>>>> 4a67f7c88a8dbd58769cf58ae153f9e0a3b8a186
     </property>
     <widget class="QWidget" name="HomePage">
      <widget class="QFrame" name="frame_2">
@@ -525,8 +529,13 @@
       <widget class="QPushButton" name="pushButton_2">
        <property name="geometry">
         <rect>
+<<<<<<< HEAD
          <x>550</x>
          <y>480</y>
+=======
+         <x>440</x>
+         <y>410</y>
+>>>>>>> 4a67f7c88a8dbd58769cf58ae153f9e0a3b8a186
          <width>181</width>
          <height>71</height>
         </rect>
@@ -535,6 +544,7 @@
         <string>Done Subscribe</string>
        </property>
       </widget>
+<<<<<<< HEAD
       <widget class="QTabWidget" name="tabWidget">
        <property name="geometry">
         <rect>
@@ -883,6 +893,8 @@ font-family: &quot;Times New Roman&quot; serif;</string>
         </widget>
        </widget>
       </widget>
+=======
+>>>>>>> 4a67f7c88a8dbd58769cf58ae153f9e0a3b8a186
      </widget>
     </widget>
     <widget class="QWidget" name="UserHome">
@@ -957,6 +969,7 @@ font-family: &quot;Times New Roman&quot; serif;</string>
         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
        </property>
       </widget>
+<<<<<<< HEAD
       <widget class="QSplitter" name="splitter">
        <property name="geometry">
         <rect>
@@ -976,6 +989,8 @@ font-family: &quot;Times New Roman&quot; serif;</string>
        <widget class="QListWidget" name="listWidget_2"/>
        <widget class="QListWidget" name="listWidget_3"/>
       </widget>
+=======
+>>>>>>> 4a67f7c88a8dbd58769cf58ae153f9e0a3b8a186
      </widget>
     </widget>
    </widget>
@@ -986,7 +1001,11 @@ font-family: &quot;Times New Roman&quot; serif;</string>
      <x>0</x>
      <y>0</y>
      <width>1122</width>
+<<<<<<< HEAD
      <height>22</height>
+=======
+     <height>31</height>
+>>>>>>> 4a67f7c88a8dbd58769cf58ae153f9e0a3b8a186
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -1013,6 +1032,8 @@ font-family: &quot;Times New Roman&quot; serif;</string>
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="images.qrc"/>
+ </resources>
  <connections/>
 </ui>

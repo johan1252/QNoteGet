@@ -8,6 +8,7 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
+-include src/subdir.mk
 -include subdir.mk
 -include objects.mk
 
@@ -37,19 +38,19 @@ endif
 # Add inputs and outputs from these tool invocations to the build variables 
 
 # All Target
-all: curlLibExample
+all: database
 
 # Tool invocations
-curlLibExample: $(OBJS) $(USER_OBJS)
+database: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: MacOS X C++ Linker'
-	g++ -lcurl -I /usr/local/Cellar/boost/1.65.1/lib/ -l boost_system -l boost_filesystem -o "curlLibExample" $(OBJS) $(USER_OBJS) $(LIBS)
+	g++ -L/usr/local/Cellar/libpqxx/4.0.1_2/lib -L/usr/local/Cellar/libpq/9.6.5/lib -o "database" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(CC_DEPS)$(C++_DEPS)$(EXECUTABLES)$(OBJS)$(C_UPPER_DEPS)$(CXX_DEPS)$(CPP_DEPS)$(C_DEPS) curlLibExample
+	-$(RM) $(CC_DEPS)$(C++_DEPS)$(EXECUTABLES)$(OBJS)$(C_UPPER_DEPS)$(CXX_DEPS)$(CPP_DEPS)$(C_DEPS) database
 	-@echo ' '
 
 .PHONY: all clean dependents
