@@ -25,10 +25,19 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        addclasses.cpp
+        addclasses.cpp \
+    buildapath.cpp \
+    viewclasses.cpp
 
 HEADERS += \
-        addclasses.h
+        addclasses.h \
+    buildapath.h \
+    viewclasses.h
 
 FORMS += \
-        addclasses.ui
+        addclasses.ui \
+    buildapath.ui \
+    viewclasses.ui
+
+RESOURCES += \
+    resources.qrc

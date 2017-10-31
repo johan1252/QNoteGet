@@ -1,4 +1,5 @@
 #include "addclasses.h"
+#include "buildapath.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])

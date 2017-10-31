@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 
+
 namespace Ui {
 class BuildAPath;
 }
@@ -15,8 +16,12 @@ public:
     explicit BuildAPath(QWidget *parent = 0);
     ~BuildAPath();
 
+private slots:
+    void on_group_addClasses_clicked();
+
 private:
     Ui::BuildAPath *ui;
+
 };
 
 #endif // BUILDAPATH_H
