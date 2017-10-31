@@ -62,25 +62,6 @@ void MainWindow::on_pushButton_3_clicked()
   }
 }
 
-void MainWindow::on_pushButton_4_clicked()
-{
-    currentIndex = ui->stackedWidget->currentIndex();
-  if( currentIndex < ui->stackedWidget->count())
-  {
-      ui->stackedWidget->setCurrentIndex(2); // page1
-  }
-}
-
-void MainWindow::on_pushButton_3_clicked()
-{
-    currentIndex = ui->stackedWidget->currentIndex();
-  if( currentIndex < ui->stackedWidget->count())
-  {
-      ui->stackedWidget->setCurrentIndex(1); // page1
-  }
-}
-
-
 void MainWindow::on_listWidget_itemClicked(QListWidgetItem *item)
 {
 
