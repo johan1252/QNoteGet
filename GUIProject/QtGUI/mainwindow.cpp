@@ -13,6 +13,20 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->stackedWidget->setCurrentIndex(0); // page1
+
+    ui->listWidget->addItem("CISC 220");
+    ui->listWidget->addItem("CISC 320");
+    ui->listWidget->addItem("ELECT 370");
+
+    ui->listWidget_2->addItem("Lectures");
+    ui->listWidget_2->addItem("Assignments");
+
+    ui->listWidget_3->addItem("Week 01");
+    ui->listWidget_3->addItem("Week 02");
+    ui->listWidget_3->addItem("Week 03");
+    ui->listWidget_3->addItem("Week 04");
+    ui->listWidget_3->addItem("Week 05");
+    ui->listWidget_3->addItem("Week 06");
 }
 
 MainWindow::~MainWindow()

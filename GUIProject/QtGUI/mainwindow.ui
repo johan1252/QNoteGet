@@ -33,7 +33,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="HomePage">
      <widget class="QFrame" name="frame_2">
@@ -526,7 +526,7 @@
        <property name="geometry">
         <rect>
          <x>440</x>
-         <y>410</y>
+         <y>480</y>
          <width>181</width>
          <height>71</height>
         </rect>
@@ -986,7 +986,7 @@ font-family: &quot;Times New Roman&quot; serif;</string>
      <x>0</x>
      <y>0</y>
      <width>1122</width>
-     <height>31</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -1013,8 +1013,6 @@ font-family: &quot;Times New Roman&quot; serif;</string>
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources>
-  <include location="images.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>

@@ -26,7 +26,6 @@ FORMS    += mainwindow.ui \
     signupform.ui
 
 RESOURCES += \
-    images.qrc \
-    examplefolderstructure.qrc
+    images.qrc
 
 
