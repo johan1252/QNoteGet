@@ -3,7 +3,9 @@
 
 #include <QMainWindow>
 #include <QListWidgetItem>
-#include <QDir>
+#include <QFileSystemModel>
+#include <QtCore>
+#include <QtGui>
 
 namespace Ui {
 class MainWindow;
@@ -35,19 +37,20 @@ private slots:
 
     void on_pushButton_createAccount_clicked();
 
-    void on_listWidget_itemClicked(QListWidgetItem *item);
-
-    void on_listWidget_2_itemClicked(QListWidgetItem *item);
-
     void on_pushButton_editSubs_clicked();
 
     void on_pushButton_Back_clicked();
 
+    void on_treeView_courseDirectories_clicked(const QModelIndex &index);
+
+    void on_listView_courseFiles_doubleClicked(const QModelIndex &index);
+
 private:
     Ui::MainWindow *ui;
-    QDir cisc320;
-    QDir elec370;
+    QFileSystemModel * dirModel;
+    QFileSystemModel * fileModel;
 
+    void setupDirectoryExplorer();
 };
 
 #endif // MAINWINDOW_H
