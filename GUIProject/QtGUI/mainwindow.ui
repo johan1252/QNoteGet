@@ -110,7 +110,7 @@
         <enum>Qt::VisualMoveStyle</enum>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="pushButton_login">
        <property name="geometry">
         <rect>
          <x>240</x>
@@ -246,7 +246,7 @@
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_3">
+      <widget class="QPushButton" name="pushButton_createAccount">
        <property name="geometry">
         <rect>
          <x>120</x>
@@ -356,7 +356,7 @@
          </widget>
         </item>
         <item row="0" column="1">
-         <widget class="QLineEdit" name="nameLineEdit">
+         <widget class="QLineEdit" name="lineEdit_username">
           <property name="font">
            <font>
             <pointsize>14</pointsize>
@@ -374,10 +374,13 @@
           <property name="text">
            <string>Password</string>
           </property>
+          <property name="alignment">
+           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+          </property>
          </widget>
         </item>
         <item row="4" column="1">
-         <widget class="QLineEdit" name="passwordLineEdit">
+         <widget class="QLineEdit" name="lineEdit_password">
           <property name="font">
            <font>
             <pointsize>14</pointsize>
@@ -395,10 +398,13 @@
           <property name="text">
            <string>Courses</string>
           </property>
+          <property name="margin">
+           <number>0</number>
+          </property>
          </widget>
         </item>
         <item row="6" column="1">
-         <widget class="QCheckBox" name="checkBox_3">
+         <widget class="QCheckBox" name="checkBox_cisc320">
           <property name="font">
            <font>
             <pointsize>14</pointsize>
@@ -410,7 +416,7 @@
          </widget>
         </item>
         <item row="7" column="1">
-         <widget class="QCheckBox" name="checkBox_2">
+         <widget class="QCheckBox" name="checkBox_elec371">
           <property name="font">
            <font>
             <pointsize>14</pointsize>
@@ -422,7 +428,7 @@
          </widget>
         </item>
         <item row="8" column="1">
-         <widget class="QCheckBox" name="checkBox">
+         <widget class="QCheckBox" name="checkBox_cisc221">
           <property name="font">
            <font>
             <pointsize>14</pointsize>
@@ -433,19 +439,45 @@
           </property>
          </widget>
         </item>
+        <item row="5" column="1">
+         <widget class="QLineEdit" name="lineEdit_confirmPassword"/>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="label_11">
+          <property name="text">
+           <string>Confirm Password</string>
+          </property>
+          <property name="margin">
+           <number>0</number>
+          </property>
+         </widget>
+        </item>
        </layout>
       </widget>
-      <widget class="QPushButton" name="pushButton_4">
+      <widget class="QPushButton" name="pushButton_doneSignUp">
        <property name="geometry">
         <rect>
          <x>460</x>
-         <y>450</y>
+         <y>480</y>
          <width>191</width>
          <height>51</height>
         </rect>
        </property>
        <property name="text">
         <string>Done</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pushButton_Back">
+       <property name="geometry">
+        <rect>
+         <x>30</x>
+         <y>480</y>
+         <width>111</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Go Back</string>
        </property>
       </widget>
      </widget>
@@ -478,8 +510,8 @@
       <widget class="QLabel" name="label_7">
        <property name="geometry">
         <rect>
-         <x>270</x>
-         <y>0</y>
+         <x>210</x>
+         <y>-10</y>
          <width>761</width>
          <height>131</height>
         </rect>
@@ -522,10 +554,10 @@
         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="pushButton_doneSubscribe">
        <property name="geometry">
         <rect>
-         <x>440</x>
+         <x>490</x>
          <y>480</y>
          <width>181</width>
          <height>71</height>
@@ -538,16 +570,102 @@
       <widget class="QTabWidget" name="tabWidget">
        <property name="geometry">
         <rect>
-         <x>260</x>
-         <y>90</y>
+         <x>270</x>
+         <y>110</y>
          <width>651</width>
          <height>361</height>
         </rect>
        </property>
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
-       <widget class="QWidget" name="tab">
+       <widget class="QWidget" name="tab_myAccount">
+        <attribute name="title">
+         <string>My Account</string>
+        </attribute>
+        <widget class="QWidget" name="formLayoutWidget_2">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>70</y>
+           <width>571</width>
+           <height>101</height>
+          </rect>
+         </property>
+         <layout class="QFormLayout" name="formLayout_2">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_12">
+            <property name="text">
+             <string>Old Password</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QLineEdit" name="lineEdit_myAccountOldPass"/>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_13">
+            <property name="text">
+             <string>New Password</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="lineEdit_myAccountNewPass"/>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_14">
+            <property name="text">
+             <string>Confirm New Password</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="lineEdit_myAccountConfirmPass"/>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QPushButton" name="pushButton_saveAccount">
+         <property name="geometry">
+          <rect>
+           <x>460</x>
+           <y>180</y>
+           <width>131</width>
+           <height>32</height>
+          </rect>
+         </property>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Save </string>
+         </property>
+        </widget>
+        <widget class="QLabel" name="label_myAccountUsername">
+         <property name="geometry">
+          <rect>
+           <x>10</x>
+           <y>5</y>
+           <width>331</width>
+           <height>41</height>
+          </rect>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>30</pointsize>
+           <weight>75</weight>
+           <bold>true</bold>
+          </font>
+         </property>
+         <property name="text">
+          <string>TextLabel</string>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="tab_cisc320">
         <attribute name="title">
          <string>CISC 320</string>
         </attribute>
@@ -715,7 +833,7 @@ font-family: &quot;Times New Roman&quot; serif;
          </property>
         </widget>
        </widget>
-       <widget class="QWidget" name="tab_2">
+       <widget class="QWidget" name="tab_elec270">
         <attribute name="title">
          <string>ELEC 270</string>
         </attribute>
@@ -723,7 +841,7 @@ font-family: &quot;Times New Roman&quot; serif;
          <property name="geometry">
           <rect>
            <x>20</x>
-           <y>10</y>
+           <y>20</y>
            <width>571</width>
            <height>59</height>
           </rect>
@@ -755,7 +873,7 @@ font-family: &quot;Times New Roman&quot; serif;</string>
          <property name="geometry">
           <rect>
            <x>260</x>
-           <y>80</y>
+           <y>90</y>
            <width>177</width>
            <height>114</height>
           </rect>
@@ -815,7 +933,7 @@ font-family: &quot;Times New Roman&quot; serif;</string>
          <property name="geometry">
           <rect>
            <x>20</x>
-           <y>80</y>
+           <y>90</y>
            <width>133</width>
            <height>109</height>
           </rect>
@@ -869,6 +987,174 @@ font-family: &quot;Times New Roman&quot; serif;</string>
          </layout>
         </widget>
         <widget class="QPushButton" name="pushButton_6">
+         <property name="geometry">
+          <rect>
+           <x>500</x>
+           <y>290</y>
+           <width>112</width>
+           <height>32</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>Save</string>
+         </property>
+        </widget>
+       </widget>
+       <widget class="QWidget" name="tab_cisc221">
+        <attribute name="title">
+         <string>CISC 221</string>
+        </attribute>
+        <widget class="QWidget" name="layoutWidget_7">
+         <property name="geometry">
+          <rect>
+           <x>260</x>
+           <y>90</y>
+           <width>177</width>
+           <height>114</height>
+          </rect>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_25">
+          <item>
+           <widget class="QLabel" name="label_39">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>Extensions</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBox_53">
+            <property name="text">
+             <string>.pdf</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBox_54">
+            <property name="text">
+             <string>.pptx</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="checkBox_55">
+            <property name="text">
+             <string>.word</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_8">
+            <item>
+             <widget class="QLabel" name="label_40">
+              <property name="text">
+               <string>other</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="lineEdit_12"/>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="layoutWidget_8">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>90</y>
+           <width>133</width>
+           <height>109</height>
+          </rect>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_30">
+          <item>
+           <widget class="QLabel" name="label_41">
+            <property name="font">
+             <font>
+              <weight>75</weight>
+              <bold>true</bold>
+             </font>
+            </property>
+            <property name="text">
+             <string>Course Components</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_31">
+            <item>
+             <widget class="QCheckBox" name="checkBox_56">
+              <property name="text">
+               <string>Lecture Notes</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkBox_57">
+              <property name="text">
+               <string>Assignments</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkBox_58">
+              <property name="text">
+               <string>Tutorials</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkBox_59">
+              <property name="text">
+               <string>Labs</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="layoutWidget_9">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>20</y>
+           <width>581</width>
+           <height>59</height>
+          </rect>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_32">
+          <item>
+           <widget class="QLabel" name="label_42">
+            <property name="styleSheet">
+             <string notr="true">font-style: italic;
+font-weight: bold;
+font-size: 24px;
+font-family: &quot;Times New Roman&quot; serif;
+</string>
+            </property>
+            <property name="text">
+             <string>CISC 221</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="Line" name="line_8">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QPushButton" name="pushButton_7">
          <property name="geometry">
           <rect>
            <x>500</x>
@@ -975,6 +1261,19 @@ font-family: &quot;Times New Roman&quot; serif;</string>
        <widget class="QListWidget" name="listWidget"/>
        <widget class="QListWidget" name="listWidget_2"/>
        <widget class="QListWidget" name="listWidget_3"/>
+      </widget>
+      <widget class="QPushButton" name="pushButton_editSubs">
+       <property name="geometry">
+        <rect>
+         <x>770</x>
+         <y>390</y>
+         <width>141</width>
+         <height>32</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Edit Account</string>
+       </property>
       </widget>
      </widget>
     </widget>
