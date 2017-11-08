@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "signinform.h"
 #include "signupform.h"
+#include "database.h"
 #include <QDebug>
 #include <QMessageBox>
 #include <QDesktopServices>
@@ -88,6 +89,13 @@ void MainWindow::on_pushButton_doneSignUp_clicked()
                                                                   QMessageBox::Yes | QMessageBox::No);
         if (reply == QMessageBox::Yes){
             ui->label_myAccountUsername->setText("Hello, " + ui->lineEdit_username->text());
+
+            //TODO: fill in real values for path, updateInterval. And don't make direct database call.
+            //Just proof of concept.
+            std::size_t str_password_hash = std::hash<std::string>{}(ui->lineEdit_password->text().toStdString());
+
+            database::dbCreateUserRow(ui->lineEdit_username->text().toStdString(), str_password_hash , "Blah path", 2021);
+
             if(currentIndex < ui->stackedWidget->count())
             {
                 ui->stackedWidget->setCurrentIndex(EDITSUBSCRIPTIONSPAGE);

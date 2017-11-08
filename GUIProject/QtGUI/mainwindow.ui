@@ -33,7 +33,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="HomePage">
      <widget class="QFrame" name="frame_2">
@@ -642,12 +642,12 @@
           <string>Schedule Updates</string>
          </property>
         </widget>
-        <widget class="QWidget" name="">
+        <widget class="QWidget" name="layoutWidget">
          <property name="geometry">
           <rect>
            <x>170</x>
            <y>210</y>
-           <width>228</width>
+           <width>233</width>
            <height>20</height>
           </rect>
          </property>
@@ -726,12 +726,12 @@ font-family: &quot;Times New Roman&quot; serif;
           <string>Save</string>
          </property>
         </widget>
-        <widget class="QWidget" name="">
+        <widget class="QWidget" name="layoutWidget">
          <property name="geometry">
           <rect>
            <x>20</x>
            <y>80</y>
-           <width>250</width>
+           <width>253</width>
            <height>229</height>
           </rect>
          </property>
@@ -951,7 +951,7 @@ font-family: &quot;Times New Roman&quot; serif;</string>
           <rect>
            <x>20</x>
            <y>80</y>
-           <width>250</width>
+           <width>253</width>
            <height>229</height>
           </rect>
          </property>
@@ -1172,7 +1172,7 @@ font-family: &quot;Times New Roman&quot; serif;
           <rect>
            <x>20</x>
            <y>80</y>
-           <width>250</width>
+           <width>253</width>
            <height>229</height>
           </rect>
          </property>
