@@ -26,6 +26,7 @@ Thumbs.db
 
 # Ignore "BUILD*" directories
 BUILD*/
+build*/
 
 # Ignore user project files for QT
 *.pro.user*
