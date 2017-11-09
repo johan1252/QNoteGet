@@ -52,11 +52,11 @@ bool database::createTableRow(string tableName, vector<string> fields, vector<st
   return true;
 }
 
+
 void database::dbCreateUserRow(const string username, int passHash, string path, int updateInterval) {
 
-    //TODO: DATABASE needs extra fields added for path, and update interval
-    vector<string> userTableFields = {"name","password"};
-    vector<string> userTablevalues = {username,to_string(passHash)};
+    vector<string> userTableFields = {"name","password","filedirectory","updateinterval"};
+    vector<string> userTablevalues = {username,to_string(passHash),path,to_string(updateInterval)};
 
     //TODO: update this to real table name
     string tableName = "userqt";
@@ -66,4 +66,36 @@ void database::dbCreateUserRow(const string username, int passHash, string path,
 
 void database::dbEndDatabaseConnection() {
     DBconnection.disconnect();
+}
+
+// Returns the password associated with a username, or -1 if the username does not exist
+int database::dbGetPasswordForUsername(string username){
+    int password = -1;
+    try {
+      pqxx::work txn(DBconnection);
+
+      string sql = "SELECT password FROM userqt WHERE name = '" + username + "'";
+
+      // For debuggin sql statement
+      //cout << sql << endl;
+
+      pqxx::result r = txn.exec(sql);
+      // Iterate through result to get password
+      for (int rownum=0; rownum < r.size(); ++rownum)
+       {
+         const pqxx::result::tuple row = r[rownum];
+
+         for (int colnum=0; colnum < row.size(); ++colnum)
+         {
+           const pqxx::result::field field = row[colnum];
+           password = stoi(field.c_str());
+         }
+       }
+      txn.commit();
+    }
+    catch (const exception &e) {
+      cout << "Could not get password for :" << username << " " << e.what();
+      return password;
+     }
+    return password;
 }

@@ -19,18 +19,14 @@ LIBS += -L/usr/local/Cellar/libpqxx/4.0.1_2/lib/ -lpqxx -L/usr/local/Cellar/libp
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    signinform.cpp \
-    signupform.cpp \
-    database.cpp
+    database.cpp \
+    user.cpp
 
 HEADERS  += mainwindow.h \
-    signinform.h \
-    signupform.h \
-    database.h
+    database.h \
+    user.h
 
-FORMS    += mainwindow.ui \
-    signinform.ui \
-    signupform.ui
+FORMS    += mainwindow.ui
 
 RESOURCES += \
     images.qrc \
