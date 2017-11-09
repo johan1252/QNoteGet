@@ -1,8 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "signinform.h"
-#include "signupform.h"
 #include "database.h"
+#include "user.h"
+
 #include <QDebug>
 #include <QMessageBox>
 #include <QDesktopServices>
@@ -92,19 +92,46 @@ void MainWindow::on_pushButton_doneSignUp_clicked()
 
             //TODO: fill in real values for path, updateInterval. And don't make direct database call.
             //Just proof of concept.
-            std::size_t str_password_hash = std::hash<std::string>{}(ui->lineEdit_password->text().toStdString());
-
-            database::dbCreateUserRow(ui->lineEdit_username->text().toStdString(), str_password_hash , "Blah path", 2021);
-
-            if(currentIndex < ui->stackedWidget->count())
-            {
-                ui->stackedWidget->setCurrentIndex(EDITSUBSCRIPTIONSPAGE);
+            // call hash function that will take in the string and make it into an int
+            //std::size_t str_password_hash = std::hash<std::string>{}(ui->lineEdit_password->text().toStdString());
+            int passwordHashed = hashPassword(ui->lineEdit_password->text().toStdString());
+            //make user object function which checks if the username is unique or not
+            // if unique, create user object, if not unique, tell user that already exists
+            if(!(createUser(ui->lineEdit_username->text().toStdString(), passwordHashed))){
+                QMessageBox::critical(this, "Exists",
+                              "An account with this username already exists.");
+            } else {
+                if(currentIndex < ui->stackedWidget->count())
+                {
+                    ui->stackedWidget->setCurrentIndex(EDITSUBSCRIPTIONSPAGE);
+                }
             }
         }
     }
-
-
 }
+
+int MainWindow::hashPassword(string password) {
+    std::size_t str_password_hash = std::hash<std::string>{}(password);
+    return str_password_hash;
+}
+
+bool MainWindow::createUser(string username, int password){
+    int result = database::dbGetPasswordForUsername(username);
+    //TODO: get these parameters passed in from text box information and remove these lines
+    string path = "temp/path";
+    int interval = 5;
+    if(result == -1){
+        User userAccount = User(username,password,path,interval);
+        database::dbCreateUserRow(userAccount.getUsername(),userAccount.getPassword(),userAccount.getFileDirectory(),userAccount.getUpdateInterval());
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+
+
 
 void MainWindow::on_pushButton_createAccount_clicked()
 {

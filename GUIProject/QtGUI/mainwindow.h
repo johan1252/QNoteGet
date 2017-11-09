@@ -7,6 +7,7 @@
 #include <QtCore>
 #include <QtGui>
 
+using namespace std;
 namespace Ui {
 class MainWindow;
 }
@@ -51,6 +52,9 @@ private:
     QFileSystemModel * fileModel;
 
     void setupDirectoryExplorer();
+    //bool validateUser(string username, string password); //unhash and check PW
+    int hashPassword(string password);
+    bool createUser(string username, int password);
 };
 
 #endif // MAINWINDOW_H

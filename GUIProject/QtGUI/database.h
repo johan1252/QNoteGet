@@ -18,6 +18,8 @@ class database{
     public:
         static void dbCreateUserRow(const string username, int passHash, string path, int updateInterval);
         static void dbEndDatabaseConnection();
+        static int dbGetPasswordForUsername(string username);
+
     private:
         static bool createTableRow(const string tableName, vector<string> fields, vector<string> values);
 };
