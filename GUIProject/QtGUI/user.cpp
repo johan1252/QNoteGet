@@ -5,7 +5,7 @@
 
 using namespace std;
 
-#include "user.h"
+#include "User.h"
 
 User::User(string uName,int pw,string directory,int interval):username(uName),passwordHash(pw),fileDirectory(directory),updateInterval(interval) {
 
