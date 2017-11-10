@@ -70,13 +70,18 @@ void MainWindow::on_pushButton_doneSignUp_clicked()
 {
     currentIndex = ui->stackedWidget->currentIndex();
 
-    if (ui->lineEdit_password->text() != ui->lineEdit_confirmPassword->text()){
+    if (ui->lineEdit_password->text().isEmpty() || ui->lineEdit_fileDirectory->text().isEmpty() ||
+                   ui->lineEdit_confirmPassword->text().isEmpty() || ui->lineEdit_username->text().isEmpty()) {
+            QMessageBox::critical(this, "Empty Fields",
+                          "Please ensure all fields are filled in.");
+    }
+    else if (ui->lineEdit_password->text() != ui->lineEdit_confirmPassword->text()){
         QMessageBox::critical(this, "Passwords Not Matched",
                      "'Password' and 'Confirm Password' do not match. "
                      "Please ensure the correct password is entered to continue.");
     }
 
-    else if (ui->checkBox_cisc320->isChecked() == false && ui->checkBox_elec371->isChecked() == false
+    else if (ui->checkBox_cisc320->isChecked() == false && ui->checkBox_elec451->isChecked() == false
            && ui->checkBox_cisc221->isChecked() == false){
         QMessageBox::critical(this, "Must Select Class",
                       "Please select at least one class to subscribe to.");
@@ -84,9 +89,9 @@ void MainWindow::on_pushButton_doneSignUp_clicked()
     else {
 
         QMessageBox::StandardButton reply = QMessageBox::question(this, "Confirm Account Details",
-                       "Are you sure you would like to proceed with:\nUsername:  " + ui->lineEdit_username->text()
-                       + "\nPassword: " + ui->lineEdit_password->text() + "    ...?\nClick 'Yes' to continue.",
-                                                                  QMessageBox::Yes | QMessageBox::No);
+                       "Are you sure you would like to proceed with:\nUsername: " + ui->lineEdit_username->text()
+                      ,QMessageBox::Yes | QMessageBox::No);
+
         if (reply == QMessageBox::Yes){
             ui->label_myAccountUsername->setText("Hello, " + ui->lineEdit_username->text());
 
@@ -95,9 +100,19 @@ void MainWindow::on_pushButton_doneSignUp_clicked()
             // call hash function that will take in the string and make it into an int
             //std::size_t str_password_hash = std::hash<std::string>{}(ui->lineEdit_password->text().toStdString());
             int passwordHashed = hashPassword(ui->lineEdit_password->text().toStdString());
+            string filepath = ui->lineEdit_fileDirectory->text().toStdString();
+            int scaledInterval = 0;
+            int interval = ui->updateIntervalComboBox->currentIndex();
+            if (interval == 0)
+                scaledInterval = 24;
+            else if (interval == 1)
+                scaledInterval = 24*7;
+            else if (interval == 2)
+                scaledInterval = 24*7*2;
+
             //make user object function which checks if the username is unique or not
             // if unique, create user object, if not unique, tell user that already exists
-            if(!(createUser(ui->lineEdit_username->text().toStdString(), passwordHashed))){
+            if(!(createUser(ui->lineEdit_username->text().toStdString(), passwordHashed,filepath,scaledInterval))){
                 QMessageBox::critical(this, "Exists",
                               "An account with this username already exists.");
             } else {
@@ -115,11 +130,9 @@ int MainWindow::hashPassword(string password) {
     return str_password_hash;
 }
 
-bool MainWindow::createUser(string username, int password){
+bool MainWindow::createUser(string username, int password, string path, int interval){
     int result = database::dbGetPasswordForUsername(username);
     //TODO: get these parameters passed in from text box information and remove these lines
-    string path = "temp/path";
-    int interval = 5;
     if(result == -1){
         User userAccount = User(username,password,path,interval);
         database::dbCreateUserRow(userAccount.getUsername(),userAccount.getPassword(),userAccount.getFileDirectory(),userAccount.getUpdateInterval());

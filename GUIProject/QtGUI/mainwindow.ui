@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1122</width>
-    <height>660</height>
+    <width>1123</width>
+    <height>649</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -15,6 +15,18 @@
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1123</width>
+    <height>649</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1123</width>
+    <height>649</height>
+   </size>
   </property>
   <property name="focusPolicy">
    <enum>Qt::NoFocus</enum>
@@ -33,7 +45,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="HomePage">
      <widget class="QFrame" name="frame_2">
@@ -254,7 +266,7 @@
       <widget class="QLabel" name="label_4">
        <property name="geometry">
         <rect>
-         <x>230</x>
+         <x>250</x>
          <y>0</y>
          <width>651</width>
          <height>118</height>
@@ -304,7 +316,7 @@
          <x>260</x>
          <y>150</y>
          <width>581</width>
-         <height>281</height>
+         <height>306</height>
         </rect>
        </property>
        <layout class="QFormLayout" name="formLayout">
@@ -351,10 +363,103 @@
             <pointsize>14</pointsize>
            </font>
           </property>
+          <property name="echoMode">
+           <enum>QLineEdit::Password</enum>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="0">
+         <widget class="QLabel" name="confirmPasswordLabal">
+          <property name="font">
+           <font>
+            <family>DejaVu Sans</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Confirm Password</string>
+          </property>
+          <property name="margin">
+           <number>0</number>
+          </property>
+         </widget>
+        </item>
+        <item row="5" column="1">
+         <widget class="QLineEdit" name="lineEdit_confirmPassword">
+          <property name="font">
+           <font>
+            <family>DejaVu Sans</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="echoMode">
+           <enum>QLineEdit::Password</enum>
+          </property>
          </widget>
         </item>
         <item row="6" column="0">
-         <widget class="QLabel" name="label_6">
+         <widget class="QLabel" name="filesDirectoryLabel">
+          <property name="font">
+           <font>
+            <family>DejaVu Sans</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Files Directory</string>
+          </property>
+         </widget>
+        </item>
+        <item row="6" column="1">
+         <widget class="QLineEdit" name="lineEdit_fileDirectory">
+          <property name="font">
+           <font>
+            <family>DejaVu Sans</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="0">
+         <widget class="QLabel" name="updateIntervalLabel">
+          <property name="font">
+           <font>
+            <family>DejaVu Sans</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Update Interval</string>
+          </property>
+         </widget>
+        </item>
+        <item row="7" column="1">
+         <widget class="QComboBox" name="updateIntervalComboBox">
+          <property name="font">
+           <font>
+            <family>DejaVu Sans</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <item>
+           <property name="text">
+            <string>Daily</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Weekly</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Bi-Weekly</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item row="8" column="0">
+         <widget class="QLabel" name="coursesLabel">
           <property name="font">
            <font>
             <pointsize>14</pointsize>
@@ -368,7 +473,7 @@
           </property>
          </widget>
         </item>
-        <item row="6" column="1">
+        <item row="8" column="1">
          <widget class="QCheckBox" name="checkBox_cisc320">
           <property name="font">
            <font>
@@ -380,19 +485,7 @@
           </property>
          </widget>
         </item>
-        <item row="7" column="1">
-         <widget class="QCheckBox" name="checkBox_elec371">
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>ELEC 371</string>
-          </property>
-         </widget>
-        </item>
-        <item row="8" column="1">
+        <item row="10" column="1">
          <widget class="QCheckBox" name="checkBox_cisc221">
           <property name="font">
            <font>
@@ -404,16 +497,15 @@
           </property>
          </widget>
         </item>
-        <item row="5" column="1">
-         <widget class="QLineEdit" name="lineEdit_confirmPassword"/>
-        </item>
-        <item row="5" column="0">
-         <widget class="QLabel" name="label_11">
-          <property name="text">
-           <string>Confirm Password</string>
+        <item row="9" column="1">
+         <widget class="QCheckBox" name="checkBox_elec451">
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
           </property>
-          <property name="margin">
-           <number>0</number>
+          <property name="text">
+           <string>ELEC 451</string>
           </property>
          </widget>
         </item>
@@ -593,9 +685,9 @@
         <widget class="QPushButton" name="pushButton_saveAccount">
          <property name="geometry">
           <rect>
-           <x>460</x>
-           <y>260</y>
-           <width>131</width>
+           <x>500</x>
+           <y>280</y>
+           <width>112</width>
            <height>32</height>
           </rect>
          </property>
@@ -605,8 +697,13 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="font">
+          <font>
+           <kerning>false</kerning>
+          </font>
+         </property>
          <property name="text">
-          <string>Save </string>
+          <string>Save</string>
          </property>
         </widget>
         <widget class="QLabel" name="label_myAccountUsername">
@@ -614,8 +711,8 @@
           <rect>
            <x>10</x>
            <y>5</y>
-           <width>331</width>
-           <height>41</height>
+           <width>631</width>
+           <height>51</height>
           </rect>
          </property>
          <property name="font">
@@ -628,52 +725,6 @@
          <property name="text">
           <string>TextLabel</string>
          </property>
-        </widget>
-        <widget class="QLabel" name="label_15">
-         <property name="geometry">
-          <rect>
-           <x>50</x>
-           <y>190</y>
-           <width>111</width>
-           <height>16</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>Schedule Updates</string>
-         </property>
-        </widget>
-        <widget class="QWidget" name="layoutWidget">
-         <property name="geometry">
-          <rect>
-           <x>170</x>
-           <y>210</y>
-           <width>233</width>
-           <height>20</height>
-          </rect>
-         </property>
-         <layout class="QHBoxLayout" name="horizontalLayout">
-          <item>
-           <widget class="QRadioButton" name="radioButton">
-            <property name="text">
-             <string>Daily</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="radioButton_2">
-            <property name="text">
-             <string>Weekly</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QRadioButton" name="radioButton_3">
-            <property name="text">
-             <string>Bi-Weekly</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
         </widget>
        </widget>
        <widget class="QWidget" name="tab_cisc320">
@@ -731,7 +782,7 @@ font-family: &quot;Times New Roman&quot; serif;
           <rect>
            <x>20</x>
            <y>80</y>
-           <width>253</width>
+           <width>281</width>
            <height>229</height>
           </rect>
          </property>
@@ -897,9 +948,9 @@ font-family: &quot;Times New Roman&quot; serif;
          </layout>
         </widget>
        </widget>
-       <widget class="QWidget" name="tab_elec270">
+       <widget class="QWidget" name="tab_elec451">
         <attribute name="title">
-         <string>ELEC 270</string>
+         <string>ELEC 451</string>
         </attribute>
         <widget class="QWidget" name="layoutWidget_4">
          <property name="geometry">
@@ -920,7 +971,7 @@ font-size: 24px;
 font-family: &quot;Times New Roman&quot; serif;</string>
             </property>
             <property name="text">
-             <string>ELEC 270</string>
+             <string>ELEC 451</string>
             </property>
            </widget>
           </item>
@@ -937,7 +988,7 @@ font-family: &quot;Times New Roman&quot; serif;</string>
          <property name="geometry">
           <rect>
            <x>500</x>
-           <y>290</y>
+           <y>280</y>
            <width>112</width>
            <height>32</height>
           </rect>
@@ -951,7 +1002,7 @@ font-family: &quot;Times New Roman&quot; serif;</string>
           <rect>
            <x>20</x>
            <y>80</y>
-           <width>253</width>
+           <width>281</width>
            <height>229</height>
           </rect>
          </property>
@@ -1172,7 +1223,7 @@ font-family: &quot;Times New Roman&quot; serif;
           <rect>
            <x>20</x>
            <y>80</y>
-           <width>253</width>
+           <width>281</width>
            <height>229</height>
           </rect>
          </property>
@@ -1450,8 +1501,8 @@ font-family: &quot;Times New Roman&quot; serif;
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1122</width>
-     <height>22</height>
+     <width>1123</width>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -1478,6 +1529,64 @@ font-family: &quot;Times New Roman&quot; serif;
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <tabstops>
+  <tabstop>lineEdit_3</tabstop>
+  <tabstop>lineEdit</tabstop>
+  <tabstop>lineEdit_username</tabstop>
+  <tabstop>lineEdit_password</tabstop>
+  <tabstop>lineEdit_confirmPassword</tabstop>
+  <tabstop>lineEdit_fileDirectory</tabstop>
+  <tabstop>updateIntervalComboBox</tabstop>
+  <tabstop>checkBox_cisc320</tabstop>
+  <tabstop>checkBox_elec451</tabstop>
+  <tabstop>checkBox_cisc221</tabstop>
+  <tabstop>pushButton_doneSignUp</tabstop>
+  <tabstop>pushButton_Back</tabstop>
+  <tabstop>pushButton_5</tabstop>
+  <tabstop>checkBox_42</tabstop>
+  <tabstop>checkBox_39</tabstop>
+  <tabstop>checkBox_40</tabstop>
+  <tabstop>checkBox_41</tabstop>
+  <tabstop>checkBox_43</tabstop>
+  <tabstop>checkBox_60</tabstop>
+  <tabstop>checkBox_62</tabstop>
+  <tabstop>checkBox_44</tabstop>
+  <tabstop>checkBox_63</tabstop>
+  <tabstop>checkBox_64</tabstop>
+  <tabstop>pushButton_6</tabstop>
+  <tabstop>checkBox_45</tabstop>
+  <tabstop>checkBox_46</tabstop>
+  <tabstop>checkBox_47</tabstop>
+  <tabstop>checkBox_48</tabstop>
+  <tabstop>checkBox_49</tabstop>
+  <tabstop>checkBox_61</tabstop>
+  <tabstop>checkBox_65</tabstop>
+  <tabstop>checkBox_50</tabstop>
+  <tabstop>checkBox_66</tabstop>
+  <tabstop>checkBox_67</tabstop>
+  <tabstop>pushButton_7</tabstop>
+  <tabstop>checkBox_51</tabstop>
+  <tabstop>checkBox_52</tabstop>
+  <tabstop>checkBox_53</tabstop>
+  <tabstop>checkBox_54</tabstop>
+  <tabstop>checkBox_55</tabstop>
+  <tabstop>checkBox_68</tabstop>
+  <tabstop>checkBox_69</tabstop>
+  <tabstop>checkBox_56</tabstop>
+  <tabstop>checkBox_70</tabstop>
+  <tabstop>checkBox_71</tabstop>
+  <tabstop>pushButton_editSubs</tabstop>
+  <tabstop>treeView_courseDirectories</tabstop>
+  <tabstop>listView_courseFiles</tabstop>
+  <tabstop>pushButton_login</tabstop>
+  <tabstop>pushButton_createAccount</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>lineEdit_myAccountOldPass</tabstop>
+  <tabstop>lineEdit_myAccountNewPass</tabstop>
+  <tabstop>lineEdit_myAccountConfirmPass</tabstop>
+  <tabstop>pushButton_saveAccount</tabstop>
+  <tabstop>pushButton_doneSubscribe</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
