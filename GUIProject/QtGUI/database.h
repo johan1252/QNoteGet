@@ -9,12 +9,12 @@
 using namespace std;
 
 // Class Declarations
-class database;
+class Database;
 
 /*
  * Database class
  */
-class database{
+class Database{
     public:
         static void dbCreateUserRow(const string username, int passHash, string path, int updateInterval);
         static void dbEndDatabaseConnection();

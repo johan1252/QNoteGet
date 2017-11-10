@@ -1,11 +1,17 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#pragma once
 
 #include <QMainWindow>
 #include <QListWidgetItem>
 #include <QFileSystemModel>
 #include <QtCore>
 #include <QtGui>
+#include <QDebug>
+#include <QMessageBox>
+#include <QDesktopServices>
+
+#include "Database.h"
+#include "User.h"
+#include "Course.h"
 
 using namespace std;
 namespace Ui {
@@ -55,6 +61,8 @@ private:
     //bool validateUser(string username, string password); //unhash and check PW
     int hashPassword(string password);
     bool createUser(string username, int password,string path, int interval);
+    Course createCourse(string courseName, string rootUrl);
 };
 
-#endif // MAINWINDOW_H
+
+

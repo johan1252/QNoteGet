@@ -1,8 +1,8 @@
-#include "database.h"
+#include "Database.h"
 
 pqxx::connection DBconnection("dbname=d977ktitdsgsqp user=qohiknwjuwjacn password=f1ef440e6c254a34c4e638e3dbca1abb9bac8c14acd110309b9955bc8b51af3a host=ec2-50-17-201-204.compute-1.amazonaws.com port=5432 requiressl=1");
 
-bool database::createTableRow(string tableName, vector<string> fields, vector<string> values) {
+bool Database::createTableRow(string tableName, vector<string> fields, vector<string> values) {
   try {
     pqxx::work txn(DBconnection);
 
@@ -53,7 +53,7 @@ bool database::createTableRow(string tableName, vector<string> fields, vector<st
 }
 
 
-void database::dbCreateUserRow(const string username, int passHash, string path, int updateInterval) {
+void Database::dbCreateUserRow(const string username, int passHash, string path, int updateInterval) {
 
     vector<string> userTableFields = {"name","password","filedirectory","updateinterval"};
     vector<string> userTablevalues = {username,to_string(passHash),path,to_string(updateInterval)};
@@ -64,12 +64,12 @@ void database::dbCreateUserRow(const string username, int passHash, string path,
     createTableRow(tableName, userTableFields, userTablevalues);
 }
 
-void database::dbEndDatabaseConnection() {
+void Database::dbEndDatabaseConnection() {
     DBconnection.disconnect();
 }
 
 // Returns the password associated with a username, or -1 if the username does not exist
-int database::dbGetPasswordForUsername(string username){
+int Database::dbGetPasswordForUsername(string username){
     int password = -1;
     try {
       pqxx::work txn(DBconnection);

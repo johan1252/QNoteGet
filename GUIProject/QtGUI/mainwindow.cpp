@@ -1,12 +1,5 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
-#include "database.h"
-#include "user.h"
-
-#include <QDebug>
-#include <QMessageBox>
-#include <QDesktopServices>
-
+#include "Mainwindow.h"
+#include "ui_Mainwindow.h"
 
 static int currentIndex = 0;
 
@@ -95,12 +88,9 @@ void MainWindow::on_pushButton_doneSignUp_clicked()
         if (reply == QMessageBox::Yes){
             ui->label_myAccountUsername->setText("Hello, " + ui->lineEdit_username->text());
 
-            //TODO: fill in real values for path, updateInterval. And don't make direct database call.
-            //Just proof of concept.
-            // call hash function that will take in the string and make it into an int
-            //std::size_t str_password_hash = std::hash<std::string>{}(ui->lineEdit_password->text().toStdString());
             int passwordHashed = hashPassword(ui->lineEdit_password->text().toStdString());
             string filepath = ui->lineEdit_fileDirectory->text().toStdString();
+
             int scaledInterval = 0;
             int interval = ui->updateIntervalComboBox->currentIndex();
             if (interval == 0)
@@ -110,7 +100,14 @@ void MainWindow::on_pushButton_doneSignUp_clicked()
             else if (interval == 2)
                 scaledInterval = 24*7*2;
 
-            //make user object function which checks if the username is unique or not
+            // Course Creation
+            // TODO: Use database to find the root url for each course
+            // TODO: only create course objects for the courses user choose in GUI
+            vector<Course> userCourses;
+            userCourses.push_back(createCourse("CISC320", "cisc320.com"));
+            userCourses.push_back(createCourse("ELEC451", "elec451.com"));
+
+            // make user object function which checks if the username is unique or not
             // if unique, create user object, if not unique, tell user that already exists
             if(!(createUser(ui->lineEdit_username->text().toStdString(), passwordHashed,filepath,scaledInterval))){
                 QMessageBox::critical(this, "Exists",
@@ -131,11 +128,10 @@ int MainWindow::hashPassword(string password) {
 }
 
 bool MainWindow::createUser(string username, int password, string path, int interval){
-    int result = database::dbGetPasswordForUsername(username);
-    //TODO: get these parameters passed in from text box information and remove these lines
+    int result = Database::dbGetPasswordForUsername(username);
     if(result == -1){
         User userAccount = User(username,password,path,interval);
-        database::dbCreateUserRow(userAccount.getUsername(),userAccount.getPassword(),userAccount.getFileDirectory(),userAccount.getUpdateInterval());
+        Database::dbCreateUserRow(userAccount.getUsername(),userAccount.getPassword(),userAccount.getFileDirectory(),userAccount.getUpdateInterval());
         return true;
     }
     else {
@@ -143,8 +139,15 @@ bool MainWindow::createUser(string username, int password, string path, int inte
     }
 }
 
+// TODO: Add categories vector
+Course MainWindow::createCourse(string courseName, string rootUrl){
+    Course userCourse = Course(courseName,rootUrl);
 
+    // TODO: DB Create course row needs to be added
+    //Database::dbCreateCourseRow(userCourse.getCourseName(),userCourse.getRootUrl());
 
+    return userCourse;
+}
 
 void MainWindow::on_pushButton_createAccount_clicked()
 {
