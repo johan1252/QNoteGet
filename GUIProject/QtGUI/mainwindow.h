@@ -54,7 +54,7 @@ private:
     void setupDirectoryExplorer();
     //bool validateUser(string username, string password); //unhash and check PW
     int hashPassword(string password);
-    bool createUser(string username, int password);
+    bool createUser(string username, int password,string path, int interval);
 };
 
 #endif // MAINWINDOW_H
