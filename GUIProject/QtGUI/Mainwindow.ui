@@ -45,7 +45,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="HomePage">
      <widget class="QFrame" name="frame_2">
@@ -638,6 +638,12 @@
        <property name="currentIndex">
         <number>0</number>
        </property>
+       <property name="documentMode">
+        <bool>false</bool>
+       </property>
+       <property name="tabsClosable">
+        <bool>false</bool>
+       </property>
        <widget class="QWidget" name="tab_myAccount">
         <attribute name="title">
          <string>My Account</string>
@@ -709,6 +715,9 @@
          </property>
         </widget>
         <widget class="QLabel" name="label_myAccountUsername">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
          <property name="geometry">
           <rect>
            <x>10</x>
@@ -733,39 +742,6 @@
         <attribute name="title">
          <string>CISC 320</string>
         </attribute>
-        <widget class="QWidget" name="layoutWidget_3">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>20</y>
-           <width>581</width>
-           <height>59</height>
-          </rect>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_24">
-          <item>
-           <widget class="QLabel" name="label_34">
-            <property name="styleSheet">
-             <string notr="true">font-style: italic;
-font-weight: bold;
-font-size: 24px;
-font-family: &quot;Times New Roman&quot; serif;
-</string>
-            </property>
-            <property name="text">
-             <string>CISC 320</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="Line" name="line_6">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
         <widget class="QPushButton" name="pushButton_5">
          <property name="geometry">
           <rect>
@@ -946,6 +922,38 @@ font-family: &quot;Times New Roman&quot; serif;
              </widget>
             </item>
            </layout>
+          </item>
+         </layout>
+        </widget>
+        <widget class="QWidget" name="layoutWidget_7">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>20</y>
+           <width>571</width>
+           <height>59</height>
+          </rect>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_27">
+          <item>
+           <widget class="QLabel" name="label_46">
+            <property name="styleSheet">
+             <string notr="true">font-style: italic;
+font-weight: bold;
+font-size: 24px;
+font-family: &quot;Times New Roman&quot; serif;</string>
+            </property>
+            <property name="text">
+             <string>CISC 320</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="Line" name="line_13">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -1504,7 +1512,7 @@ font-family: &quot;Times New Roman&quot; serif;
      <x>0</x>
      <y>0</y>
      <width>1123</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">

@@ -62,7 +62,6 @@ void MainWindow::on_pushButton_doneSubscribe_clicked()
 void MainWindow::on_pushButton_doneSignUp_clicked()
 {
     currentIndex = ui->stackedWidget->currentIndex();
-
     if (ui->lineEdit_password->text().isEmpty() || ui->lineEdit_fileDirectory->text().isEmpty() ||
                    ui->lineEdit_confirmPassword->text().isEmpty() || ui->lineEdit_username->text().isEmpty()) {
             QMessageBox::critical(this, "Empty Fields",
@@ -139,6 +138,7 @@ bool MainWindow::createUser(string username, int password, string path, int inte
     int result = Database::dbGetPasswordForUsername(username);
     if(result == -1){
         User userAccount = User(username,password,path,interval,userCourses);
+        displayApplicableCourseTabs(userAccount);
         Database::dbCreateUserRow(userAccount.getUsername(),userAccount.getPassword(),userAccount.getFileDirectory(),userAccount.getUpdateInterval());
 
         // Create entry in usercourses DB table for each course the user has subscribed to.
@@ -235,6 +235,28 @@ void MainWindow::on_listView_courseFiles_doubleClicked(const QModelIndex &index)
 {
     QDesktopServices::openUrl(QUrl::fromLocalFile(fileModel->fileInfo(index).absoluteFilePath()));
 }
+
+void MainWindow::displayApplicableCourseTabs(User userObj){
+    vector<Course> subscription = userObj.getSubscribedCourses();
+    bool cisc320 = false;
+    bool cisc221 = false;
+    bool elec451 = false;
+    for (int i = 0; i < subscription.size(); i++){
+        if(subscription[i].getCourseName() == "CISC320"){
+            cisc320 = true;
+        }
+        else if(subscription[i].getCourseName() == "CISC221") {
+            cisc221 = true;
+        }
+        else {
+            elec451 = true;
+        }
+    }
+      ui->tabWidget->setTabEnabled(1,cisc320);
+      ui->tabWidget->setTabEnabled(2,elec451);
+      ui->tabWidget->setTabEnabled(3,cisc221);
+}
+
 
 void MainWindow::setupDirectoryExplorer(){
 

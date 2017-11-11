@@ -52,6 +52,8 @@ private slots:
 
     void on_listView_courseFiles_doubleClicked(const QModelIndex &index);
 
+    void displayApplicableCourseTabs(User userObj);
+
 private:
     Ui::MainWindow *ui;
     QFileSystemModel * dirModel;
