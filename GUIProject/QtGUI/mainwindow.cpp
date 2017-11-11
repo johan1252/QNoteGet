@@ -88,6 +88,9 @@ void MainWindow::on_pushButton_doneSignUp_clicked()
         if (reply == QMessageBox::Yes){
             ui->label_myAccountUsername->setText("Hello, " + ui->lineEdit_username->text());
 
+            /*
+             * Hash password, get file path from GUI, and convert GUI update interval to number of hours.
+             */
             int passwordHashed = hashPassword(ui->lineEdit_password->text().toStdString());
             string filepath = ui->lineEdit_fileDirectory->text().toStdString();
 
@@ -100,16 +103,15 @@ void MainWindow::on_pushButton_doneSignUp_clicked()
             else if (interval == 2)
                 scaledInterval = 24*7*2;
 
-            // Course Creation
-            // TODO: Use database to find the root url for each course
-            // TODO: only create course objects for the courses user choose in GUI
-            vector<Course> userCourses;
-            userCourses.push_back(createCourse("CISC320", "cisc320.com"));
-            userCourses.push_back(createCourse("ELEC451", "elec451.com"));
+            /* Course Object Creation specific for user selection.
+             * This is then used in createUser() method to link courses to user object.
+             */
+            // TODO: This call may need to be moved once categoryPreferences is involved
+            vector<Course> userCourses = createUserCourseObjects();
 
             // make user object function which checks if the username is unique or not
             // if unique, create user object, if not unique, tell user that already exists
-            if(!(createUser(ui->lineEdit_username->text().toStdString(), passwordHashed,filepath,scaledInterval))){
+            if(!(createUser(ui->lineEdit_username->text().toStdString(), passwordHashed,filepath,scaledInterval,userCourses))){
                 QMessageBox::critical(this, "Exists",
                               "An account with this username already exists.");
             } else {
@@ -122,16 +124,28 @@ void MainWindow::on_pushButton_doneSignUp_clicked()
     }
 }
 
+/*
+ * Function to hash a user's password before being passed to User object.
+ */
 int MainWindow::hashPassword(string password) {
     std::size_t str_password_hash = std::hash<std::string>{}(password);
     return str_password_hash;
 }
 
-bool MainWindow::createUser(string username, int password, string path, int interval){
+/*
+ * Function to create the User object and any associated DB calls. (including adding which courses the user is subscribed to)
+ */
+bool MainWindow::createUser(string username, int password, string path, int interval, vector<Course> userCourses){
     int result = Database::dbGetPasswordForUsername(username);
     if(result == -1){
-        User userAccount = User(username,password,path,interval);
+        User userAccount = User(username,password,path,interval,userCourses);
         Database::dbCreateUserRow(userAccount.getUsername(),userAccount.getPassword(),userAccount.getFileDirectory(),userAccount.getUpdateInterval());
+
+        // Create entry in usercourses DB table for each course the user has subscribed to.
+        for(auto userCourse: userCourses) {
+            Database::dbCreateUserCoursesRow(username, userCourse);
+        }
+
         return true;
     }
     else {
@@ -139,14 +153,53 @@ bool MainWindow::createUser(string username, int password, string path, int inte
     }
 }
 
+
+/*
+ * Function to create user specific Course object.
+ * Returns the course object.
+ */
 // TODO: Add categories vector
 Course MainWindow::createCourse(string courseName, string rootUrl){
     Course userCourse = Course(courseName,rootUrl);
 
-    // TODO: DB Create course row needs to be added
-    //Database::dbCreateCourseRow(userCourse.getCourseName(),userCourse.getRootUrl());
-
     return userCourse;
+}
+
+/*
+ * Function to create user specific Course objects depending on which courses they chose in the GUI.
+ * Returns vector of course objects.
+ */
+vector<Course> MainWindow::createUserCourseObjects(){
+    vector<Course> courseVector;
+    string coursePath;
+
+    // Note, The GUI ensures atleast one of these items is checked.
+    // TODO: CISC221 won't work as a course (OnQ based), so we need a new course.
+    if (ui->checkBox_cisc320->isChecked()) {
+        coursePath = Database::dbGetCoursePath("CISC320");
+        if (coursePath != "") {
+            courseVector.push_back(createCourse("CISC320", coursePath));
+        } else {
+           cout << "ERROR occured, course path could not be found for CISC320" << endl;
+        }
+    }
+    if (ui->checkBox_cisc221->isChecked()) {
+        coursePath = Database::dbGetCoursePath("CISC221");
+        if (coursePath != "") {
+            courseVector.push_back(createCourse("CISC221", coursePath));
+        } else {
+           cout << "ERROR occured, course path could not be found for CISC221" << endl;
+        }
+    }
+    if (ui->checkBox_elec451->isChecked()) {
+        coursePath = Database::dbGetCoursePath("ELEC451");
+        if (coursePath != "") {
+            courseVector.push_back(createCourse("ELEC451", coursePath));
+        } else {
+           cout << "ERROR occured, course path could not be found for ELEC451" << endl;
+        }
+    }
+    return courseVector;
 }
 
 void MainWindow::on_pushButton_createAccount_clicked()

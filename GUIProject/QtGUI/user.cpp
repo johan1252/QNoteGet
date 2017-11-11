@@ -1,13 +1,6 @@
-#include <string>
-#include <sstream>
-#include <iostream>
-#include <cmath>
-
-using namespace std;
-
 #include "User.h"
 
-User::User(string uName,int pw,string directory,int interval):username(uName),passwordHash(pw),fileDirectory(directory),updateInterval(interval) {
+User::User(string uName,int pw,string directory,int interval, vector<Course> userCourses):username(uName),passwordHash(pw),fileDirectory(directory),updateInterval(interval),subscribedCourses(userCourses) {
 
 }
 
@@ -32,4 +25,12 @@ void User::setPassword(int pw){
 
 void User::setUpdateInterval(int interval){
     updateInterval = interval;
+}
+
+vector<Course> User::getSubscribedCourses(){
+    return subscribedCourses;
+}
+
+void User::setCourses(vector<Course> userCourses){
+    subscribedCourses = userCourses;
 }
