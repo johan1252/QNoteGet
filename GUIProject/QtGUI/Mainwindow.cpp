@@ -158,9 +158,8 @@ bool MainWindow::createUser(string username, int password, string path, int inte
  * Function to create user specific Course object.
  * Returns the course object.
  */
-// TODO: Add categories vector
-Course MainWindow::createCourse(string courseName, string rootUrl){
-    Course userCourse = Course(courseName,rootUrl);
+Course MainWindow::createCourse(string courseName, string rootUrl, vector<CourseCategory> categories){
+    Course userCourse = Course(courseName,rootUrl,categories);
 
     return userCourse;
 }
@@ -173,12 +172,15 @@ vector<Course> MainWindow::createUserCourseObjects(){
     vector<Course> courseVector;
     string coursePath;
 
+    // Since the course categories subscription phase is later on in the GUI, for now set as an empty categories vector.
+    vector<CourseCategory> emptyCategoriesVector;
+
     // Note, The GUI ensures atleast one of these items is checked.
     // TODO: CISC221 won't work as a course (OnQ based), so we need a new course.
     if (ui->checkBox_cisc320->isChecked()) {
         coursePath = Database::dbGetCoursePath("CISC320");
         if (coursePath != "") {
-            courseVector.push_back(createCourse("CISC320", coursePath));
+            courseVector.push_back(createCourse("CISC320", coursePath, emptyCategoriesVector));
         } else {
            cout << "ERROR occured, course path could not be found for CISC320" << endl;
         }
@@ -186,7 +188,7 @@ vector<Course> MainWindow::createUserCourseObjects(){
     if (ui->checkBox_cisc221->isChecked()) {
         coursePath = Database::dbGetCoursePath("CISC221");
         if (coursePath != "") {
-            courseVector.push_back(createCourse("CISC221", coursePath));
+            courseVector.push_back(createCourse("CISC221", coursePath, emptyCategoriesVector));
         } else {
            cout << "ERROR occured, course path could not be found for CISC221" << endl;
         }
@@ -194,7 +196,7 @@ vector<Course> MainWindow::createUserCourseObjects(){
     if (ui->checkBox_elec451->isChecked()) {
         coursePath = Database::dbGetCoursePath("ELEC451");
         if (coursePath != "") {
-            courseVector.push_back(createCourse("ELEC451", coursePath));
+            courseVector.push_back(createCourse("ELEC451", coursePath, emptyCategoriesVector));
         } else {
            cout << "ERROR occured, course path could not be found for ELEC451" << endl;
         }
@@ -241,7 +243,7 @@ void MainWindow::displayApplicableCourseTabs(User userObj){
     bool cisc320 = false;
     bool cisc221 = false;
     bool elec451 = false;
-    for (int i = 0; i < subscription.size(); i++){
+    for (unsigned long i = 0; i < subscription.size(); i++){
         if(subscription[i].getCourseName() == "CISC320"){
             cisc320 = true;
         }
@@ -297,4 +299,74 @@ void MainWindow::setupDirectoryExplorer(){
     ui->treeView_courseDirectories->expand(coursesIndex);
     ui->treeView_courseDirectories->setCurrentIndex(coursesIndex);
     ui->treeView_courseDirectories->resizeColumnToContents(0);
+}
+
+void MainWindow::on_saveButton_Cisc320_clicked()
+{
+    courseCategorySaveButtonClicked(0);
+}
+
+// TODO: This function along with MainWindow::on_saveButton_Cisc320_clicked() serves as an EXAMPLE.
+// Function/GUI should be changed to dynamically list the available categories etc. Using courseScraper information.
+void MainWindow::courseCategorySaveButtonClicked(int courseTabId) {
+    //Where courseTabId = 0 (CISC320), 1(ELEC451), 2(CISC221)
+    QList<QCheckBox *> allCategoriesSelected;
+
+    //Note use of Qt::FindDirectChildrenOnly to ensure only direct children are listed.
+    //Example if lectures, assignments etc. is chosen.
+    if (courseTabId == 0) {
+        allCategoriesSelected = ui->groupBox_CISC320->findChildren<QCheckBox *>(QString(),Qt::FindDirectChildrenOnly);
+    } else if (courseTabId == 1) {
+        allCategoriesSelected = ui->groupBox_ELEC451->findChildren<QCheckBox *>(QString(),Qt::FindDirectChildrenOnly);
+    } else if (courseTabId == 2) {
+        allCategoriesSelected = ui->groupBox_CISC221->findChildren<QCheckBox *>(QString(),Qt::FindDirectChildrenOnly);
+    } else {
+        cout << "ERROR, Invalid courseTabId." << endl;
+        return;
+    }
+
+    vector<CourseCategory> courseCategoryObjects;
+
+    //qDebug() << allCategoriesSelected.size();
+    for(int i = 0; i < allCategoriesSelected.size(); ++i)
+    {
+        if(allCategoriesSelected.at(i)->isChecked()) {
+            //Debug print for what categories were selected.
+            qDebug() << "Using course category: " << allCategoriesSelected.at(i)->text();
+
+            string categoryName = allCategoriesSelected.at(i)->text().toStdString();
+
+            string groupBoxNameForCategory = allCategoriesSelected.at(i)->objectName().toStdString();
+            cout << groupBoxNameForCategory << endl;
+
+            QList<QCheckBox *> allExtensionsSelected;
+            // TODO: This is ugly code, we need a better way to do this...ASAP
+            if (groupBoxNameForCategory == "LECT") {
+                allExtensionsSelected = ui->groupBox_LECT->findChildren<QCheckBox *>(QString());
+            } else if (groupBoxNameForCategory == "TUT") {
+                allExtensionsSelected = ui->groupBox_TUT->findChildren<QCheckBox *>(QString());
+            } else if (groupBoxNameForCategory == "ASSGN") {
+                allExtensionsSelected = ui->groupBox_ASSGN->findChildren<QCheckBox *>(QString());
+            }
+
+            vector<string> choosenExtensions;
+            //qDebug() << allExtensionsSelected.size();
+            for(int i = 0; i < allExtensionsSelected.size(); ++i)
+            {
+                if(allExtensionsSelected.at(i)->isChecked()) {
+                    qDebug() << "With file extension options: " << allExtensionsSelected.at(i)->text();
+                    choosenExtensions.push_back(allExtensionsSelected.at(i)->text().toStdString());
+                }
+            }
+
+            //Create course category object
+            //TODO: Fill in appropriate file path, this should come from course scraper.
+            courseCategoryObjects.push_back(CourseCategory(categoryName,"Blah blah some URL",choosenExtensions));
+        }
+    }
+
+    //TODO: Link the course category objects to the course.
+
+
+    return;
 }

@@ -617,9 +617,9 @@
        <property name="geometry">
         <rect>
          <x>490</x>
-         <y>480</y>
+         <y>500</y>
          <width>181</width>
-         <height>71</height>
+         <height>51</height>
         </rect>
        </property>
        <property name="text">
@@ -632,11 +632,11 @@
          <x>260</x>
          <y>110</y>
          <width>651</width>
-         <height>361</height>
+         <height>381</height>
         </rect>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>3</number>
        </property>
        <property name="documentMode">
         <bool>false</bool>
@@ -742,7 +742,7 @@
         <attribute name="title">
          <string>CISC 320</string>
         </attribute>
-        <widget class="QPushButton" name="pushButton_5">
+        <widget class="QPushButton" name="saveButton_Cisc320">
          <property name="geometry">
           <rect>
            <x>500</x>
@@ -754,176 +754,6 @@
          <property name="text">
           <string>Save</string>
          </property>
-        </widget>
-        <widget class="QWidget" name="layoutWidget">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>80</y>
-           <width>281</width>
-           <height>229</height>
-          </rect>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout">
-          <item>
-           <widget class="QLabel" name="label_33">
-            <property name="font">
-             <font>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="text">
-             <string>Course Components</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="checkBox_42">
-            <property name="text">
-             <string>Lecture Notes</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="Line" name="line">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_2">
-            <item>
-             <widget class="QLabel" name="label_31">
-              <property name="font">
-               <font>
-                <weight>50</weight>
-                <italic>true</italic>
-                <bold>false</bold>
-               </font>
-              </property>
-              <property name="text">
-               <string>Extensions</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="checkBox_39">
-              <property name="text">
-               <string>.pdf</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="checkBox_40">
-              <property name="text">
-               <string>.pptx</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="checkBox_41">
-              <property name="text">
-               <string>.word</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="checkBox_43">
-            <property name="text">
-             <string>Assignments</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="Line" name="line_2">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_3">
-            <item>
-             <widget class="QLabel" name="label_32">
-              <property name="font">
-               <font>
-                <weight>50</weight>
-                <italic>true</italic>
-                <bold>false</bold>
-               </font>
-              </property>
-              <property name="text">
-               <string>Extensions</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="checkBox_60">
-              <property name="text">
-               <string>.pdf</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="checkBox_62">
-              <property name="text">
-               <string>.word</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="checkBox_44">
-            <property name="text">
-             <string>Tutorials</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="Line" name="line_3">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_4">
-            <item>
-             <widget class="QLabel" name="label_43">
-              <property name="font">
-               <font>
-                <weight>50</weight>
-                <italic>true</italic>
-                <bold>false</bold>
-               </font>
-              </property>
-              <property name="text">
-               <string>Extensions</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="checkBox_63">
-              <property name="text">
-               <string>.pdf</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="checkBox_64">
-              <property name="text">
-               <string>.pptx</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-         </layout>
         </widget>
         <widget class="QWidget" name="layoutWidget_7">
          <property name="geometry">
@@ -956,6 +786,283 @@ font-family: &quot;Times New Roman&quot; serif;</string>
            </widget>
           </item>
          </layout>
+        </widget>
+        <widget class="QGroupBox" name="groupBox_CISC320">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>90</y>
+           <width>291</width>
+           <height>251</height>
+          </rect>
+         </property>
+         <property name="title">
+          <string/>
+         </property>
+         <widget class="QLabel" name="label_33">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>-2</y>
+            <width>270</width>
+            <height>35</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Course Components</string>
+          </property>
+         </widget>
+         <widget class="QCheckBox" name="TUT">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>150</y>
+            <width>281</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Tutorials</string>
+          </property>
+         </widget>
+         <widget class="Line" name="line_2">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>140</y>
+            <width>270</width>
+            <height>3</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+         <widget class="QCheckBox" name="LECT">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>30</y>
+            <width>281</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Lecture Notes</string>
+          </property>
+         </widget>
+         <widget class="QGroupBox" name="groupBox_ASSGN">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>110</y>
+            <width>270</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="title">
+           <string/>
+          </property>
+          <widget class="QWidget" name="layoutWidget_2">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>270</width>
+             <height>23</height>
+            </rect>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <item>
+             <widget class="QLabel" name="label_34">
+              <property name="font">
+               <font>
+                <weight>50</weight>
+                <italic>true</italic>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>Extensions</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkBox_PDF_2">
+              <property name="text">
+               <string>.pdf</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkBox_PPTX_2">
+              <property name="text">
+               <string>.pptx</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkBox_DOC_2">
+              <property name="text">
+               <string>.doc</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+         <widget class="QGroupBox" name="groupBox_LECT">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>50</y>
+            <width>270</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="title">
+           <string/>
+          </property>
+          <widget class="QWidget" name="">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>270</width>
+             <height>23</height>
+            </rect>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <widget class="QLabel" name="label_31">
+              <property name="font">
+               <font>
+                <weight>50</weight>
+                <italic>true</italic>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>Extensions</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkBox_PDF">
+              <property name="text">
+               <string>.pdf</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkBox_PPTX">
+              <property name="text">
+               <string>.pptx</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkBox_DOC">
+              <property name="text">
+               <string>.doc</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
+         <widget class="Line" name="line">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>80</y>
+            <width>270</width>
+            <height>3</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+         <widget class="QCheckBox" name="ASSGN">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>90</y>
+            <width>281</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Assignments</string>
+          </property>
+         </widget>
+         <widget class="QGroupBox" name="groupBox_TUT">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>170</y>
+            <width>270</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="title">
+           <string/>
+          </property>
+          <widget class="QWidget" name="layoutWidget_3">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>270</width>
+             <height>23</height>
+            </rect>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_6">
+            <item>
+             <widget class="QLabel" name="label_36">
+              <property name="font">
+               <font>
+                <weight>50</weight>
+                <italic>true</italic>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>Extensions</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkBox_PDF_3">
+              <property name="text">
+               <string>.pdf</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkBox_PPTX_3">
+              <property name="text">
+               <string>.pptx</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkBox_DOC_3">
+              <property name="text">
+               <string>.doc</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
         </widget>
        </widget>
        <widget class="QWidget" name="tab_elec451">
@@ -994,7 +1101,7 @@ font-family: &quot;Times New Roman&quot; serif;</string>
           </item>
          </layout>
         </widget>
-        <widget class="QPushButton" name="pushButton_6">
+        <widget class="QPushButton" name="saveButton_Elec451">
          <property name="geometry">
           <rect>
            <x>500</x>
@@ -1007,98 +1114,98 @@ font-family: &quot;Times New Roman&quot; serif;</string>
           <string>Save</string>
          </property>
         </widget>
-        <widget class="QWidget" name="layoutWidget_5">
+        <widget class="QGroupBox" name="groupBox_ELEC451">
          <property name="geometry">
           <rect>
            <x>20</x>
-           <y>80</y>
-           <width>281</width>
-           <height>229</height>
+           <y>90</y>
+           <width>291</width>
+           <height>251</height>
           </rect>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_2">
-          <item>
-           <widget class="QLabel" name="label_36">
-            <property name="font">
-             <font>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="text">
-             <string>Course Components</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="checkBox_45">
-            <property name="text">
-             <string>Lecture Notes</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="Line" name="line_4">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_5">
-            <item>
-             <widget class="QLabel" name="label_37">
-              <property name="font">
-               <font>
-                <weight>50</weight>
-                <italic>true</italic>
-                <bold>false</bold>
-               </font>
-              </property>
-              <property name="text">
-               <string>Extensions</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="checkBox_46">
-              <property name="text">
-               <string>.pdf</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="checkBox_47">
-              <property name="text">
-               <string>.pptx</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="checkBox_48">
-              <property name="text">
-               <string>.word</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="checkBox_49">
-            <property name="text">
-             <string>Assignments</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="Line" name="line_5">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_6">
+         <property name="title">
+          <string/>
+         </property>
+         <widget class="QLabel" name="label_37">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>-2</y>
+            <width>270</width>
+            <height>35</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Course Components</string>
+          </property>
+         </widget>
+         <widget class="QCheckBox" name="TUT_2">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>150</y>
+            <width>281</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Tutorials</string>
+          </property>
+         </widget>
+         <widget class="Line" name="line_3">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>140</y>
+            <width>270</width>
+            <height>3</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+         <widget class="QCheckBox" name="LECT_2">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>30</y>
+            <width>281</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Lecture Notes</string>
+          </property>
+         </widget>
+         <widget class="QGroupBox" name="groupBox_ASSGN_2">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>110</y>
+            <width>270</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="title">
+           <string/>
+          </property>
+          <widget class="QWidget" name="layoutWidget_5">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>270</width>
+             <height>23</height>
+            </rect>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_7">
             <item>
              <widget class="QLabel" name="label_38">
               <property name="font">
@@ -1114,39 +1221,53 @@ font-family: &quot;Times New Roman&quot; serif;</string>
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="checkBox_61">
+             <widget class="QCheckBox" name="checkBox_PDF_4">
               <property name="text">
                <string>.pdf</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="checkBox_65">
+             <widget class="QCheckBox" name="checkBox_PPTX_4">
               <property name="text">
-               <string>.word</string>
+               <string>.pptx</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkBox_DOC_4">
+              <property name="text">
+               <string>.doc</string>
               </property>
              </widget>
             </item>
            </layout>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="checkBox_50">
-            <property name="text">
-             <string>Tutorials</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="Line" name="line_9">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_7">
+          </widget>
+         </widget>
+         <widget class="QGroupBox" name="groupBox_LECT_2">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>50</y>
+            <width>270</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="title">
+           <string/>
+          </property>
+          <widget class="QWidget" name="layoutWidget">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>270</width>
+             <height>23</height>
+            </rect>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_3">
             <item>
-             <widget class="QLabel" name="label_44">
+             <widget class="QLabel" name="label_32">
               <property name="font">
                <font>
                 <weight>50</weight>
@@ -1160,22 +1281,115 @@ font-family: &quot;Times New Roman&quot; serif;</string>
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="checkBox_66">
+             <widget class="QCheckBox" name="checkBox_PDF_5">
               <property name="text">
                <string>.pdf</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="checkBox_67">
+             <widget class="QCheckBox" name="checkBox_PPTX_5">
               <property name="text">
                <string>.pptx</string>
               </property>
              </widget>
             </item>
+            <item>
+             <widget class="QCheckBox" name="checkBox_DOC_5">
+              <property name="text">
+               <string>.doc</string>
+              </property>
+             </widget>
+            </item>
            </layout>
-          </item>
-         </layout>
+          </widget>
+         </widget>
+         <widget class="Line" name="line_4">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>80</y>
+            <width>270</width>
+            <height>3</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+         <widget class="QCheckBox" name="ASSGN_2">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>90</y>
+            <width>281</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Assignments</string>
+          </property>
+         </widget>
+         <widget class="QGroupBox" name="groupBox_TUT_2">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>170</y>
+            <width>270</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="title">
+           <string/>
+          </property>
+          <widget class="QWidget" name="layoutWidget_8">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>270</width>
+             <height>23</height>
+            </rect>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_10">
+            <item>
+             <widget class="QLabel" name="label_43">
+              <property name="font">
+               <font>
+                <weight>50</weight>
+                <italic>true</italic>
+                <bold>false</bold>
+               </font>
+              </property>
+              <property name="text">
+               <string>Extensions</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkBox_PDF_6">
+              <property name="text">
+               <string>.pdf</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkBox_PPTX_6">
+              <property name="text">
+               <string>.pptx</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkBox_DOC_6">
+              <property name="text">
+               <string>.doc</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </widget>
         </widget>
        </widget>
        <widget class="QWidget" name="tab_cisc221">
@@ -1215,7 +1429,7 @@ font-family: &quot;Times New Roman&quot; serif;
           </item>
          </layout>
         </widget>
-        <widget class="QPushButton" name="pushButton_7">
+        <widget class="QPushButton" name="saveButton_Cisc221">
          <property name="geometry">
           <rect>
            <x>500</x>
@@ -1228,44 +1442,97 @@ font-family: &quot;Times New Roman&quot; serif;
           <string>Save</string>
          </property>
         </widget>
-        <widget class="QWidget" name="layoutWidget_6">
+        <widget class="QGroupBox" name="groupBox_CISC221">
          <property name="geometry">
           <rect>
            <x>20</x>
-           <y>80</y>
-           <width>281</width>
-           <height>229</height>
+           <y>90</y>
+           <width>291</width>
+           <height>251</height>
           </rect>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_3">
-          <item>
-           <widget class="QLabel" name="label_39">
-            <property name="font">
-             <font>
-              <weight>75</weight>
-              <bold>true</bold>
-             </font>
-            </property>
-            <property name="text">
-             <string>Course Components</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="checkBox_51">
-            <property name="text">
-             <string>Lecture Notes</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="Line" name="line_10">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-          <item>
+         <property name="title">
+          <string/>
+         </property>
+         <widget class="QLabel" name="label_39">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>-2</y>
+            <width>270</width>
+            <height>35</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <weight>75</weight>
+            <bold>true</bold>
+           </font>
+          </property>
+          <property name="text">
+           <string>Course Components</string>
+          </property>
+         </widget>
+         <widget class="QCheckBox" name="TUT_3">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>150</y>
+            <width>281</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Tutorials</string>
+          </property>
+         </widget>
+         <widget class="Line" name="line_5">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>140</y>
+            <width>270</width>
+            <height>3</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+         <widget class="QCheckBox" name="LECT_3">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>30</y>
+            <width>281</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Lecture Notes</string>
+          </property>
+         </widget>
+         <widget class="QGroupBox" name="groupBox_ASSGN_3">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>110</y>
+            <width>270</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="title">
+           <string/>
+          </property>
+          <widget class="QWidget" name="layoutWidget_6">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>270</width>
+             <height>23</height>
+            </rect>
+           </property>
            <layout class="QHBoxLayout" name="horizontalLayout_8">
             <item>
              <widget class="QLabel" name="label_40">
@@ -1282,44 +1549,51 @@ font-family: &quot;Times New Roman&quot; serif;
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="checkBox_52">
+             <widget class="QCheckBox" name="checkBox_PDF_7">
               <property name="text">
                <string>.pdf</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="checkBox_53">
+             <widget class="QCheckBox" name="checkBox_PPTX_7">
               <property name="text">
                <string>.pptx</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="checkBox_54">
+             <widget class="QCheckBox" name="checkBox_DOC_7">
               <property name="text">
-               <string>.word</string>
+               <string>.doc</string>
               </property>
              </widget>
             </item>
            </layout>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="checkBox_55">
-            <property name="text">
-             <string>Assignments</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="Line" name="line_11">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_9">
+          </widget>
+         </widget>
+         <widget class="QGroupBox" name="groupBox_LECT_3">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>50</y>
+            <width>270</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="title">
+           <string/>
+          </property>
+          <widget class="QWidget" name="layoutWidget_10">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>270</width>
+             <height>23</height>
+            </rect>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_4">
             <item>
              <widget class="QLabel" name="label_41">
               <property name="font">
@@ -1335,39 +1609,79 @@ font-family: &quot;Times New Roman&quot; serif;
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="checkBox_68">
+             <widget class="QCheckBox" name="checkBox_PDF_8">
               <property name="text">
                <string>.pdf</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="checkBox_69">
+             <widget class="QCheckBox" name="checkBox_PPTX_8">
               <property name="text">
-               <string>.word</string>
+               <string>.pptx</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkBox_DOC_8">
+              <property name="text">
+               <string>.doc</string>
               </property>
              </widget>
             </item>
            </layout>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="checkBox_56">
-            <property name="text">
-             <string>Tutorials</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="Line" name="line_12">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_10">
+          </widget>
+         </widget>
+         <widget class="Line" name="line_6">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>80</y>
+            <width>270</width>
+            <height>3</height>
+           </rect>
+          </property>
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+         </widget>
+         <widget class="QCheckBox" name="ASSGN_3">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>90</y>
+            <width>281</width>
+            <height>20</height>
+           </rect>
+          </property>
+          <property name="text">
+           <string>Assignments</string>
+          </property>
+         </widget>
+         <widget class="QGroupBox" name="groupBox_TUT_3">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>170</y>
+            <width>270</width>
+            <height>31</height>
+           </rect>
+          </property>
+          <property name="title">
+           <string/>
+          </property>
+          <widget class="QWidget" name="layoutWidget_11">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>270</width>
+             <height>23</height>
+            </rect>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_9">
             <item>
-             <widget class="QLabel" name="label_45">
+             <widget class="QLabel" name="label_44">
               <property name="font">
                <font>
                 <weight>50</weight>
@@ -1381,22 +1695,29 @@ font-family: &quot;Times New Roman&quot; serif;
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="checkBox_70">
+             <widget class="QCheckBox" name="checkBox_PDF_9">
               <property name="text">
                <string>.pdf</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="checkBox_71">
+             <widget class="QCheckBox" name="checkBox_PPTX_9">
               <property name="text">
                <string>.pptx</string>
               </property>
              </widget>
             </item>
+            <item>
+             <widget class="QCheckBox" name="checkBox_DOC_9">
+              <property name="text">
+               <string>.doc</string>
+              </property>
+             </widget>
+            </item>
            </layout>
-          </item>
-         </layout>
+          </widget>
+         </widget>
         </widget>
        </widget>
       </widget>
@@ -1512,7 +1833,7 @@ font-family: &quot;Times New Roman&quot; serif;
      <x>0</x>
      <y>0</y>
      <width>1123</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -1552,39 +1873,12 @@ font-family: &quot;Times New Roman&quot; serif;
   <tabstop>checkBox_cisc221</tabstop>
   <tabstop>pushButton_doneSignUp</tabstop>
   <tabstop>pushButton_Back</tabstop>
-  <tabstop>pushButton_5</tabstop>
-  <tabstop>checkBox_42</tabstop>
-  <tabstop>checkBox_39</tabstop>
-  <tabstop>checkBox_40</tabstop>
-  <tabstop>checkBox_41</tabstop>
-  <tabstop>checkBox_43</tabstop>
-  <tabstop>checkBox_60</tabstop>
-  <tabstop>checkBox_62</tabstop>
-  <tabstop>checkBox_44</tabstop>
-  <tabstop>checkBox_63</tabstop>
-  <tabstop>checkBox_64</tabstop>
-  <tabstop>pushButton_6</tabstop>
-  <tabstop>checkBox_45</tabstop>
-  <tabstop>checkBox_46</tabstop>
-  <tabstop>checkBox_47</tabstop>
-  <tabstop>checkBox_48</tabstop>
-  <tabstop>checkBox_49</tabstop>
-  <tabstop>checkBox_61</tabstop>
-  <tabstop>checkBox_65</tabstop>
-  <tabstop>checkBox_50</tabstop>
-  <tabstop>checkBox_66</tabstop>
-  <tabstop>checkBox_67</tabstop>
-  <tabstop>pushButton_7</tabstop>
-  <tabstop>checkBox_51</tabstop>
-  <tabstop>checkBox_52</tabstop>
-  <tabstop>checkBox_53</tabstop>
-  <tabstop>checkBox_54</tabstop>
-  <tabstop>checkBox_55</tabstop>
-  <tabstop>checkBox_68</tabstop>
-  <tabstop>checkBox_69</tabstop>
-  <tabstop>checkBox_56</tabstop>
-  <tabstop>checkBox_70</tabstop>
-  <tabstop>checkBox_71</tabstop>
+  <tabstop>saveButton_Cisc320</tabstop>
+  <tabstop>checkBox_PDF</tabstop>
+  <tabstop>checkBox_PPTX</tabstop>
+  <tabstop>checkBox_DOC</tabstop>
+  <tabstop>saveButton_Elec451</tabstop>
+  <tabstop>saveButton_Cisc221</tabstop>
   <tabstop>pushButton_editSubs</tabstop>
   <tabstop>treeView_courseDirectories</tabstop>
   <tabstop>listView_courseFiles</tabstop>

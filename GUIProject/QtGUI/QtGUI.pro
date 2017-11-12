@@ -22,13 +22,15 @@ SOURCES +=\
     Database.cpp \
     Main.cpp \
     Mainwindow.cpp \
-    User.cpp
+    User.cpp \
+    CourseCategory.cpp
 
 HEADERS  += \
     Course.h \
     Database.h \
     Mainwindow.h \
-    User.h
+    User.h \
+    CourseCategory.h
 
 FORMS    += \
     Mainwindow.ui

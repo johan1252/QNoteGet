@@ -54,6 +54,8 @@ private slots:
 
     void displayApplicableCourseTabs(User userObj);
 
+    void on_saveButton_Cisc320_clicked();
+
 private:
     Ui::MainWindow *ui;
     QFileSystemModel * dirModel;
@@ -63,8 +65,9 @@ private:
     //bool validateUser(string username, string password); //unhash and check PW
     int hashPassword(string password);
     bool createUser(string username, int password,string path, int interval, vector<Course> userCourses);
-    Course createCourse(string courseName, string rootUrl);
+    Course createCourse(string courseName, string rootUrl, vector<CourseCategory> categorie);
     vector<Course> createUserCourseObjects();
+    void courseCategorySaveButtonClicked(int courseTabId);
 };
 
 
