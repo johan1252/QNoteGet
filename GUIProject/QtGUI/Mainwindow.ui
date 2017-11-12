@@ -45,7 +45,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="HomePage">
      <widget class="QFrame" name="frame_2">
@@ -103,7 +103,7 @@
         <set>Qt::AlignCenter</set>
        </property>
       </widget>
-      <widget class="QLineEdit" name="lineEdit">
+      <widget class="QLineEdit" name="lineEdit_loginPassword">
        <property name="geometry">
         <rect>
          <x>170</x>
@@ -135,7 +135,7 @@
         <string>Login</string>
        </property>
       </widget>
-      <widget class="QLineEdit" name="lineEdit_3">
+      <widget class="QLineEdit" name="lineEdit_loginUsername">
        <property name="geometry">
         <rect>
          <x>170</x>
@@ -875,7 +875,7 @@ font-family: &quot;Times New Roman&quot; serif;</string>
              <x>0</x>
              <y>0</y>
              <width>270</width>
-             <height>23</height>
+             <height>24</height>
             </rect>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_5">
@@ -929,13 +929,13 @@ font-family: &quot;Times New Roman&quot; serif;</string>
           <property name="title">
            <string/>
           </property>
-          <widget class="QWidget" name="">
+          <widget class="QWidget" name="layoutWidget">
            <property name="geometry">
             <rect>
              <x>0</x>
              <y>0</y>
              <width>270</width>
-             <height>23</height>
+             <height>24</height>
             </rect>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -1021,7 +1021,7 @@ font-family: &quot;Times New Roman&quot; serif;</string>
              <x>0</x>
              <y>0</y>
              <width>270</width>
-             <height>23</height>
+             <height>24</height>
             </rect>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -1202,7 +1202,7 @@ font-family: &quot;Times New Roman&quot; serif;</string>
              <x>0</x>
              <y>0</y>
              <width>270</width>
-             <height>23</height>
+             <height>24</height>
             </rect>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_7">
@@ -1262,7 +1262,7 @@ font-family: &quot;Times New Roman&quot; serif;</string>
              <x>0</x>
              <y>0</y>
              <width>270</width>
-             <height>23</height>
+             <height>24</height>
             </rect>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -1348,7 +1348,7 @@ font-family: &quot;Times New Roman&quot; serif;</string>
              <x>0</x>
              <y>0</y>
              <width>270</width>
-             <height>23</height>
+             <height>24</height>
             </rect>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_10">
@@ -1530,7 +1530,7 @@ font-family: &quot;Times New Roman&quot; serif;
              <x>0</x>
              <y>0</y>
              <width>270</width>
-             <height>23</height>
+             <height>24</height>
             </rect>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_8">
@@ -1590,7 +1590,7 @@ font-family: &quot;Times New Roman&quot; serif;
              <x>0</x>
              <y>0</y>
              <width>270</width>
-             <height>23</height>
+             <height>24</height>
             </rect>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_4">
@@ -1676,7 +1676,7 @@ font-family: &quot;Times New Roman&quot; serif;
              <x>0</x>
              <y>0</y>
              <width>270</width>
-             <height>23</height>
+             <height>24</height>
             </rect>
            </property>
            <layout class="QHBoxLayout" name="horizontalLayout_9">
@@ -1833,7 +1833,7 @@ font-family: &quot;Times New Roman&quot; serif;
      <x>0</x>
      <y>0</y>
      <width>1123</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -1861,8 +1861,8 @@ font-family: &quot;Times New Roman&quot; serif;
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
-  <tabstop>lineEdit_3</tabstop>
-  <tabstop>lineEdit</tabstop>
+  <tabstop>lineEdit_loginUsername</tabstop>
+  <tabstop>lineEdit_loginPassword</tabstop>
   <tabstop>lineEdit_username</tabstop>
   <tabstop>lineEdit_password</tabstop>
   <tabstop>lineEdit_confirmPassword</tabstop>

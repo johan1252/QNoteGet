@@ -43,11 +43,26 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_login_clicked()
 {
+    bool valid = false;
     currentIndex = ui->stackedWidget->currentIndex();
-  if( currentIndex < ui->stackedWidget->count())
-  {
-      ui->stackedWidget->setCurrentIndex(YOURCLASSESPAGE);
-  }
+    if((ui->lineEdit_loginUsername->text().isEmpty()) ||(ui->lineEdit_loginPassword->text().isEmpty()))
+    {
+        QMessageBox::critical(this, "Empty Fields",
+                      "Please enter your username and password.");
+    } else {
+        valid = validateUser(ui->lineEdit_loginUsername->text().toStdString(),ui->lineEdit_loginPassword->text().toStdString());
+        if (valid){
+            if( currentIndex < ui->stackedWidget->count())
+            {
+                ui->stackedWidget->setCurrentIndex(YOURCLASSESPAGE);
+            }
+        } else {
+            QMessageBox::critical(this, "Incorrect Login",
+                          "No account was found with these credentials. Try Again.");
+        }
+    }
+
+
 }
 
 void MainWindow::on_pushButton_doneSubscribe_clicked()
@@ -153,6 +168,16 @@ bool MainWindow::createUser(string username, int password, string path, int inte
     }
 }
 
+/*
+ * Function validates a user's login information to see if they have an account in the dB
+ * Returns a boolean based on validation.
+ */
+
+bool MainWindow::validateUser(string username, string password){
+    int passwordHashed = hashPassword(password);
+    int result = Database::dbGetPasswordForUsername(username);
+    return(passwordHashed == result);
+}
 
 /*
  * Function to create user specific Course object.
@@ -160,7 +185,6 @@ bool MainWindow::createUser(string username, int password, string path, int inte
  */
 Course MainWindow::createCourse(string courseName, string rootUrl, vector<CourseCategory> categories){
     Course userCourse = Course(courseName,rootUrl,categories);
-
     return userCourse;
 }
 
@@ -212,7 +236,8 @@ void MainWindow::on_pushButton_createAccount_clicked()
       ui->stackedWidget->setCurrentIndex(SIGNUPPAGE);
   }
 }
-
+//TODO:: When user goes back, displayApplicableCourseTabs should be called. But it requires User object.
+// May need to change this.
 void MainWindow::on_pushButton_editSubs_clicked()
 {
     if (currentIndex < ui->stackedWidget->count()){
