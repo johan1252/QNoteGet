@@ -44,7 +44,7 @@ all: database
 database: $(OBJS) $(USER_OBJS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: MacOS X C++ Linker'
-	g++ -L/usr/local/Cellar/libpqxx/4.0.1_2/lib -L/usr/local/Cellar/libpq/9.6.5/lib -o "database" $(OBJS) $(USER_OBJS) $(LIBS)
+	g++ -L/usr/local/opt/libpq/lib -L/usr/local/Cellar/libpqxx/4.0.1_2/lib -o "database" $(OBJS) $(USER_OBJS) $(LIBS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
