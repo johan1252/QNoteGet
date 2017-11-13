@@ -362,7 +362,7 @@ void MainWindow::courseCategorySaveButtonClicked(int courseTabId) {
             string categoryName = allCategoriesSelected.at(i)->text().toStdString();
 
             string groupBoxNameForCategory = allCategoriesSelected.at(i)->objectName().toStdString();
-            cout << groupBoxNameForCategory << endl;
+            //cout << groupBoxNameForCategory << endl;
 
             QList<QCheckBox *> allExtensionsSelected;
             // TODO: This is ugly code, we need a better way to do this...ASAP
