@@ -1,7 +1,7 @@
 #pragma once
 #include "CourseCategory.h"
 #include "Course.h"
-#include <string>
+#include <string.h>
 #include <vector>
 
 class Backend;
