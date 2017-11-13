@@ -7,8 +7,6 @@
 #include <vector>
 #include <algorithm>
 
-using namespace std;
-
 class Course;
 
 using namespace std;

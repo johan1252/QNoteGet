@@ -23,14 +23,16 @@ SOURCES +=\
     Main.cpp \
     Mainwindow.cpp \
     User.cpp \
-    CourseCategory.cpp
+    CourseCategory.cpp \
+    Backend.cpp
 
 HEADERS  += \
     Course.h \
     Database.h \
     Mainwindow.h \
     User.h \
-    CourseCategory.h
+    CourseCategory.h \
+    Backend.h
 
 FORMS    += \
     Mainwindow.ui
