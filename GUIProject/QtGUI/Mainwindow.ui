@@ -45,7 +45,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>2</number>
     </property>
     <widget class="QWidget" name="HomePage">
      <widget class="QFrame" name="frame_2">
@@ -316,7 +316,7 @@
          <x>260</x>
          <y>150</y>
          <width>581</width>
-         <height>306</height>
+         <height>231</height>
         </rect>
        </property>
        <layout class="QFormLayout" name="formLayout">
@@ -399,29 +399,6 @@
           </property>
          </widget>
         </item>
-        <item row="6" column="0">
-         <widget class="QLabel" name="filesDirectoryLabel">
-          <property name="font">
-           <font>
-            <family>DejaVu Sans</family>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Files Directory</string>
-          </property>
-         </widget>
-        </item>
-        <item row="6" column="1">
-         <widget class="QLineEdit" name="lineEdit_fileDirectory">
-          <property name="font">
-           <font>
-            <family>Arial</family>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-         </widget>
-        </item>
         <item row="7" column="0">
          <widget class="QLabel" name="updateIntervalLabel">
           <property name="font">
@@ -487,18 +464,6 @@
           </property>
          </widget>
         </item>
-        <item row="10" column="1">
-         <widget class="QCheckBox" name="checkBox_cisc221">
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>CISC 221</string>
-          </property>
-         </widget>
-        </item>
         <item row="9" column="1">
          <widget class="QCheckBox" name="checkBox_elec451">
           <property name="font">
@@ -508,6 +473,18 @@
           </property>
           <property name="text">
            <string>ELEC 451</string>
+          </property>
+         </widget>
+        </item>
+        <item row="10" column="1">
+         <widget class="QCheckBox" name="checkBox_cisc124">
+          <property name="font">
+           <font>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>CISC 124</string>
           </property>
          </widget>
         </item>
@@ -538,6 +515,55 @@
        <property name="text">
         <string>Go Back</string>
        </property>
+      </widget>
+      <widget class="QWidget" name="horizontalLayoutWidget">
+       <property name="geometry">
+        <rect>
+         <x>260</x>
+         <y>390</y>
+         <width>581</width>
+         <height>32</height>
+        </rect>
+       </property>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="filesDirectoryLabel">
+          <property name="font">
+           <font>
+            <family>DejaVu Sans</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Files Directory</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_fileDirectory">
+          <property name="font">
+           <font>
+            <family>Arial</family>
+            <pointsize>14</pointsize>
+            <italic>true</italic>
+           </font>
+          </property>
+          <property name="readOnly">
+           <bool>true</bool>
+          </property>
+          <property name="placeholderText">
+           <string>  Choose a destination for notes</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton">
+          <property name="text">
+           <string>Browse</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </widget>
      </widget>
     </widget>
@@ -1392,9 +1418,9 @@ font-family: &quot;Times New Roman&quot; serif;</string>
          </widget>
         </widget>
        </widget>
-       <widget class="QWidget" name="tab_cisc221">
+       <widget class="QWidget" name="tab_cisc124">
         <attribute name="title">
-         <string>CISC 221</string>
+         <string>CISC 124</string>
         </attribute>
         <widget class="QWidget" name="layoutWidget_9">
          <property name="geometry">
@@ -1416,7 +1442,7 @@ font-family: &quot;Times New Roman&quot; serif;
 </string>
             </property>
             <property name="text">
-             <string>CISC 221</string>
+             <string>CISC 124</string>
             </property>
            </widget>
           </item>
@@ -1429,7 +1455,7 @@ font-family: &quot;Times New Roman&quot; serif;
           </item>
          </layout>
         </widget>
-        <widget class="QPushButton" name="saveButton_Cisc221">
+        <widget class="QPushButton" name="saveButton_Cisc124">
          <property name="geometry">
           <rect>
            <x>500</x>
@@ -1442,7 +1468,7 @@ font-family: &quot;Times New Roman&quot; serif;
           <string>Save</string>
          </property>
         </widget>
-        <widget class="QGroupBox" name="groupBox_CISC221">
+        <widget class="QGroupBox" name="groupBox_CISC124">
          <property name="geometry">
           <rect>
            <x>20</x>
@@ -1833,7 +1859,7 @@ font-family: &quot;Times New Roman&quot; serif;
      <x>0</x>
      <y>0</y>
      <width>1123</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -1866,11 +1892,10 @@ font-family: &quot;Times New Roman&quot; serif;
   <tabstop>lineEdit_username</tabstop>
   <tabstop>lineEdit_password</tabstop>
   <tabstop>lineEdit_confirmPassword</tabstop>
-  <tabstop>lineEdit_fileDirectory</tabstop>
   <tabstop>updateIntervalComboBox</tabstop>
   <tabstop>checkBox_cisc320</tabstop>
   <tabstop>checkBox_elec451</tabstop>
-  <tabstop>checkBox_cisc221</tabstop>
+  <tabstop>checkBox_cisc124</tabstop>
   <tabstop>pushButton_doneSignUp</tabstop>
   <tabstop>pushButton_Back</tabstop>
   <tabstop>saveButton_Cisc320</tabstop>
@@ -1878,7 +1903,7 @@ font-family: &quot;Times New Roman&quot; serif;
   <tabstop>checkBox_PPTX</tabstop>
   <tabstop>checkBox_DOC</tabstop>
   <tabstop>saveButton_Elec451</tabstop>
-  <tabstop>saveButton_Cisc221</tabstop>
+  <tabstop>saveButton_Cisc124</tabstop>
   <tabstop>pushButton_editSubs</tabstop>
   <tabstop>treeView_courseDirectories</tabstop>
   <tabstop>listView_courseFiles</tabstop>

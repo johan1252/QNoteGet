@@ -11,29 +11,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->stackedWidget->setCurrentIndex(HOMEPAGE);
 
     setupDirectoryExplorer();
-
-    /*
-    cisc320(":/dummyDirs/ExampleCourses/CISC 320");
-    elec370(":/dummyDirs/ExampleCourses/ELEC 370");
-
-    ui->listWidget->addItem(cisc320.dirName());
-    ui->listWidget->addItem(elec370.dirName());
-
-
-    ui->listWidget->addItem("CISC 220");
-    ui->listWidget->addItem("CISC 320");
-    ui->listWidget->addItem("ELECT 370");
-
-    ui->listWidget_2->addItem("Lectures");
-    ui->listWidget_2->addItem("Assignments");
-
-    ui->listWidget_3->addItem("Week 01");
-    ui->listWidget_3->addItem("Week 02");
-    ui->listWidget_3->addItem("Week 03");
-    ui->listWidget_3->addItem("Week 04");
-    ui->listWidget_3->addItem("Week 05");
-    ui->listWidget_3->addItem("Week 06");
-    */
 }
 
 MainWindow::~MainWindow()
@@ -89,7 +66,7 @@ void MainWindow::on_pushButton_doneSignUp_clicked()
     }
 
     else if (ui->checkBox_cisc320->isChecked() == false && ui->checkBox_elec451->isChecked() == false
-           && ui->checkBox_cisc221->isChecked() == false){
+           && ui->checkBox_cisc124->isChecked() == false){
         QMessageBox::critical(this, "Must Select Class",
                       "Please select at least one class to subscribe to.");
     }
@@ -200,7 +177,7 @@ vector<Course> MainWindow::createUserCourseObjects(){
     vector<CourseCategory> emptyCategoriesVector;
 
     // Note, The GUI ensures atleast one of these items is checked.
-    // TODO: CISC221 won't work as a course (OnQ based), so we need a new course.
+    // TODO: CISC124 won't work as a course (OnQ based), so we need a new course.
     if (ui->checkBox_cisc320->isChecked()) {
         coursePath = Database::dbGetCoursePath("CISC320");
         if (coursePath != "") {
@@ -209,12 +186,12 @@ vector<Course> MainWindow::createUserCourseObjects(){
            cout << "ERROR occured, course path could not be found for CISC320" << endl;
         }
     }
-    if (ui->checkBox_cisc221->isChecked()) {
-        coursePath = Database::dbGetCoursePath("CISC221");
+    if (ui->checkBox_cisc124->isChecked()) {
+        coursePath = Database::dbGetCoursePath("CISC124");
         if (coursePath != "") {
-            courseVector.push_back(createCourse("CISC221", coursePath, emptyCategoriesVector));
+            courseVector.push_back(createCourse("CISC124", coursePath, emptyCategoriesVector));
         } else {
-           cout << "ERROR occured, course path could not be found for CISC221" << endl;
+           cout << "ERROR occured, course path could not be found for CISC124" << endl;
         }
     }
     if (ui->checkBox_elec451->isChecked()) {
@@ -266,14 +243,14 @@ void MainWindow::on_listView_courseFiles_doubleClicked(const QModelIndex &index)
 void MainWindow::displayApplicableCourseTabs(User userObj){
     vector<Course> subscription = userObj.getSubscribedCourses();
     bool cisc320 = false;
-    bool cisc221 = false;
+    bool cisc124 = false;
     bool elec451 = false;
     for (unsigned long i = 0; i < subscription.size(); i++){
         if(subscription[i].getCourseName() == "CISC320"){
             cisc320 = true;
         }
-        else if(subscription[i].getCourseName() == "CISC221") {
-            cisc221 = true;
+        else if(subscription[i].getCourseName() == "CISC124") {
+            cisc124 = true;
         }
         else {
             elec451 = true;
@@ -281,7 +258,7 @@ void MainWindow::displayApplicableCourseTabs(User userObj){
     }
       ui->tabWidget->setTabEnabled(1,cisc320);
       ui->tabWidget->setTabEnabled(2,elec451);
-      ui->tabWidget->setTabEnabled(3,cisc221);
+      ui->tabWidget->setTabEnabled(3,cisc124);
 }
 
 
@@ -334,7 +311,7 @@ void MainWindow::on_saveButton_Cisc320_clicked()
 // TODO: This function along with MainWindow::on_saveButton_Cisc320_clicked() serves as an EXAMPLE.
 // Function/GUI should be changed to dynamically list the available categories etc. Using courseScraper information.
 void MainWindow::courseCategorySaveButtonClicked(int courseTabId) {
-    //Where courseTabId = 0 (CISC320), 1(ELEC451), 2(CISC221)
+    //Where courseTabId = 0 (CISC320), 1(ELEC451), 2(CISC124)
     QList<QCheckBox *> allCategoriesSelected;
 
     //Note use of Qt::FindDirectChildrenOnly to ensure only direct children are listed.
@@ -344,7 +321,7 @@ void MainWindow::courseCategorySaveButtonClicked(int courseTabId) {
     } else if (courseTabId == 1) {
         allCategoriesSelected = ui->groupBox_ELEC451->findChildren<QCheckBox *>(QString(),Qt::FindDirectChildrenOnly);
     } else if (courseTabId == 2) {
-        allCategoriesSelected = ui->groupBox_CISC221->findChildren<QCheckBox *>(QString(),Qt::FindDirectChildrenOnly);
+        allCategoriesSelected = ui->groupBox_CISC124->findChildren<QCheckBox *>(QString(),Qt::FindDirectChildrenOnly);
     } else {
         cout << "ERROR, Invalid courseTabId." << endl;
         return;
@@ -394,4 +371,10 @@ void MainWindow::courseCategorySaveButtonClicked(int courseTabId) {
 
 
     return;
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    QString noteDir = QFileDialog::getExistingDirectory(this, "Choose a Destination...", QDir::homePath());
+    ui->lineEdit_fileDirectory->setText(noteDir);
 }

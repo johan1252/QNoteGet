@@ -3,6 +3,7 @@
 #include <QMainWindow>
 #include <QListWidgetItem>
 #include <QFileSystemModel>
+#include <QFileDialog>
 #include <QtCore>
 #include <QtGui>
 #include <QDebug>
@@ -55,6 +56,8 @@ private slots:
     void displayApplicableCourseTabs(User userObj);
 
     void on_saveButton_Cisc320_clicked();
+
+    void on_pushButton_clicked();
 
 private:
     Ui::MainWindow *ui;
