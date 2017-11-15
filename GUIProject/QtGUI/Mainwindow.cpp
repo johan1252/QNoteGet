@@ -178,7 +178,6 @@ vector<Course> MainWindow::createUserCourseObjects(){
     vector<CourseCategory> emptyCategoriesVector;
 
     // Note, The GUI ensures atleast one of these items is checked.
-    // TODO: CISC124 won't work as a course (OnQ based), so we need a new course.
     if (ui->checkBox_cisc320->isChecked()) {
         coursePath = Database::dbGetCoursePath("CISC320");
         if (coursePath != "") {
@@ -243,23 +242,55 @@ void MainWindow::on_listView_courseFiles_doubleClicked(const QModelIndex &index)
 
 void MainWindow::displayApplicableCourseTabs(User userObj){
     vector<Course> subscription = userObj.getSubscribedCourses();
-    bool cisc320 = false;
-    bool cisc124 = false;
-    bool elec451 = false;
+    // all disabled by default
+    ui->tabWidget->setTabEnabled(1,false); //cisc320
+    ui->tabWidget->setTabEnabled(2,false); //elec451
+    ui->tabWidget->setTabEnabled(3, false); //cisc124
+
     for (unsigned long i = 0; i < subscription.size(); i++){
         if(subscription[i].getCourseName() == "CISC320"){
-            cisc320 = true;
+            qDebug() << "CISC320 REACHED";
+            ui->tabWidget->setTabEnabled(1,true);
+            displayCategoriesForCourse(subscription[i], 1);
         }
-        else if(subscription[i].getCourseName() == "CISC124") {
-            cisc124 = true;
+        else if(subscription[i].getCourseName() == "ELEC451") {
+            qDebug() << "ELEC451 REACHED";
+            ui->tabWidget->setTabEnabled(2,true);
+            displayCategoriesForCourse(subscription[i], 2);
         }
-        else {
-            elec451 = true;
+        else if(subscription[i].getCourseName() == "CISC124"){
+            qDebug() << "CISC124 REACHED";
+            ui->tabWidget->setTabEnabled(3,true);
+            displayCategoriesForCourse(subscription[i], 3);
         }
     }
-      ui->tabWidget->setTabEnabled(1,cisc320);
-      ui->tabWidget->setTabEnabled(2,elec451);
-      ui->tabWidget->setTabEnabled(3,cisc124);
+
+}
+
+void MainWindow::displayCategoriesForCourse(Course courseObj, int index){
+
+    vector<CourseCategory> cats = courseObj.getCategories();
+
+    ui->tabWidget->setCurrentIndex(index);
+    QGroupBox * groupBox = ui->tabWidget->currentWidget()->findChild<QGroupBox*>(QString(), Qt::FindDirectChildrenOnly);
+    QVBoxLayout * categoriesBox = new QVBoxLayout;
+    for (int i = 0; i < cats.size(); i++){
+        QGroupBox * catBox = new QGroupBox(QString::fromStdString(cats[i].getCategoryName()));
+        QHBoxLayout * extensionsBox = new QHBoxLayout;
+        vector<string> extensions = cats[i].getExtensionPreferences();
+
+        for (int j = 0; j < extensions.size(); j++){
+            QCheckBox * extension = new QCheckBox(QString::fromStdString(extensions[j]), this);
+            extensionsBox->addWidget(extension);
+        }
+        catBox->setLayout(extensionsBox);
+        catBox->setCheckable(true);
+        catBox->setChecked(false);
+        categoriesBox->addWidget(catBox);
+    }
+    groupBox->setLayout(categoriesBox);
+
+
 }
 
 
