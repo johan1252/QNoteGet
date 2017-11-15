@@ -25,7 +25,8 @@ SOURCES +=\
     Mainwindow.cpp \
     User.cpp \
     CourseCategory.cpp \
-    Backend.cpp
+    Backend.cpp \
+    Credentials.cpp
 
 HEADERS  += \
     Course.h \
@@ -33,10 +34,12 @@ HEADERS  += \
     Mainwindow.h \
     User.h \
     CourseCategory.h \
-    Backend.h
+    Backend.h \
+    Credentials.h
 
 FORMS    += \
-    Mainwindow.ui
+    Mainwindow.ui \
+    Credentials.ui
 
 RESOURCES += \
     images.qrc \

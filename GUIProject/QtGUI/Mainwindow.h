@@ -59,6 +59,10 @@ private slots:
 
     void on_pushButton_clicked();
 
+    void getCredentials();
+
+    void on_button_getCredentials_clicked();
+
 private:
     Ui::MainWindow *ui;
     QFileSystemModel * dirModel;
