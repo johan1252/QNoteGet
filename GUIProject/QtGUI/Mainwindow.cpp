@@ -274,12 +274,12 @@ void MainWindow::displayCategoriesForCourse(Course courseObj, int index){
     ui->tabWidget->setCurrentIndex(index);
     QGroupBox * groupBox = ui->tabWidget->currentWidget()->findChild<QGroupBox*>(QString(), Qt::FindDirectChildrenOnly);
     QVBoxLayout * categoriesBox = new QVBoxLayout;
-    for (int i = 0; i < cats.size(); i++){
+    for (unsigned long i = 0; i < cats.size(); i++){
         QGroupBox * catBox = new QGroupBox(QString::fromStdString(cats[i].getCategoryName()));
         QHBoxLayout * extensionsBox = new QHBoxLayout;
         vector<string> extensions = cats[i].getExtensionPreferences();
 
-        for (int j = 0; j < extensions.size(); j++){
+        for (unsigned long j = 0; j < extensions.size(); j++){
             QCheckBox * extension = new QCheckBox(QString::fromStdString(extensions[j]), this);
             extensionsBox->addWidget(extension);
         }
