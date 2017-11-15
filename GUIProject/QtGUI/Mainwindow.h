@@ -55,6 +55,8 @@ private slots:
 
     void displayApplicableCourseTabs(User userObj);
 
+    void displayCategoriesForCourse(Course courseObj, int index);
+
     void on_saveButton_Cisc320_clicked();
 
     void on_pushButton_clicked();
