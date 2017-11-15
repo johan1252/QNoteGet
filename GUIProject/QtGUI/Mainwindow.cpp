@@ -1,5 +1,6 @@
 #include "Mainwindow.h"
 #include "ui_Mainwindow.h"
+#include "Credentials.h"
 
 static int currentIndex = 0;
 
@@ -377,4 +378,15 @@ void MainWindow::on_pushButton_clicked()
 {
     QString noteDir = QFileDialog::getExistingDirectory(this, "Choose a Destination...", QDir::homePath());
     ui->lineEdit_fileDirectory->setText(noteDir);
+}
+
+void MainWindow::getCredentials()
+{
+    Credentials dialog;
+    dialog.validateCredentials("post.queensu.ca/~nm7/ELEC451/");
+}
+
+void MainWindow::on_button_getCredentials_clicked()
+{
+    getCredentials();
 }

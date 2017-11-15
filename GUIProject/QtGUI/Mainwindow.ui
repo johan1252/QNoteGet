@@ -316,7 +316,7 @@
          <x>260</x>
          <y>150</y>
          <width>581</width>
-         <height>231</height>
+         <height>263</height>
         </rect>
        </property>
        <layout class="QFormLayout" name="formLayout">
@@ -662,7 +662,7 @@
         </rect>
        </property>
        <property name="currentIndex">
-        <number>3</number>
+        <number>0</number>
        </property>
        <property name="documentMode">
         <bool>false</bool>
@@ -761,6 +761,19 @@
          </property>
          <property name="text">
           <string>TextLabel</string>
+         </property>
+        </widget>
+        <widget class="QPushButton" name="button_getCredentials">
+         <property name="geometry">
+          <rect>
+           <x>20</x>
+           <y>190</y>
+           <width>121</width>
+           <height>24</height>
+          </rect>
+         </property>
+         <property name="text">
+          <string>get credentials</string>
          </property>
         </widget>
        </widget>
@@ -1859,7 +1872,7 @@ font-family: &quot;Times New Roman&quot; serif;
      <x>0</x>
      <y>0</y>
      <width>1123</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
