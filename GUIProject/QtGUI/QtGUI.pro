@@ -12,10 +12,16 @@ CONFIG += c++11
 TARGET = QtGUI
 TEMPLATE = app
 
+# Johan include path for libpqxx
 INCLUDEPATH += /usr/local/Cellar/libpqxx/4.0/include
+
+# Marshall include path for libpqxx
 INCLUDEPATH += /usr/local/Cellar/libpqxx/4.0.1_2/include
 
-# Johan's computer needs the -L paths. Shouldn't harm others if not found at that location.
+# Johan include path for boost
+INCLUDEPATH += /usr/local/Cellar/boost/1.65.1/include
+
+# Johan's & Marshall's computer needs the -L paths. Shouldn't harm others if not found at that location.
 LIBS += -L/usr/local/Cellar/libpqxx/4.0/lib/ -L/usr/local/Cellar/libpqxx/4.0.1_2/lib/ -lpqxx -L/usr/local/Cellar/libpq/9.6.5/lib/ -lpq -lcurl -L/usr/local/Cellar/boost/1.65.1/lib/ -lboost_system -lboost_regex -lboost_filesystem
 
 SOURCES +=\

@@ -39,3 +39,29 @@ void Backend::daemonUpdateTask(int updateInterval) {
 
 //TODO downloadFilesInUrl, can use CourseScraper methods as example but use better structure.
 //void Backend::downloadFilesInUrl(CourseCategory categoryObject);
+
+void Backend::createCourseDirectory(User userObject, Course courseObject) {
+    const string dirPathRoot = userObject.getFileDirectory();
+    const string dirPath = dirPathRoot + "/" + courseObject.getRootUrl();
+    boost::filesystem::path dir(dirPath);
+
+    //If directory does not already exist, create it.
+    if(!boost::filesystem::exists(dir)) {
+        if(!boost::filesystem::create_directory(dir)) {
+            cerr << "ERROR: Directory " << dir << " could not be created!" << "\n";
+        }
+    }
+}
+
+void Backend::createCourseSubDirectory(User userObject, Course courseObject, CourseCategory courseCategoryObject) {
+    const string dirPathRoot = userObject.getFileDirectory();
+    const string dirPath = dirPathRoot + "/" + courseObject.getRootUrl() + "/" + courseCategoryObject.getCategoryName();
+    boost::filesystem::path dir(dirPath);
+
+    //If directory does not already exist, create it.
+    if(!boost::filesystem::exists(dir)) {
+        if(!boost::filesystem::create_directory(dir)) {
+            cerr << "ERROR: Directory " << dir << " could not be created!" << "\n";
+        }
+    }
+}
