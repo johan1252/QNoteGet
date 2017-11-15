@@ -45,7 +45,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="HomePage">
      <widget class="QFrame" name="frame_2">
@@ -123,6 +123,9 @@
        </property>
       </widget>
       <widget class="QPushButton" name="pushButton_login">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
        <property name="geometry">
         <rect>
          <x>240</x>
@@ -131,8 +134,23 @@
          <height>51</height>
         </rect>
        </property>
+       <property name="mouseTracking">
+        <bool>false</bool>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::StrongFocus</enum>
+       </property>
        <property name="text">
         <string>Login</string>
+       </property>
+       <property name="autoDefault">
+        <bool>true</bool>
+       </property>
+       <property name="default">
+        <bool>false</bool>
+       </property>
+       <property name="flat">
+        <bool>false</bool>
        </property>
       </widget>
       <widget class="QLineEdit" name="lineEdit_loginUsername">
@@ -232,8 +250,14 @@
          <height>51</height>
         </rect>
        </property>
+       <property name="focusPolicy">
+        <enum>Qt::StrongFocus</enum>
+       </property>
        <property name="text">
         <string>Create Account</string>
+       </property>
+       <property name="autoDefault">
+        <bool>true</bool>
        </property>
       </widget>
      </widget>
@@ -1872,7 +1896,7 @@ font-family: &quot;Times New Roman&quot; serif;
      <x>0</x>
      <y>0</y>
      <width>1123</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
@@ -1902,8 +1926,9 @@ font-family: &quot;Times New Roman&quot; serif;
  <tabstops>
   <tabstop>lineEdit_loginUsername</tabstop>
   <tabstop>lineEdit_loginPassword</tabstop>
+  <tabstop>pushButton_login</tabstop>
+  <tabstop>pushButton_createAccount</tabstop>
   <tabstop>lineEdit_username</tabstop>
-  <tabstop>lineEdit_password</tabstop>
   <tabstop>lineEdit_confirmPassword</tabstop>
   <tabstop>updateIntervalComboBox</tabstop>
   <tabstop>checkBox_cisc320</tabstop>
@@ -1920,14 +1945,49 @@ font-family: &quot;Times New Roman&quot; serif;
   <tabstop>pushButton_editSubs</tabstop>
   <tabstop>treeView_courseDirectories</tabstop>
   <tabstop>listView_courseFiles</tabstop>
-  <tabstop>pushButton_login</tabstop>
-  <tabstop>pushButton_createAccount</tabstop>
+  <tabstop>lineEdit_password</tabstop>
   <tabstop>tabWidget</tabstop>
   <tabstop>lineEdit_myAccountOldPass</tabstop>
   <tabstop>lineEdit_myAccountNewPass</tabstop>
   <tabstop>lineEdit_myAccountConfirmPass</tabstop>
   <tabstop>pushButton_saveAccount</tabstop>
   <tabstop>pushButton_doneSubscribe</tabstop>
+  <tabstop>lineEdit_fileDirectory</tabstop>
+  <tabstop>pushButton</tabstop>
+  <tabstop>button_getCredentials</tabstop>
+  <tabstop>TUT</tabstop>
+  <tabstop>LECT</tabstop>
+  <tabstop>checkBox_PDF_2</tabstop>
+  <tabstop>checkBox_PPTX_2</tabstop>
+  <tabstop>checkBox_DOC_2</tabstop>
+  <tabstop>ASSGN</tabstop>
+  <tabstop>checkBox_PDF_3</tabstop>
+  <tabstop>checkBox_PPTX_3</tabstop>
+  <tabstop>checkBox_DOC_3</tabstop>
+  <tabstop>TUT_2</tabstop>
+  <tabstop>LECT_2</tabstop>
+  <tabstop>checkBox_PDF_4</tabstop>
+  <tabstop>checkBox_PPTX_4</tabstop>
+  <tabstop>checkBox_DOC_4</tabstop>
+  <tabstop>checkBox_PDF_5</tabstop>
+  <tabstop>checkBox_PPTX_5</tabstop>
+  <tabstop>checkBox_DOC_5</tabstop>
+  <tabstop>ASSGN_2</tabstop>
+  <tabstop>checkBox_PDF_6</tabstop>
+  <tabstop>checkBox_PPTX_6</tabstop>
+  <tabstop>checkBox_DOC_6</tabstop>
+  <tabstop>TUT_3</tabstop>
+  <tabstop>LECT_3</tabstop>
+  <tabstop>checkBox_PDF_7</tabstop>
+  <tabstop>checkBox_PPTX_7</tabstop>
+  <tabstop>checkBox_DOC_7</tabstop>
+  <tabstop>checkBox_PDF_8</tabstop>
+  <tabstop>checkBox_PPTX_8</tabstop>
+  <tabstop>checkBox_DOC_8</tabstop>
+  <tabstop>ASSGN_3</tabstop>
+  <tabstop>checkBox_PDF_9</tabstop>
+  <tabstop>checkBox_PPTX_9</tabstop>
+  <tabstop>checkBox_DOC_9</tabstop>
  </tabstops>
  <resources/>
  <connections/>
