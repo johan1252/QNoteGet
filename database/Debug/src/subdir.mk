@@ -4,16 +4,34 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 CPP_SRCS += \
-../src/createTable.cpp \
-../src/database.cpp 
+../src/course.cpp \
+../src/database.cpp \
+../src/execute.cpp \
+../src/extension.cpp \
+../src/preference.cpp \
+../src/user.cpp \
+../src/userCourse.cpp \
+../src/userPreference.cpp 
 
 OBJS += \
-./src/createTable.o \
-./src/database.o 
+./src/course.o \
+./src/database.o \
+./src/execute.o \
+./src/extension.o \
+./src/preference.o \
+./src/user.o \
+./src/userCourse.o \
+./src/userPreference.o 
 
 CPP_DEPS += \
-./src/createTable.d \
-./src/database.d 
+./src/course.d \
+./src/database.d \
+./src/execute.d \
+./src/extension.d \
+./src/preference.d \
+./src/user.d \
+./src/userCourse.d \
+./src/userPreference.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
