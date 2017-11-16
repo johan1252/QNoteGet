@@ -1,4 +1,4 @@
-#include "database.h"
+#include "dbDatabase.h"
 
 void createTableQueries() {
 		std::string users = "CREATE TABLE USERS("  \
@@ -43,7 +43,7 @@ void createTableQueries() {
 		execute(userPreferences);
 }
 
-int main(int, char *argv[]) {
+//int main(int, char *argv[]) {
 
 //	createTableQueries();
 //	updateUser(16,"smith2", "pass2", "home2", 7);
@@ -68,4 +68,4 @@ int main(int, char *argv[]) {
 //	createExtension("cpp");
 //	deleteExtensionByName("cpp");
 
-}
+//}

@@ -6,31 +6,31 @@
 // Description : Hello World in C++, Ansi-style
 //============================================================================
 
-//#include <iostream>
-//using namespace std;
-//
-//int main() {
-//	cout << "!!!Hello World!!!" << endl; // prints !!!Hello World!!!
-//	return 0;
-//}
-#include "createTable.h"
+
 #include <exception>
-#include <iostream>
+#include "dbExecute.h"
+#include "dbDatabase.h"
 
 
-bool createTable(pqxx::connection& c,const std::string& sql) {
+pqxx::result executeReturn(const std::string& sql) {
+  pqxx::result r;
+//  std::cout << r.empty() << " :here";
   try {
+	pqxx::connection c("dbname=d977ktitdsgsqp user=qohiknwjuwjacn password=f1ef440e6c254a34c4e638e3dbca1abb9bac8c14acd110309b9955bc8b51af3a host=ec2-50-17-201-204.compute-1.amazonaws.com port=5432 requiressl=1");
     pqxx::work txn(c);
-    pqxx::result r = txn.exec(sql);
+    r = txn.exec(sql);
     txn.commit();
+    c.disconnect();
   }
   catch (const std::exception &e) {
-    std::cout << "Could not create table :" << e.what();
-    return false;
+    std::cout << "Could not execute SQL statement :" << e.what();
    }
-  return true;
+  return r;
 }
 
+bool execute(const std::string& sql) {
+	return executeReturn(sql).empty();
+}
 
 
 
