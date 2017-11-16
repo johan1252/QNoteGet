@@ -25,23 +25,41 @@ INCLUDEPATH += /usr/local/Cellar/boost/1.65.1/include
 LIBS += -L/usr/local/Cellar/libpqxx/4.0/lib/ -L/usr/local/Cellar/libpqxx/4.0.1_2/lib/ -lpqxx -L/usr/local/Cellar/libpq/9.6.5/lib/ -lpq -lcurl -L/usr/local/Cellar/boost/1.65.1/lib/ -lboost_system -lboost_regex -lboost_filesystem
 
 SOURCES +=\
+    Database/dbCourse.cpp \
+    Database/dbDatabase.cpp \
+    Database/dbExecute.cpp \
+    Database/dbExtension.cpp \
+    Database/dbPreference.cpp \
+    Database/dbUser.cpp \
+    Database/dbUserCourse.cpp \
+    Database/dbUserPreference.cpp \
+    Backend.cpp \
     Course.cpp \
+    CourseCategory.cpp \
+    Credentials.cpp \
     Database.cpp \
     Main.cpp \
     Mainwindow.cpp \
-    User.cpp \
-    CourseCategory.cpp \
-    Backend.cpp \
-    Credentials.cpp
+    User.cpp
+
 
 HEADERS  += \
+    Database/dbCourse.h \
+    Database/dbDatabase.h \
+    Database/dbExecute.h \
+    Database/dbExtension.h \
+    Database/dbPreference.h \
+    Database/dbUser.h \
+    Database/dbUserCourse.h \
+    Database/dbUserPreference.h \
+    Backend.h \
     Course.h \
+    CourseCategory.h \
+    Credentials.h \
     Database.h \
     Mainwindow.h \
-    User.h \
-    CourseCategory.h \
-    Backend.h \
-    Credentials.h
+    User.h
+
 
 FORMS    += \
     Mainwindow.ui \
