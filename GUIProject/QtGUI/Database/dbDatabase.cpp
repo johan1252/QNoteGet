@@ -4,7 +4,7 @@ void createTableQueries() {
 		std::string users = "CREATE TABLE USERS("  \
 					  "ID SERIAL PRIMARY KEY NOT NULL," \
 					  "NAME           TEXT       NOT NULL," \
-					  "PASSWORD       TEXT       NOT NULL," \
+                      "PASSWORD       INT       NOT NULL," \
 					  "PATH           TEXT       NOT NULL," \
 					  "UPDATE         INT        NOT NULL);";
 
@@ -43,9 +43,9 @@ void createTableQueries() {
 		execute(userPreferences);
 }
 
-//int main(int, char *argv[]) {
+int runDatabase() {
 
-//	createTableQueries();
+//    createTableQueries();
 //	updateUser(16,"smith2", "pass2", "home2", 7);
 //	std::cout << createUser("smith3", "pass2", "home2", 7);
 //	std::string name, password, path;
@@ -68,4 +68,4 @@ void createTableQueries() {
 //	createExtension("cpp");
 //	deleteExtensionByName("cpp");
 
-//}
+}

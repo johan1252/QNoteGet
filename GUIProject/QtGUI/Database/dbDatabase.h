@@ -19,4 +19,6 @@
 #include "dbPreference.h"
 #include "dbUserPreference.h"
 
+int runDatabase() ;
+
 #endif /* DATABASE_H_ */
