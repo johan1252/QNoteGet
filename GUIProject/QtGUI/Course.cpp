@@ -29,3 +29,14 @@ void Course::removeCategory(CourseCategory category) {
     //TODO: Verify that this remove from vector by value actually works
     //categories.erase(std::remove(categories.begin(), categories.end(), category), categories.end());
 }
+
+// Marshall - I added this so I could remove a category in Mainwindow::courseCategorySaveButtonClicked using
+// the string name of the category,vs. instantiating a CourseCategory instance just to remove it
+void Course::removeCategory(string category){
+    for (int i = 0; i < categories.size(); i++){
+        if (categories[i].getCategoryName() == category){
+            categories.erase(categories.begin() + i);
+            break;
+        }
+    }
+}

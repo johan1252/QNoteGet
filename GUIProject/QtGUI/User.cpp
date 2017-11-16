@@ -27,7 +27,7 @@ void User::setUpdateInterval(int interval){
     updateInterval = interval;
 }
 
-vector<Course> User::getSubscribedCourses(){
+vector<Course>& User::getSubscribedCourses(){
     return subscribedCourses;
 }
 
