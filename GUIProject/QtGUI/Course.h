@@ -22,6 +22,7 @@ public:
         void setCategories(vector<CourseCategory> category);
         void addCategory(CourseCategory category);
         void removeCategory(CourseCategory category);
+        void removeCategory(string category);
 
 private:
         string courseName;

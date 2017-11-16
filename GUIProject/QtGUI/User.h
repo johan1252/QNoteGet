@@ -18,7 +18,7 @@ public:
         int getPassword();
         string getFileDirectory();
         int getUpdateInterval();
-        vector<Course> getSubscribedCourses();
+        vector<Course>& getSubscribedCourses();
         void setPassword(int pw);
         void setUpdateInterval(int interval);
         void setCourses(vector<Course> userCourses);
