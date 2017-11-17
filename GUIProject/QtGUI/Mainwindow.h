@@ -76,6 +76,7 @@ private:
     QFileSystemModel * dirModel;
     QFileSystemModel * fileModel;
     vector<Course> preDefinedCourses;
+    User currentUserG;
 
     void setupDirectoryExplorer();
     bool validateUser(string username, string password); //unhash and check PW
@@ -85,6 +86,7 @@ private:
     vector<Course> createUserCourseObjects();
     //void courseCategorySaveButtonClicked(int courseTabId);
     void courseCategorySaveButtonClicked(User userObj, int courseTabId);
+
 };
 
 
