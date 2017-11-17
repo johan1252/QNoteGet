@@ -1,6 +1,6 @@
 #include "User.h"
 
-User::User(string uName,int pw,string directory,int interval, vector<Course> userCourses):username(uName),passwordHash(pw),fileDirectory(directory),updateInterval(interval),subscribedCourses(userCourses) {
+User::User(int userId, string uName,int pw,string directory,int interval, vector<Course> userCourses):userId(userId),username(uName),passwordHash(pw),fileDirectory(directory),updateInterval(interval),subscribedCourses(userCourses) {
 
 }
 
@@ -10,6 +10,10 @@ string User::getUsername(){
 
 int User::getPassword(){
     return passwordHash;
+}
+
+int User::getUserId(){
+    return userId;
 }
 
 string User::getFileDirectory(){

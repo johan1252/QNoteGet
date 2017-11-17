@@ -1,6 +1,5 @@
 #include "Mainwindow.h"
 #include "ui_Mainwindow.h"
-#include "Credentials.h"
 
 static int currentIndex = 0;
 
@@ -98,7 +97,6 @@ void MainWindow::on_pushButton_doneSignUp_clicked()
             /* Course Object Creation specific for user selection.
              * This is then used in createUser() method to link courses to user object.
              */
-            // TODO: This call may need to be moved once categoryPreferences is involved
             vector<Course> userCourses = createUserCourseObjects();
 
             // make user object function which checks if the username is unique or not
@@ -128,15 +126,22 @@ int MainWindow::hashPassword(string password) {
  * Function to create the User object and any associated DB calls. (including adding which courses the user is subscribed to)
  */
 bool MainWindow::createUser(string username, int password, string path, int interval, vector<Course> userCourses){
-    int result = Database::dbGetPasswordForUsername(username);
-    if(result == -1){
-        User userAccount = User(username,password,path,interval,userCourses);
+    int dbPassword, dbUpdate;
+    string dbPath;
+    bool result = dbGetUserWithUsername(username,dbPassword, dbPath, dbUpdate);
+
+    if(result == false){
+
+        int userId = dbCreateUser(username,password,path,interval);
+
+        User userAccount = User(userId,username,password,path,interval,userCourses);
         displayApplicableCourseTabs(userAccount);
-        Database::dbCreateUserRow(userAccount.getUsername(),userAccount.getPassword(),userAccount.getFileDirectory(),userAccount.getUpdateInterval());
 
         // Create entry in usercourses DB table for each course the user has subscribed to.
         for(auto userCourse: userCourses) {
-            Database::dbCreateUserCoursesRow(username, userCourse);
+            int courseId;
+            dbGetCourseId(courseId, userCourse.getCourseName());
+            dbCreateUserCourse(userId,courseId);
         }
 
         return true;
@@ -153,17 +158,15 @@ bool MainWindow::createUser(string username, int password, string path, int inte
 
 bool MainWindow::validateUser(string username, string password){
     int passwordHashed = hashPassword(password);
-    int result = Database::dbGetPasswordForUsername(username);
-    return(passwordHashed == result);
-}
+    int dbPassword;
+    string dbUserPath;
+    int dbUpdateInterval;
 
-/*
- * Function to create user specific Course object.
- * Returns the course object.
- */
-Course MainWindow::createCourse(string courseName, string rootUrl, vector<CourseCategory> categories){
-    Course userCourse = Course(courseName,rootUrl,categories);
-    return userCourse;
+    int result = dbGetUserWithUsername(username, dbPassword, dbUserPath, dbUpdateInterval);
+    if (result == false)
+        std::cerr << "Failed to find username in user database table!" << std::endl;
+
+    return(passwordHashed == dbPassword);
 }
 
 /*
@@ -172,34 +175,27 @@ Course MainWindow::createCourse(string courseName, string rootUrl, vector<Course
  */
 vector<Course> MainWindow::createUserCourseObjects(){
     vector<Course> courseVector;
-    string coursePath;
-
-    // Since the course categories subscription phase is later on in the GUI, for now set as an empty categories vector.
-    vector<CourseCategory> emptyCategoriesVector;
 
     // Note, The GUI ensures atleast one of these items is checked.
     if (ui->checkBox_cisc320->isChecked()) {
-        coursePath = Database::dbGetCoursePath("CISC320");
-        if (coursePath != "") {
-            courseVector.push_back(createCourse("CISC320", coursePath, emptyCategoriesVector));
-        } else {
-           cout << "ERROR occured, course path could not be found for CISC320" << endl;
+        for (auto courseObj: preDefinedCourses){
+            if (courseObj.getCourseName() == "CISC320") {
+                courseVector.push_back(Course(courseObj));//Copy pre-defined course for User specific course.
+            }
         }
     }
     if (ui->checkBox_cisc124->isChecked()) {
-        coursePath = Database::dbGetCoursePath("CISC124");
-        if (coursePath != "") {
-            courseVector.push_back(createCourse("CISC124", coursePath, emptyCategoriesVector));
-        } else {
-           cout << "ERROR occured, course path could not be found for CISC124" << endl;
+        for (auto courseObj: preDefinedCourses){
+            if (courseObj.getCourseName() == "CISC124"){
+                courseVector.push_back(Course(courseObj)); //Copy pre-defined course for User specific course.
+            }
         }
     }
     if (ui->checkBox_elec451->isChecked()) {
-        coursePath = Database::dbGetCoursePath("ELEC451");
-        if (coursePath != "") {
-            courseVector.push_back(createCourse("ELEC451", coursePath, emptyCategoriesVector));
-        } else {
-           cout << "ERROR occured, course path could not be found for ELEC451" << endl;
+        for (auto courseObj: preDefinedCourses){
+            if (courseObj.getCourseName() == "ELEC451") {
+                courseVector.push_back(Course(courseObj)); //Copy pre-defined course for User specific course.
+            }
         }
     }
     return courseVector;
@@ -240,6 +236,7 @@ void MainWindow::on_listView_courseFiles_doubleClicked(const QModelIndex &index)
     QDesktopServices::openUrl(QUrl::fromLocalFile(fileModel->fileInfo(index).absoluteFilePath()));
 }
 
+//TODO: Should use preDefinedCourses vector instead of user's subsribed courses.
 void MainWindow::displayApplicableCourseTabs(User userObj){
     vector<Course> subscription = userObj.getSubscribedCourses();
     // all disabled by default
@@ -420,4 +417,38 @@ void MainWindow::getCredentials()
 void MainWindow::on_button_getCredentials_clicked()
 {
     getCredentials();
+}
+
+//TODO: Create a backend class that takes some of this out of main window.
+//As well, add some error checking for return codes of the DB calls.
+void MainWindow::populatePreDefineCourseObjects() {
+    vector<int> courseIds;
+
+    //Get all DB course IDs.
+    dbGetAllCourses(courseIds);
+    string courseName;
+    string coursePath;
+    string preferenceName;
+    string preferencePath;
+
+    //Populate course and CourseCategory objects for all courses in DB.
+    for (auto courseId : courseIds){
+        dbGetCourse(courseId, courseName, coursePath);
+
+        //Get all preference ID's associated with course.
+        vector<int> preferenceIds;
+        dbGetPreferenceIds(courseId,preferenceIds);
+
+        //Create course category objects for course.
+        vector<CourseCategory> courseCategories;
+        for (auto preferenceId: preferenceIds) {
+            dbGetPreference(preferenceId,preferenceName,preferencePath);
+
+            //TODO: use DB for fileExtensions instead of empty vector
+            vector<string> fileExtensions = {};
+            courseCategories.push_back(CourseCategory::CourseCategory(preferenceName, preferencePath, fileExtensions));
+        }
+
+        preDefinedCourses.push_back(Course(courseName, coursePath, courseCategories));
+    }
 }

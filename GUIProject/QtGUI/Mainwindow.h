@@ -9,12 +9,16 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <QDesktopServices>
+#include <vector>
+#include <string>
 
-#include "Database.h"
+#include "Database/dbDatabase.h"
 #include "User.h"
 #include "Course.h"
+#include "Credentials.h"
 
 using namespace std;
+
 namespace Ui {
 class MainWindow;
 }
@@ -34,6 +38,8 @@ public:
 
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+    void populatePreDefineCourseObjects();
 
 private slots:
 
@@ -69,6 +75,7 @@ private:
     Ui::MainWindow *ui;
     QFileSystemModel * dirModel;
     QFileSystemModel * fileModel;
+    vector<Course> preDefinedCourses;
 
     void setupDirectoryExplorer();
     bool validateUser(string username, string password); //unhash and check PW

@@ -13,9 +13,10 @@ using namespace std;
 
 class User {
 public:
-        User(string uName,int pw,string directory,int interval,vector<Course> userCourses);
+        User(int userId, string uName, int pw, string directory, int interval, vector<Course> userCourses);
         string getUsername();
         int getPassword();
+        int getUserId();
         string getFileDirectory();
         int getUpdateInterval();
         vector<Course> getSubscribedCourses();
@@ -24,6 +25,7 @@ public:
         void setCourses(vector<Course> userCourses);
 
 private:
+        int userId;
         string username;
         int passwordHash;
         string fileDirectory;

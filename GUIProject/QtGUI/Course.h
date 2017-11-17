@@ -13,11 +13,15 @@ using namespace std;
 
 class Course {
 public:
+        //Constructor
         Course(string courseName, string rootUrl,vector<CourseCategory> categories);
 
-        string getCourseName();
-        vector<CourseCategory> getCategories();
-        string getRootUrl();
+        //Copy constructor
+        Course(const Course& preDefinedCourse);
+
+        string getCourseName() const;
+        vector<CourseCategory> getCategories() const;
+        string getRootUrl() const;
         void setRootUrl(string path);
         void setCategories(vector<CourseCategory> category);
         void addCategory(CourseCategory category);

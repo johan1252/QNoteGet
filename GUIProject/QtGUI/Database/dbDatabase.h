@@ -19,6 +19,8 @@
 #include "dbPreference.h"
 #include "dbUserPreference.h"
 
-int runDatabase() ;
+int dbRunDatabase() ;
+void dbCreatePreDefinedCourses();
+void dbCreateTableQueries();
 
 #endif /* DATABASE_H_ */

@@ -12,7 +12,7 @@
 #include "dbDatabase.h"
 
 
-pqxx::result executeReturn(const std::string& sql) {
+pqxx::result dbExecuteReturn(const std::string& sql) {
   pqxx::result r;
 //  std::cout << r.empty() << " :here";
   try {
@@ -28,8 +28,8 @@ pqxx::result executeReturn(const std::string& sql) {
   return r;
 }
 
-bool execute(const std::string& sql) {
-	return executeReturn(sql).empty();
+bool dbExecute(const std::string& sql) {
+    return dbExecuteReturn(sql).empty();
 }
 
 

@@ -1,16 +1,24 @@
 #include "Course.h"
 
+//Constructor
 Course::Course(string courseName, string rootUrl,vector<CourseCategory> categories) : courseName(courseName),rootUrl(rootUrl),categories(categories) {}
 
-string Course::getCourseName() {
+//Copy constructor
+Course::Course(const Course& preDefinedCourse) {
+    courseName = preDefinedCourse.getCourseName();
+    rootUrl = preDefinedCourse.getRootUrl();
+    categories = preDefinedCourse.getCategories();
+}
+
+string Course::getCourseName() const {
     return courseName;
 }
 
-vector<CourseCategory> Course::getCategories() {
+vector<CourseCategory> Course::getCategories() const {
     return categories;
 }
 
-string Course::getRootUrl() {
+string Course::getRootUrl() const {
     return rootUrl;
 }
 

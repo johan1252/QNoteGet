@@ -21,9 +21,9 @@
 //					   "PREFERENCEID INT REFERENCES PREFERENCES(ID)  NOT NULL," \
 //					   "EXTENSIONID  INT REFERENCES EXTENSIONS(ID)   NOT NULL);";
 
-int createUserPreference(int userId, int courseId, int preferenceId, int extensionId);
+int dbCreateUserPreference(int userId, int courseId, int preferenceId, int extensionId);
 //bool getUserPreference(int& userId, int& courseId, vector of preferenceIds); // given userId and courseId return all preferenceID's
 //bool getUserPreference(int& userId, int& courseId, int& preferenceId, vector of extensionIds); // given userId and courseId and preferenceId return all extentionIds
-bool deleteUserPreference(int id);
+bool dbDeleteUserPreference(int id);
 
 #endif /* USERPREFERENCE_H_ */

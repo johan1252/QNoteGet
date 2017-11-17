@@ -37,7 +37,6 @@ SOURCES +=\
     Course.cpp \
     CourseCategory.cpp \
     Credentials.cpp \
-    Database.cpp \
     Main.cpp \
     Mainwindow.cpp \
     User.cpp
@@ -56,7 +55,6 @@ HEADERS  += \
     Course.h \
     CourseCategory.h \
     Credentials.h \
-    Database.h \
     Mainwindow.h \
     User.h
 

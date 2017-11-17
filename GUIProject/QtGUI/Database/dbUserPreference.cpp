@@ -10,12 +10,12 @@
 #include "dbUserPreference.h"
 
 //creates a UserPreference and returns their id
-int createUserPreference(int userId, int courseId, int preferenceId, int extensionId){
+int dbCreateUserPreference(int userId, int courseId, int preferenceId, int extensionId){
     	std::string statement = "INSERT INTO USERPREFERENCES(USERID, COURSEID, PREFERENCEID, EXTENSION)";
     	std::string userPreference = statement + " VALUES ('" + std::to_string(userId) + "','" +  std::to_string(courseId) + "','" +
     			std::to_string(preferenceId) + "','" + std::to_string(extensionId) + "')" + "RETURNING ID;";
 
-    pqxx::result R = executeReturn(userPreference);
+    pqxx::result R = dbExecuteReturn(userPreference);
     if (R.empty()) {
     		return 0;
     }
@@ -43,11 +43,11 @@ int createUserPreference(int userId, int courseId, int preferenceId, int extensi
 //	return R.empty();
 //}
 
-bool deleteUserPreference(int id) {
+bool dbDeleteUserPreference(int id) {
 	std::string beg = "DELETE FROM USERPREFERENCES";
 	std::string statement = beg +
 		" WHERE ID= '" + std::to_string(id) + "';";
-	return execute(statement);
+    return dbExecute(statement);
 }
 
 
