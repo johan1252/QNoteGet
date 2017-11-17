@@ -3,17 +3,22 @@
 #include <QMainWindow>
 #include <QListWidgetItem>
 #include <QFileSystemModel>
+#include <QFileDialog>
 #include <QtCore>
 #include <QtGui>
 #include <QDebug>
 #include <QMessageBox>
 #include <QDesktopServices>
+#include <vector>
+#include <string>
 
-#include "Database.h"
+#include "Database/dbDatabase.h"
 #include "User.h"
 #include "Course.h"
+#include "Credentials.h"
 
 using namespace std;
+
 namespace Ui {
 class MainWindow;
 }
@@ -33,6 +38,8 @@ public:
 
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+
+    void populatePreDefineCourseObjects();
 
 private slots:
 
@@ -54,12 +61,21 @@ private slots:
 
     void displayApplicableCourseTabs(User userObj);
 
+    void displayCategoriesForCourse(Course courseObj, int index);
+
     void on_saveButton_Cisc320_clicked();
+
+    void on_pushButton_clicked();
+
+    void getCredentials();
+
+    void on_button_getCredentials_clicked();
 
 private:
     Ui::MainWindow *ui;
     QFileSystemModel * dirModel;
     QFileSystemModel * fileModel;
+    vector<Course> preDefinedCourses;
 
     void setupDirectoryExplorer();
     bool validateUser(string username, string password); //unhash and check PW
@@ -67,7 +83,8 @@ private:
     bool createUser(string username, int password,string path, int interval, vector<Course> userCourses);
     Course createCourse(string courseName, string rootUrl, vector<CourseCategory> categorie);
     vector<Course> createUserCourseObjects();
-    void courseCategorySaveButtonClicked(int courseTabId);
+    //void courseCategorySaveButtonClicked(int courseTabId);
+    void courseCategorySaveButtonClicked(User userObj, int courseTabId);
 };
 
 

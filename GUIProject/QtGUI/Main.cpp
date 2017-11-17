@@ -1,4 +1,5 @@
 #include "Mainwindow.h"
+#include "Database/dbDatabase.h"
 #include <QApplication>
 
 int main(int argc, char *argv[])
@@ -7,8 +8,11 @@ int main(int argc, char *argv[])
     MainWindow w;
     w.show(); //show window
 
+    //Create global pre-defined course objects from database
+    w.populatePreDefineCourseObjects();
+
     //Somehow when the application closes make sure we add the following line.
     // database::dbEndDatabaseConnection();
-
+    dbRunDatabase();
     return a.exec();
 }

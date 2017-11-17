@@ -11,29 +11,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->stackedWidget->setCurrentIndex(HOMEPAGE);
 
     setupDirectoryExplorer();
-
-    /*
-    cisc320(":/dummyDirs/ExampleCourses/CISC 320");
-    elec370(":/dummyDirs/ExampleCourses/ELEC 370");
-
-    ui->listWidget->addItem(cisc320.dirName());
-    ui->listWidget->addItem(elec370.dirName());
-
-
-    ui->listWidget->addItem("CISC 220");
-    ui->listWidget->addItem("CISC 320");
-    ui->listWidget->addItem("ELECT 370");
-
-    ui->listWidget_2->addItem("Lectures");
-    ui->listWidget_2->addItem("Assignments");
-
-    ui->listWidget_3->addItem("Week 01");
-    ui->listWidget_3->addItem("Week 02");
-    ui->listWidget_3->addItem("Week 03");
-    ui->listWidget_3->addItem("Week 04");
-    ui->listWidget_3->addItem("Week 05");
-    ui->listWidget_3->addItem("Week 06");
-    */
 }
 
 MainWindow::~MainWindow()
@@ -89,7 +66,7 @@ void MainWindow::on_pushButton_doneSignUp_clicked()
     }
 
     else if (ui->checkBox_cisc320->isChecked() == false && ui->checkBox_elec451->isChecked() == false
-           && ui->checkBox_cisc221->isChecked() == false){
+           && ui->checkBox_cisc124->isChecked() == false){
         QMessageBox::critical(this, "Must Select Class",
                       "Please select at least one class to subscribe to.");
     }
@@ -120,7 +97,6 @@ void MainWindow::on_pushButton_doneSignUp_clicked()
             /* Course Object Creation specific for user selection.
              * This is then used in createUser() method to link courses to user object.
              */
-            // TODO: This call may need to be moved once categoryPreferences is involved
             vector<Course> userCourses = createUserCourseObjects();
 
             // make user object function which checks if the username is unique or not
@@ -150,15 +126,22 @@ int MainWindow::hashPassword(string password) {
  * Function to create the User object and any associated DB calls. (including adding which courses the user is subscribed to)
  */
 bool MainWindow::createUser(string username, int password, string path, int interval, vector<Course> userCourses){
-    int result = Database::dbGetPasswordForUsername(username);
-    if(result == -1){
-        User userAccount = User(username,password,path,interval,userCourses);
+    int dbPassword, dbUpdate;
+    string dbPath;
+    bool result = dbGetUserWithUsername(username,dbPassword, dbPath, dbUpdate);
+
+    if(result == false){
+
+        int userId = dbCreateUser(username,password,path,interval);
+
+        User userAccount = User(userId,username,password,path,interval,userCourses);
         displayApplicableCourseTabs(userAccount);
-        Database::dbCreateUserRow(userAccount.getUsername(),userAccount.getPassword(),userAccount.getFileDirectory(),userAccount.getUpdateInterval());
 
         // Create entry in usercourses DB table for each course the user has subscribed to.
         for(auto userCourse: userCourses) {
-            Database::dbCreateUserCoursesRow(username, userCourse);
+            int courseId;
+            dbGetCourseId(courseId, userCourse.getCourseName());
+            dbCreateUserCourse(userId,courseId);
         }
 
         return true;
@@ -175,17 +158,15 @@ bool MainWindow::createUser(string username, int password, string path, int inte
 
 bool MainWindow::validateUser(string username, string password){
     int passwordHashed = hashPassword(password);
-    int result = Database::dbGetPasswordForUsername(username);
-    return(passwordHashed == result);
-}
+    int dbPassword;
+    string dbUserPath;
+    int dbUpdateInterval;
 
-/*
- * Function to create user specific Course object.
- * Returns the course object.
- */
-Course MainWindow::createCourse(string courseName, string rootUrl, vector<CourseCategory> categories){
-    Course userCourse = Course(courseName,rootUrl,categories);
-    return userCourse;
+    int result = dbGetUserWithUsername(username, dbPassword, dbUserPath, dbUpdateInterval);
+    if (result == false)
+        std::cerr << "Failed to find username in user database table!" << std::endl;
+
+    return(passwordHashed == dbPassword);
 }
 
 /*
@@ -194,35 +175,27 @@ Course MainWindow::createCourse(string courseName, string rootUrl, vector<Course
  */
 vector<Course> MainWindow::createUserCourseObjects(){
     vector<Course> courseVector;
-    string coursePath;
-
-    // Since the course categories subscription phase is later on in the GUI, for now set as an empty categories vector.
-    vector<CourseCategory> emptyCategoriesVector;
 
     // Note, The GUI ensures atleast one of these items is checked.
-    // TODO: CISC221 won't work as a course (OnQ based), so we need a new course.
     if (ui->checkBox_cisc320->isChecked()) {
-        coursePath = Database::dbGetCoursePath("CISC320");
-        if (coursePath != "") {
-            courseVector.push_back(createCourse("CISC320", coursePath, emptyCategoriesVector));
-        } else {
-           cout << "ERROR occured, course path could not be found for CISC320" << endl;
+        for (auto courseObj: preDefinedCourses){
+            if (courseObj.getCourseName() == "CISC320") {
+                courseVector.push_back(Course(courseObj));//Copy pre-defined course for User specific course.
+            }
         }
     }
-    if (ui->checkBox_cisc221->isChecked()) {
-        coursePath = Database::dbGetCoursePath("CISC221");
-        if (coursePath != "") {
-            courseVector.push_back(createCourse("CISC221", coursePath, emptyCategoriesVector));
-        } else {
-           cout << "ERROR occured, course path could not be found for CISC221" << endl;
+    if (ui->checkBox_cisc124->isChecked()) {
+        for (auto courseObj: preDefinedCourses){
+            if (courseObj.getCourseName() == "CISC124"){
+                courseVector.push_back(Course(courseObj)); //Copy pre-defined course for User specific course.
+            }
         }
     }
     if (ui->checkBox_elec451->isChecked()) {
-        coursePath = Database::dbGetCoursePath("ELEC451");
-        if (coursePath != "") {
-            courseVector.push_back(createCourse("ELEC451", coursePath, emptyCategoriesVector));
-        } else {
-           cout << "ERROR occured, course path could not be found for ELEC451" << endl;
+        for (auto courseObj: preDefinedCourses){
+            if (courseObj.getCourseName() == "ELEC451") {
+                courseVector.push_back(Course(courseObj)); //Copy pre-defined course for User specific course.
+            }
         }
     }
     return courseVector;
@@ -263,25 +236,62 @@ void MainWindow::on_listView_courseFiles_doubleClicked(const QModelIndex &index)
     QDesktopServices::openUrl(QUrl::fromLocalFile(fileModel->fileInfo(index).absoluteFilePath()));
 }
 
+//TODO: Should use preDefinedCourses vector instead of user's subsribed courses.
 void MainWindow::displayApplicableCourseTabs(User userObj){
     vector<Course> subscription = userObj.getSubscribedCourses();
-    bool cisc320 = false;
-    bool cisc221 = false;
-    bool elec451 = false;
+    // all disabled by default
+    ui->tabWidget->setTabEnabled(1,true); //cisc320
+    ui->tabWidget->setTabEnabled(2,true); //elec451
+    ui->tabWidget->setTabEnabled(3, true); //cisc124
+
     for (unsigned long i = 0; i < subscription.size(); i++){
         if(subscription[i].getCourseName() == "CISC320"){
-            cisc320 = true;
+            qDebug() << "CISC320 REACHED";
+            ui->tabWidget->setTabEnabled(1,true);
+            displayCategoriesForCourse(subscription[i], 1);
         }
-        else if(subscription[i].getCourseName() == "CISC221") {
-            cisc221 = true;
+        else if(subscription[i].getCourseName() == "ELEC451") {
+            qDebug() << "ELEC451 REACHED";
+            ui->tabWidget->setTabEnabled(2,true);
+            displayCategoriesForCourse(subscription[i], 2);
         }
-        else {
-            elec451 = true;
+        else if(subscription[i].getCourseName() == "CISC124"){
+            qDebug() << "CISC124 REACHED";
+            ui->tabWidget->setTabEnabled(3,true);
+            displayCategoriesForCourse(subscription[i], 3);
         }
     }
-      ui->tabWidget->setTabEnabled(1,cisc320);
-      ui->tabWidget->setTabEnabled(2,elec451);
-      ui->tabWidget->setTabEnabled(3,cisc221);
+
+}
+
+// displayCategoriesForCourse is called from displayApplicableCourseTabs each time it is determined
+// that a particular course tab is enabled.The course associated with that tab (as determined by the course
+// at subscription[i] in that function) is passed in, as well as the TabWidget index for that course.
+// On that tab a QGroupBox is created (or in this case found, as they existed previously), that GroupBox
+// given a vertical layout, which is populated by GroupBoxes of Course Categories, each with a horizontal
+// layout populated by extension checkboxes.
+void MainWindow::displayCategoriesForCourse(Course courseObj, int index){
+
+    vector<CourseCategory> cats = courseObj.getCategories();
+
+    ui->tabWidget->setCurrentIndex(index);
+    QGroupBox * groupBox = ui->tabWidget->currentWidget()->findChild<QGroupBox*>(QString(), Qt::FindDirectChildrenOnly);
+    QVBoxLayout * categoriesBox = new QVBoxLayout;
+    for (unsigned long i = 0; i < cats.size(); i++){
+        QGroupBox * catBox = new QGroupBox(QString::fromStdString(cats[i].getCategoryName()));
+        QHBoxLayout * extensionsBox = new QHBoxLayout;
+        vector<string> extensions = cats[i].getExtensionPreferences();
+
+        for (unsigned long j = 0; j < extensions.size(); j++){
+            QCheckBox * extension = new QCheckBox(QString::fromStdString(extensions[j]), this);
+            extensionsBox->addWidget(extension);
+        }
+        catBox->setLayout(extensionsBox);
+        catBox->setCheckable(true); //Category must be checked before extensions can be accessed
+        catBox->setChecked(false);
+        categoriesBox->addWidget(catBox);
+    }
+    groupBox->setLayout(categoriesBox);
 }
 
 
@@ -328,13 +338,15 @@ void MainWindow::setupDirectoryExplorer(){
 
 void MainWindow::on_saveButton_Cisc320_clicked()
 {
-    courseCategorySaveButtonClicked(0);
+    //Commented out as "dummyUser" caused build error
+    //courseCategorySaveButtonClicked(dummyUser, 0);
 }
 
 // TODO: This function along with MainWindow::on_saveButton_Cisc320_clicked() serves as an EXAMPLE.
 // Function/GUI should be changed to dynamically list the available categories etc. Using courseScraper information.
-void MainWindow::courseCategorySaveButtonClicked(int courseTabId) {
-    //Where courseTabId = 0 (CISC320), 1(ELEC451), 2(CISC221)
+/*
+ * void MainWindow::courseCategorySaveButtonClicked(int courseTabId) {
+    //Where courseTabId = 0 (CISC320), 1(ELEC451), 2(CISC124)
     QList<QCheckBox *> allCategoriesSelected;
 
     //Note use of Qt::FindDirectChildrenOnly to ensure only direct children are listed.
@@ -344,7 +356,7 @@ void MainWindow::courseCategorySaveButtonClicked(int courseTabId) {
     } else if (courseTabId == 1) {
         allCategoriesSelected = ui->groupBox_ELEC451->findChildren<QCheckBox *>(QString(),Qt::FindDirectChildrenOnly);
     } else if (courseTabId == 2) {
-        allCategoriesSelected = ui->groupBox_CISC221->findChildren<QCheckBox *>(QString(),Qt::FindDirectChildrenOnly);
+        allCategoriesSelected = ui->groupBox_CISC124->findChildren<QCheckBox *>(QString(),Qt::FindDirectChildrenOnly);
     } else {
         cout << "ERROR, Invalid courseTabId." << endl;
         return;
@@ -394,4 +406,122 @@ void MainWindow::courseCategorySaveButtonClicked(int courseTabId) {
 
 
     return;
+}
+*/
+
+void MainWindow::courseCategorySaveButtonClicked(User userObj, int courseTabId) {
+
+    // Determine which course this tab applies to
+    QString thisCourse;
+    switch(courseTabId){
+    case 1:
+        thisCourse = "CISC320";
+        break;
+    case 2:
+        thisCourse = "ELEC451";
+        break;
+    case 3:
+        thisCourse = "CISC124";
+        break;
+    }
+
+    // Because the User's courses will have different indices int their subscribedCourses based on what they select
+    vector<Course> userCourses = userObj.getSubscribedCourses();
+    int userCourseIndex;
+    for (unsigned long i = 0; i < userCourses.size(); i++){
+        if (userCourses[i].getCourseName() == thisCourse.toStdString()){
+            userCourseIndex = i;
+            break;
+        }
+    }
+
+    ui->tabWidget->setCurrentIndex(courseTabId);
+    //get the QGroupBox for the current tab
+    QGroupBox * groupBox = ui->tabWidget->currentWidget()->findChild<QGroupBox*>(QString(), Qt::FindDirectChildrenOnly);
+    //get the QGroupBoxes (the Course Categories) in the parent group box
+    QList<QGroupBox *> categories = groupBox->findChildren<QGroupBox *>(QString(), Qt::FindDirectChildrenOnly);
+
+    QList<QGroupBox *> chosenCategories;
+    // if the groupBox isn't checked, then the user doesnt want that category
+    // else, add to chosenCategories
+    for (int i = 0; i < categories.size(); i++){
+        if (!(categories.at(i)->isChecked())){
+            //each category group box was initialized with the name from CourseCategory::getCategoryName
+            userCourses[userCourseIndex].removeCategory(categories.at(i)->objectName().toStdString());
+        }
+        else{
+            chosenCategories.push_back(categories.at(i));
+        }
+    }
+
+
+    //get the (possibly trimmed down) CourseCategories vector for the course
+    vector<CourseCategory> thisCourseCategories = userCourses[userCourseIndex].getCategories();
+
+    // and now set the extension preferences for the categories they do want
+    // assumption based on how everythings put together: thisCourseCategories and chosenCategories have same indices
+    for (int i = 0; i < chosenCategories.size(); i++){
+        vector<string> categoryExtensions;
+        //FindChildrenRecursively (I think) since QHBoxLayout, not the checkboxes, is the direct child of each category GroupBox
+        QList<QCheckBox *> extensionCheckboxes = chosenCategories.at(i)->findChildren<QCheckBox *>(QString(), Qt::FindChildrenRecursively);
+        for (int i = 0; i < extensionCheckboxes.size(); i++){
+            if(extensionCheckboxes[i]->isChecked()){
+                //checkboxes objectNames were initilialized in displayCategoriesForCourse with CourseCategory::getExtensionPreferences names
+                categoryExtensions.push_back(extensionCheckboxes[i]->objectName().toStdString());
+            }
+        }
+        thisCourseCategories[i].setExtensionPreferences(categoryExtensions);
+    }
+
+}
+
+void MainWindow::on_pushButton_clicked()
+{
+    QString noteDir = QFileDialog::getExistingDirectory(this, "Choose a Destination...", QDir::homePath());
+    ui->lineEdit_fileDirectory->setText(noteDir);
+}
+
+void MainWindow::getCredentials()
+{
+    Credentials dialog;
+    dialog.validateCredentials("post.queensu.ca/~nm7/ELEC451/");
+}
+
+void MainWindow::on_button_getCredentials_clicked()
+{
+    getCredentials();
+}
+
+//TODO: Create a backend class that takes some of this out of main window.
+//As well, add some error checking for return codes of the DB calls.
+void MainWindow::populatePreDefineCourseObjects() {
+    vector<int> courseIds;
+
+    //Get all DB course IDs.
+    dbGetAllCourses(courseIds);
+    string courseName;
+    string coursePath;
+    string preferenceName;
+    string preferencePath;
+
+    //Populate course and CourseCategory objects for all courses in DB.
+    for (auto courseId : courseIds){
+        dbGetCourse(courseId, courseName, coursePath);
+
+        //Get all preference ID's associated with course.
+        vector<int> preferenceIds;
+        dbGetPreferenceIds(courseId,preferenceIds);
+
+        //Create course category objects for course.
+        vector<CourseCategory> courseCategories;
+        for (auto preferenceId: preferenceIds) {
+            dbGetPreference(preferenceId,preferenceName,preferencePath);
+
+            //TODO: use DB for fileExtensions instead of empty vector
+            vector<string> fileExtensions = {};
+            courseCategories.push_back(CourseCategory::CourseCategory(preferenceName, preferencePath, fileExtensions));
+        }
+
+        preDefinedCourses.push_back(Course(courseName, coursePath, courseCategories));
+    }
 }

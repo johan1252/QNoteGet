@@ -1,16 +1,24 @@
 #include "Course.h"
 
+//Constructor
 Course::Course(string courseName, string rootUrl,vector<CourseCategory> categories) : courseName(courseName),rootUrl(rootUrl),categories(categories) {}
 
-string Course::getCourseName() {
+//Copy constructor
+Course::Course(const Course& preDefinedCourse) {
+    courseName = preDefinedCourse.getCourseName();
+    rootUrl = preDefinedCourse.getRootUrl();
+    categories = preDefinedCourse.getCategories();
+}
+
+string Course::getCourseName() const {
     return courseName;
 }
 
-vector<CourseCategory> Course::getCategories() {
+vector<CourseCategory> Course::getCategories() const {
     return categories;
 }
 
-string Course::getRootUrl() {
+string Course::getRootUrl() const {
     return rootUrl;
 }
 
@@ -28,4 +36,15 @@ void Course::addCategory(CourseCategory category) {
 void Course::removeCategory(CourseCategory category) {
     //TODO: Verify that this remove from vector by value actually works
     //categories.erase(std::remove(categories.begin(), categories.end(), category), categories.end());
+}
+
+// Marshall - I added this so I could remove a category in Mainwindow::courseCategorySaveButtonClicked using
+// the string name of the category,vs. instantiating a CourseCategory instance just to remove it
+void Course::removeCategory(string category){
+    for (int i = 0; i < categories.size(); i++){
+        if (categories[i].getCategoryName() == category){
+            categories.erase(categories.begin() + i);
+            break;
+        }
+    }
 }
