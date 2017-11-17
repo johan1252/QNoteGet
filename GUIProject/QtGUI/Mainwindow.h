@@ -83,7 +83,8 @@ private:
     bool createUser(string username, int password,string path, int interval, vector<Course> userCourses);
     Course createCourse(string courseName, string rootUrl, vector<CourseCategory> categorie);
     vector<Course> createUserCourseObjects();
-    void courseCategorySaveButtonClicked(int courseTabId);
+    //void courseCategorySaveButtonClicked(int courseTabId);
+    void courseCategorySaveButtonClicked(User userObj, int courseTabId);
 };
 
 

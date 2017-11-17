@@ -240,9 +240,9 @@ void MainWindow::on_listView_courseFiles_doubleClicked(const QModelIndex &index)
 void MainWindow::displayApplicableCourseTabs(User userObj){
     vector<Course> subscription = userObj.getSubscribedCourses();
     // all disabled by default
-    ui->tabWidget->setTabEnabled(1,false); //cisc320
-    ui->tabWidget->setTabEnabled(2,false); //elec451
-    ui->tabWidget->setTabEnabled(3, false); //cisc124
+    ui->tabWidget->setTabEnabled(1,true); //cisc320
+    ui->tabWidget->setTabEnabled(2,true); //elec451
+    ui->tabWidget->setTabEnabled(3, true); //cisc124
 
     for (unsigned long i = 0; i < subscription.size(); i++){
         if(subscription[i].getCourseName() == "CISC320"){
@@ -264,6 +264,12 @@ void MainWindow::displayApplicableCourseTabs(User userObj){
 
 }
 
+// displayCategoriesForCourse is called from displayApplicableCourseTabs each time it is determined
+// that a particular course tab is enabled.The course associated with that tab (as determined by the course
+// at subscription[i] in that function) is passed in, as well as the TabWidget index for that course.
+// On that tab a QGroupBox is created (or in this case found, as they existed previously), that GroupBox
+// given a vertical layout, which is populated by GroupBoxes of Course Categories, each with a horizontal
+// layout populated by extension checkboxes.
 void MainWindow::displayCategoriesForCourse(Course courseObj, int index){
 
     vector<CourseCategory> cats = courseObj.getCategories();
@@ -281,13 +287,11 @@ void MainWindow::displayCategoriesForCourse(Course courseObj, int index){
             extensionsBox->addWidget(extension);
         }
         catBox->setLayout(extensionsBox);
-        catBox->setCheckable(true);
+        catBox->setCheckable(true); //Category must be checked before extensions can be accessed
         catBox->setChecked(false);
         categoriesBox->addWidget(catBox);
     }
     groupBox->setLayout(categoriesBox);
-
-
 }
 
 
@@ -334,12 +338,13 @@ void MainWindow::setupDirectoryExplorer(){
 
 void MainWindow::on_saveButton_Cisc320_clicked()
 {
-    courseCategorySaveButtonClicked(0);
+    courseCategorySaveButtonClicked(dummyUser, 0);
 }
 
 // TODO: This function along with MainWindow::on_saveButton_Cisc320_clicked() serves as an EXAMPLE.
 // Function/GUI should be changed to dynamically list the available categories etc. Using courseScraper information.
-void MainWindow::courseCategorySaveButtonClicked(int courseTabId) {
+/*
+ * void MainWindow::courseCategorySaveButtonClicked(int courseTabId) {
     //Where courseTabId = 0 (CISC320), 1(ELEC451), 2(CISC124)
     QList<QCheckBox *> allCategoriesSelected;
 
@@ -400,6 +405,73 @@ void MainWindow::courseCategorySaveButtonClicked(int courseTabId) {
 
 
     return;
+}
+*/
+
+void MainWindow::courseCategorySaveButtonClicked(User userObj, int courseTabId) {
+
+    // Determine which course this tab applies to
+    QString thisCourse;
+    switch(courseTabId){
+    case 1:
+        thisCourse = "CISC320";
+        break;
+    case 2:
+        thisCourse = "ELEC451";
+        break;
+    case 3:
+        thisCourse = "CISC124";
+        break;
+    }
+
+    // Because the User's courses will have different indices int their subscribedCourses based on what they select
+    vector<Course> userCourses = userObj.getSubscribedCourses();
+    int userCourseIndex;
+    for (unsigned long i = 0; i < userCourses.size(); i++){
+        if (userCourses[i].getCourseName() == thisCourse.toStdString()){
+            userCourseIndex = i;
+            break;
+        }
+    }
+
+    ui->tabWidget->setCurrentIndex(courseTabId);
+    //get the QGroupBox for the current tab
+    QGroupBox * groupBox = ui->tabWidget->currentWidget()->findChild<QGroupBox*>(QString(), Qt::FindDirectChildrenOnly);
+    //get the QGroupBoxes (the Course Categories) in the parent group box
+    QList<QGroupBox *> categories = groupBox->findChildren<QGroupBox *>(QString(), Qt::FindDirectChildrenOnly);
+
+    QList<QGroupBox *> chosenCategories;
+    // if the groupBox isn't checked, then the user doesnt want that category
+    // else, add to chosenCategories
+    for (int i = 0; i < categories.size(); i++){
+        if (!(categories.at(i)->isChecked())){
+            //each category group box was initialized with the name from CourseCategory::getCategoryName
+            userCourses[userCourseIndex].removeCategory(categories.at(i)->objectName().toStdString());
+        }
+        else{
+            chosenCategories.push_back(categories.at(i));
+        }
+    }
+
+
+    //get the (possibly trimmed down) CourseCategories vector for the course
+    vector<CourseCategory> thisCourseCategories = userCourses[userCourseIndex].getCategories();
+
+    // and now set the extension preferences for the categories they do want
+    // assumption based on how everythings put together: thisCourseCategories and chosenCategories have same indices
+    for (int i = 0; i < chosenCategories.size(); i++){
+        vector<string> categoryExtensions;
+        //FindChildrenRecursively (I think) since QHBoxLayout, not the checkboxes, is the direct child of each category GroupBox
+        QList<QCheckBox *> extensionCheckboxes = chosenCategories.at(i)->findChildren<QCheckBox *>(QString(), Qt::FindChildrenRecursively);
+        for (int i = 0; i < extensionCheckboxes.size(); i++){
+            if(extensionCheckboxes[i]->isChecked()){
+                //checkboxes objectNames were initilialized in displayCategoriesForCourse with CourseCategory::getExtensionPreferences names
+                categoryExtensions.push_back(extensionCheckboxes[i]->objectName().toStdString());
+            }
+        }
+        thisCourseCategories[i].setExtensionPreferences(categoryExtensions);
+    }
+
 }
 
 void MainWindow::on_pushButton_clicked()
