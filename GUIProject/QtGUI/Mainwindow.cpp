@@ -338,7 +338,8 @@ void MainWindow::setupDirectoryExplorer(){
 
 void MainWindow::on_saveButton_Cisc320_clicked()
 {
-    courseCategorySaveButtonClicked(dummyUser, 0);
+    //Commented out as "dummyUser" caused build error
+    //courseCategorySaveButtonClicked(dummyUser, 0);
 }
 
 // TODO: This function along with MainWindow::on_saveButton_Cisc320_clicked() serves as an EXAMPLE.
