@@ -11,8 +11,8 @@
 #include <string>
 #include "dbExecute.h"
 
-int createExtension(const std::string& name);
-bool deleteExtension(int id);
-bool deleteExtensionByName(const std::string& name);
+int dbCreateExtension(const std::string& name);
+bool dbDeleteExtension(int id);
+bool dbDeleteExtensionByName(const std::string& name);
 
 #endif /* EXTENSION_H_ */

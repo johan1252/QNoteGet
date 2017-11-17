@@ -13,8 +13,10 @@
 #include "dbExecute.h"
 
 
-int createUser(const std::string& name,const std::string& password,const std::string& path, int update);
-bool updateUser(int id, const std::string& name,int& password,const std::string& path, int update);
-bool getUser(int id, std::string& name,int& password, std::string& path, int& update);
+int dbCreateUser(const std::string name,int password,const std::string path, int update);
+bool dbUpdateUser(int id, const std::string& name,int& password,const std::string& path, int update);
+bool dbGetUser(int id, std::string& name,int& password, std::string& path, int& update);
+bool dbGetUserWithUsername(std::string name,int& password, std::string& path, int& update);
 bool deleteUser(int id);
+
 #endif /* USER_H_ */

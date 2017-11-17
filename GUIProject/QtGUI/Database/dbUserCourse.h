@@ -13,9 +13,9 @@
 #include <vector>
 #include "dbExecute.h"
 
-int createUserCourse(int userId,int courseId);
-bool getUserCourses(int userId, std::vector<int>& courses);
-bool deleteUserCourse(int userId, int courseId);
-bool deleteUserCourses(int userId);
+int dbCreateUserCourse(int userId,int courseId);
+bool dbGetUserCourses(int userId, std::vector<int>& courses);
+bool dbDeleteUserCourse(int userId, int courseId);
+bool dbDeleteUserCourses(int userId);
 
 #endif /* USERCOURSE_H_ */

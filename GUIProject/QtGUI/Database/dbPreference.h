@@ -17,9 +17,9 @@
 //						  "NAME     TEXT             NOT NULL," \
 //						  "PATH     TEXT             NOT NULL);";
 
-int createPreference(int courseId, const std::string& name,const std::string& path);
-//bool getPreferences(int courseId, #vector of preferenceIds); //given a courseId you get a vector of preferenceIds
-//bool getPreferences(int id, &name, &path); //given a preferenceId you can get the name/path
-bool deletePreference(int id);
+int dbCreatePreference(int courseId, const std::string& name,const std::string& path);
+bool dbGetPreferenceIds(int courseId,std::vector<int> preferences); //given a courseId you get a vector of preferenceIds
+bool dbGetPreference(int id,std::string& name,std::string& path); //given a preferenceId you can get the name/path
+bool dbDeletePreference(int id);
 
 #endif /* PREFERENCE_H_ */

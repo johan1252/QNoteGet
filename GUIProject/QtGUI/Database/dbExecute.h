@@ -11,7 +11,7 @@
 #include <iostream>
 #include <pqxx/pqxx>
 
-pqxx::result executeReturn(const std::string& sql);
-bool execute(const std::string& sql);
+pqxx::result dbExecuteReturn(const std::string& sql);
+bool dbExecute(const std::string& sql);
 
 #endif /* EXECUTE_H_ */

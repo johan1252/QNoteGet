@@ -45,7 +45,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="HomePage">
      <widget class="QFrame" name="frame_2">
@@ -1929,6 +1929,7 @@ font-family: &quot;Times New Roman&quot; serif;
   <tabstop>pushButton_login</tabstop>
   <tabstop>pushButton_createAccount</tabstop>
   <tabstop>lineEdit_username</tabstop>
+  <tabstop>lineEdit_password</tabstop>
   <tabstop>lineEdit_confirmPassword</tabstop>
   <tabstop>updateIntervalComboBox</tabstop>
   <tabstop>checkBox_cisc320</tabstop>
@@ -1945,7 +1946,6 @@ font-family: &quot;Times New Roman&quot; serif;
   <tabstop>pushButton_editSubs</tabstop>
   <tabstop>treeView_courseDirectories</tabstop>
   <tabstop>listView_courseFiles</tabstop>
-  <tabstop>lineEdit_password</tabstop>
   <tabstop>tabWidget</tabstop>
   <tabstop>lineEdit_myAccountOldPass</tabstop>
   <tabstop>lineEdit_myAccountNewPass</tabstop>

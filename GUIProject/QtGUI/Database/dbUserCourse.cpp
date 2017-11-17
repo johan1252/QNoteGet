@@ -12,12 +12,12 @@
 
 
 //create a single row, returns the unique id
-int createUserCourse(int userId,int courseId){
+int dbCreateUserCourse(int userId,int courseId){
     	std::string statement = "INSERT INTO USERCOURSES(courseId, userId)";
     	std::string course = statement + " VALUES ('" + std::to_string(courseId) + "','" +
     			std::to_string(userId) + "')" + "RETURNING ID;";
 
-    pqxx::result R = executeReturn(course);
+    pqxx::result R = dbExecuteReturn(course);
     if (R.empty()) {
     		return 0;
     }
@@ -28,36 +28,36 @@ int createUserCourse(int userId,int courseId){
 }
 
 //return all courseID's that a user is registered to
-bool getUserCourses(int userId, std::vector<int>& courses) {
+bool dbGetUserCourses(int userId, std::vector<int>& courses) {
 	std::string statement = "SELECT COURSEID FROM USERCOURSES WHERE userId=" + std::to_string(userId);
-    pqxx::result R = executeReturn(statement);
+    pqxx::result R = dbExecuteReturn(statement);
     pqxx::result::size_type i = 0;
 
-    	for (; i < R.size(); ++i) {
-    		std::stringstream sid("");
-		std::string id;
-		sid << R[i][0];
-		id = sid.str();
-		courses.push_back(stoi(id));
-    	}
-    	return R.empty();
+    for (; i < R.size(); ++i) {
+        std::stringstream sid("");
+    std::string id;
+    sid << R[i][0];
+    id = sid.str();
+    courses.push_back(stoi(id));
+    }
+    return R.empty();
 }
 
 //deletes all instances related to the user
-bool deleteUserCourses(int userId) {
+bool dbDeleteUserCourses(int userId) {
 	std::cout << "entered";
 	std::string beg = "DELETE FROM USERCOURSES";
 	std::string statement = beg +
 		" WHERE USERID= '" + std::to_string(userId) + "';";
-	return execute(statement);
+    return dbExecute(statement);
 }
 
 //deletes a single row - this instance for this user
-bool deleteUserCourse(int userId, int courseId) {
+bool dbDeleteUserCourse(int userId, int courseId) {
 	std::string beg = "DELETE FROM USERCOURSES";
 	std::string statement = beg +
 		" WHERE USERID= '" + std::to_string(userId) + "' AND COURSEID= '" + std::to_string(courseId) + "';";
-	return execute(statement);
+    return dbExecute(statement);
 }
 
 
