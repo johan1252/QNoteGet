@@ -2,15 +2,17 @@
 #include "ui_Mainwindow.h"
 
 static int currentIndex = 0;
+vector<Course> dummy;
+string path = "dummy";
+string uname = "dummy";
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),currentUserG(0,uname,1,path,2,dummy)
 {
     ui->setupUi(this);
     ui->stackedWidget->setCurrentIndex(HOMEPAGE);
-
-    setupDirectoryExplorer();
+       setupDirectoryExplorer();
 }
 
 MainWindow::~MainWindow()
@@ -29,6 +31,7 @@ void MainWindow::on_pushButton_login_clicked()
     } else {
         valid = validateUser(ui->lineEdit_loginUsername->text().toStdString(),ui->lineEdit_loginPassword->text().toStdString());
         if (valid){
+
             if( currentIndex < ui->stackedWidget->count())
             {
                 ui->stackedWidget->setCurrentIndex(YOURCLASSESPAGE);
@@ -105,6 +108,7 @@ void MainWindow::on_pushButton_doneSignUp_clicked()
                 QMessageBox::critical(this, "Exists",
                               "An account with this username already exists.");
             } else {
+
                 if(currentIndex < ui->stackedWidget->count())
                 {
                     ui->stackedWidget->setCurrentIndex(EDITSUBSCRIPTIONSPAGE);
@@ -135,6 +139,8 @@ bool MainWindow::createUser(string username, int password, string path, int inte
         int userId = dbCreateUser(username,password,path,interval);
 
         User userAccount = User(userId,username,password,path,interval,userCourses);
+        //TODO:: check that userCourses object has filled in information from predefined
+        currentUserG = userAccount;
         displayApplicableCourseTabs(userAccount);
 
         // Create entry in usercourses DB table for each course the user has subscribed to.
@@ -143,7 +149,6 @@ bool MainWindow::createUser(string username, int password, string path, int inte
             dbGetCourseId(courseId, userCourse.getCourseName());
             dbCreateUserCourse(userId,courseId);
         }
-
         return true;
     }
     else {
@@ -243,6 +248,7 @@ void MainWindow::displayApplicableCourseTabs(User userObj){
     ui->tabWidget->setTabEnabled(1,false); //cisc320
     ui->tabWidget->setTabEnabled(2,false); //elec451
     ui->tabWidget->setTabEnabled(3, false); //cisc124
+
     qDebug() << "In displayApplicableCourseTabs";
 
     //For testing displayCategoriesForCourses. Uncomment below and comment out for-loop to see in action
@@ -277,6 +283,7 @@ void MainWindow::displayApplicableCourseTabs(User userObj){
             ui->tabWidget->setTabEnabled(2,true);
             displayCategoriesForCourse(subscription[i], 2);
         }
+
         else if(subscription[i].getCourseName() == "CISC124"){
             qDebug() << "CISC124 REACHED";
             ui->tabWidget->setTabEnabled(3,true);
@@ -538,7 +545,6 @@ void MainWindow::populatePreDefineCourseObjects() {
         //Get all preference ID's associated with course.
         vector<int> preferenceIds;
         dbGetPreferenceIds(courseId,preferenceIds);
-
         //Create course category objects for course.
         vector<CourseCategory> courseCategories;
         for (auto preferenceId: preferenceIds) {
@@ -546,9 +552,10 @@ void MainWindow::populatePreDefineCourseObjects() {
 
             //TODO: use DB for fileExtensions instead of empty vector
             vector<string> fileExtensions = {};
-            courseCategories.push_back(CourseCategory::CourseCategory(preferenceName, preferencePath, fileExtensions));
-        }
+            CourseCategory cc = CourseCategory(preferenceName, preferencePath, fileExtensions);
+            courseCategories.push_back(cc);
 
+        }
         preDefinedCourses.push_back(Course(courseName, coursePath, courseCategories));
     }
 }
