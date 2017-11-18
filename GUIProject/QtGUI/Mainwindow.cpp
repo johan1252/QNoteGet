@@ -240,9 +240,31 @@ void MainWindow::on_listView_courseFiles_doubleClicked(const QModelIndex &index)
 void MainWindow::displayApplicableCourseTabs(User userObj){
     vector<Course> subscription = userObj.getSubscribedCourses();
     // all disabled by default
-    ui->tabWidget->setTabEnabled(1,true); //cisc320
-    ui->tabWidget->setTabEnabled(2,true); //elec451
-    ui->tabWidget->setTabEnabled(3, true); //cisc124
+    ui->tabWidget->setTabEnabled(1,false); //cisc320
+    ui->tabWidget->setTabEnabled(2,false); //elec451
+    ui->tabWidget->setTabEnabled(3, false); //cisc124
+    qDebug() << "In displayApplicableCourseTabs";
+
+    //For testing displayCategoriesForCourses. Uncomment below and comment out for-loop to see in action
+    /*
+    vector<string> exts;
+    exts.push_back(".pdf");
+    exts.push_back(".pptx");
+    CourseCategory exLect("Lecture", "dummyPath", exts);
+    CourseCategory exLabs("Labs", "dummyPath/labs", exts);
+    vector<CourseCategory> lectCategories;
+    lectCategories.push_back(exLect);
+    lectCategories.push_back(exLabs);
+    Course exampleCourse("CISC320", "somePath", lectCategories);
+    qDebug() << "size of exampleCourse courseCats:  " << lectCategories.size();
+    //displayCategoriesForCourse(exampleCourse, 1);
+    Course exampleCourse2("ELEC451", "somePath", lectCategories);
+    vector<Course> exampleCourses;
+    exampleCourses.push_back(exampleCourse);
+    exampleCourses.push_back(exampleCourse2);
+    userObj.setCourses(exampleCourses);
+    vector<Course> subscription = userObj.getSubscribedCourses();
+    */
 
     for (unsigned long i = 0; i < subscription.size(); i++){
         if(subscription[i].getCourseName() == "CISC320"){
@@ -277,6 +299,11 @@ void MainWindow::displayCategoriesForCourse(Course courseObj, int index){
     ui->tabWidget->setCurrentIndex(index);
     QGroupBox * groupBox = ui->tabWidget->currentWidget()->findChild<QGroupBox*>(QString(), Qt::FindDirectChildrenOnly);
     QVBoxLayout * categoriesBox = new QVBoxLayout;
+
+    QLabel * categoriesBoxLabel = new QLabel("Course Categories", this);
+    categoriesBoxLabel->setStyleSheet("QLabel {background-position: top; font-weight: bold}");
+    categoriesBox->addWidget(categoriesBoxLabel);
+
     for (unsigned long i = 0; i < cats.size(); i++){
         QGroupBox * catBox = new QGroupBox(QString::fromStdString(cats[i].getCategoryName()));
         QHBoxLayout * extensionsBox = new QHBoxLayout;
