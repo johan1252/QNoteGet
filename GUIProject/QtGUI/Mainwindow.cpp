@@ -50,6 +50,7 @@ void MainWindow::on_pushButton_doneSubscribe_clicked()
     currentIndex = ui->stackedWidget->currentIndex();
   if( currentIndex < ui->stackedWidget->count())
   {
+      setupDirectoryExplorer();
       ui->stackedWidget->setCurrentIndex(YOURCLASSESPAGE);
   }
 }
@@ -141,7 +142,7 @@ bool MainWindow::createUser(string username, int password, string path, int inte
         User userAccount = User(userId,username,password,path,interval,userCourses);
         //TODO:: check that userCourses object has filled in information from predefined
         currentUserG = userAccount;
-        displayApplicableCourseTabs(userAccount);
+        displayApplicableCourseTabs();
 
         // Create entry in usercourses DB table for each course the user has subscribed to.
         for(auto userCourse: userCourses) {
@@ -242,8 +243,8 @@ void MainWindow::on_listView_courseFiles_doubleClicked(const QModelIndex &index)
 }
 
 //TODO: Should use preDefinedCourses vector instead of user's subsribed courses.
-void MainWindow::displayApplicableCourseTabs(User userObj){
-    vector<Course> subscription = userObj.getSubscribedCourses();
+void MainWindow::displayApplicableCourseTabs(){
+    vector<Course> subscription = currentUserG.getSubscribedCourses();
     // all disabled by default
     ui->tabWidget->setTabEnabled(1,false); //cisc320
     ui->tabWidget->setTabEnabled(2,false); //elec451
@@ -312,7 +313,8 @@ void MainWindow::displayCategoriesForCourse(Course courseObj, int index){
     categoriesBox->addWidget(categoriesBoxLabel);
 
     for (unsigned long i = 0; i < cats.size(); i++){
-        QGroupBox * catBox = new QGroupBox(QString::fromStdString(cats[i].getCategoryName()));
+        QString catName = QString::fromStdString(cats[i].getCategoryName());
+        QGroupBox * catBox = new QGroupBox(catName, this);
         QHBoxLayout * extensionsBox = new QHBoxLayout;
         vector<string> extensions = cats[i].getExtensionPreferences();
 
@@ -347,6 +349,8 @@ void MainWindow::setupDirectoryExplorer(){
 
     QString resourcePath = ":/dummyDirs/ExampleCourses";
     QString desktopPath = "/Users/Marshall/Desktop/ExampleCourses";
+    QString selectedPath = QString::fromStdString(currentUserG.getFileDirectory());
+    qDebug() << "in setupDirectoryExplorer, selectedPath is: " << selectedPath;
 
     dirModel = new QFileSystemModel(this);
     dirModel->setFilter(QDir::NoDotAndDotDot | QDir::AllDirs); //hide "." and ".." folders, only display directories
@@ -357,7 +361,7 @@ void MainWindow::setupDirectoryExplorer(){
      */
     dirModel->setReadOnly(true);
     ui->treeView_courseDirectories->setModel(dirModel);
-    ui->treeView_courseDirectories->setRootIndex(dirModel->setRootPath(desktopPath));
+    ui->treeView_courseDirectories->setRootIndex(dirModel->setRootPath(selectedPath));
 
     fileModel = new QFileSystemModel(this);
     fileModel->setFilter(QDir::NoDotAndDotDot | QDir::Files); //only show files
@@ -373,7 +377,7 @@ void MainWindow::setupDirectoryExplorer(){
 void MainWindow::on_saveButton_Cisc320_clicked()
 {
     //Commented out as "dummyUser" caused build error
-    //courseCategorySaveButtonClicked(dummyUser, 0);
+    courseCategorySaveButtonClicked(1);
 }
 
 // TODO: This function along with MainWindow::on_saveButton_Cisc320_clicked() serves as an EXAMPLE.
@@ -443,7 +447,7 @@ void MainWindow::on_saveButton_Cisc320_clicked()
 }
 */
 
-void MainWindow::courseCategorySaveButtonClicked(User userObj, int courseTabId) {
+void MainWindow::courseCategorySaveButtonClicked(int courseTabId) {
 
     // Determine which course this tab applies to
     QString thisCourse;
@@ -460,7 +464,7 @@ void MainWindow::courseCategorySaveButtonClicked(User userObj, int courseTabId) 
     }
 
     // Because the User's courses will have different indices int their subscribedCourses based on what they select
-    vector<Course> userCourses = userObj.getSubscribedCourses();
+    vector<Course> userCourses = currentUserG.getSubscribedCourses();
     int userCourseIndex;
     for (unsigned long i = 0; i < userCourses.size(); i++){
         if (userCourses[i].getCourseName() == thisCourse.toStdString()){
@@ -481,7 +485,7 @@ void MainWindow::courseCategorySaveButtonClicked(User userObj, int courseTabId) 
     for (int i = 0; i < categories.size(); i++){
         if (!(categories.at(i)->isChecked())){
             //each category group box was initialized with the name from CourseCategory::getCategoryName
-            userCourses[userCourseIndex].removeCategory(categories.at(i)->objectName().toStdString());
+            userCourses[userCourseIndex].removeCategory(categories.at(i)->title().toStdString()); //Note: GroupBoxes use title, not objectName
         }
         else{
             chosenCategories.push_back(categories.at(i));
@@ -501,12 +505,17 @@ void MainWindow::courseCategorySaveButtonClicked(User userObj, int courseTabId) 
         for (int i = 0; i < extensionCheckboxes.size(); i++){
             if(extensionCheckboxes[i]->isChecked()){
                 //checkboxes objectNames were initilialized in displayCategoriesForCourse with CourseCategory::getExtensionPreferences names
-                categoryExtensions.push_back(extensionCheckboxes[i]->objectName().toStdString());
+                categoryExtensions.push_back(extensionCheckboxes[i]->text().toStdString());
             }
         }
         thisCourseCategories[i].setExtensionPreferences(categoryExtensions);
     }
 
+    vector<CourseCategory> afterCats = userCourses[userCourseIndex].getCategories();
+    qDebug() << "currentUserG's categories after selection are: ";
+    for (int i = 0; i < afterCats.size(); i++){
+        qDebug() << QString::fromStdString(afterCats[i].getCategoryName());
+    }
 }
 
 void MainWindow::on_pushButton_clicked()

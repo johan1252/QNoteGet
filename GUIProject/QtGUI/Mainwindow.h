@@ -59,7 +59,7 @@ private slots:
 
     void on_listView_courseFiles_doubleClicked(const QModelIndex &index);
 
-    void displayApplicableCourseTabs(User userObj);
+    void displayApplicableCourseTabs();
 
     void displayCategoriesForCourse(Course courseObj, int index);
 
@@ -85,7 +85,7 @@ private:
     Course createCourse(string courseName, string rootUrl, vector<CourseCategory> categorie);
     vector<Course> createUserCourseObjects();
     //void courseCategorySaveButtonClicked(int courseTabId);
-    void courseCategorySaveButtonClicked(User userObj, int courseTabId);
+    void courseCategorySaveButtonClicked(int courseTabId);
 
 };
 
