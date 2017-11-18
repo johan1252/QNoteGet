@@ -517,7 +517,6 @@ void MainWindow::populatePreDefineCourseObjects() {
         //Get all preference ID's associated with course.
         vector<int> preferenceIds;
         dbGetPreferenceIds(courseId,preferenceIds);
-
         //Create course category objects for course.
         vector<CourseCategory> courseCategories;
         for (auto preferenceId: preferenceIds) {
@@ -527,6 +526,7 @@ void MainWindow::populatePreDefineCourseObjects() {
             vector<string> fileExtensions = {};
             CourseCategory cc = CourseCategory(preferenceName, preferencePath, fileExtensions);
             courseCategories.push_back(cc);
+
         }
         preDefinedCourses.push_back(Course(courseName, coursePath, courseCategories));
     }
