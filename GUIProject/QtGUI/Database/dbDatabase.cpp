@@ -116,5 +116,18 @@ int dbRunDatabase() {
 //	}
 //	createExtension("cpp");
 //	deleteExtensionByName("cpp");
+//    int myInt = 0;
+//    dbGetUserByName("testing", myInt);
+//    std::cout << std::to_string(myInt);
+//    dbCreateUserPreference(9, 1, 1, 1);
+//    int courseId = 1;
+//    int preferenceId= 1;
+//    std::vector<int> courses;
+//    bool dbGetUserPreference(int userId, int& courseId, std::vector<int>& preferences);
+//    dbGetUserExtensions(9, courseId, preferenceId, courses);
+//    for (auto i = courses.begin(); i != courses.end(); ++i) {
+//        std::cout << *i << ' ';
+//    }
+
     return 0;
 }

@@ -56,6 +56,22 @@ bool dbGetUser(int id, std::string& name,int password, std::string& path, int& u
 	return R.empty();
 }
 
+//gets id via name
+bool dbGetUserByName(std::string name,int& id) {
+    std::string statement = "SELECT * FROM USERS WHERE NAME='" + name + "'";
+    pqxx::result R = dbExecuteReturn(statement);
+    if (R.empty()) {
+         return false;
+    }
+    pqxx::result::size_type i = 0;
+    std::stringstream sid;
+    for (; i < R.size(); ++i) {
+        sid << R[i][0];
+        id = stoi(sid.str());
+    }
+    return true;
+}
+
 //sets all attributes by reference for caller
 bool dbGetUserWithUsername(std::string name,int& password, std::string& path, int& update) {
     std::string statement = "SELECT * FROM USERS WHERE NAME='" + name + "'";
