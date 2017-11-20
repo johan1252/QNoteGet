@@ -22,8 +22,8 @@
 //					   "EXTENSIONID  INT REFERENCES EXTENSIONS(ID)   NOT NULL);";
 
 int dbCreateUserPreference(int userId, int courseId, int preferenceId, int extensionId);
-//bool getUserPreference(int& userId, int& courseId, vector of preferenceIds); // given userId and courseId return all preferenceID's
-//bool getUserPreference(int& userId, int& courseId, int& preferenceId, vector of extensionIds); // given userId and courseId and preferenceId return all extentionIds
+bool dbGetUserPreferences(int userId, int& courseId, std::vector<int>& preferences);
+bool dbGetUserExtensions(int userId, int& courseId, int& preferenceId, std::vector<int>& extensions);
 bool dbDeleteUserPreference(int id);
 
 #endif /* USERPREFERENCE_H_ */
