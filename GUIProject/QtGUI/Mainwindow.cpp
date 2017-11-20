@@ -31,7 +31,18 @@ void MainWindow::on_pushButton_login_clicked()
     } else {
         valid = validateUser(ui->lineEdit_loginUsername->text().toStdString(),ui->lineEdit_loginPassword->text().toStdString());
         if (valid){
-
+//            int id;
+//            vector<int> courses,categories;
+//            dbGetUserByName(ui->lineEdit_loginUsername->text().toStdString(),id);
+//            //cout << "user ID is:  " << id << endl;
+//            dbGetUserCourses(id,courses);
+//            for (auto courseID: courses) {
+//                //cout << "The courseID is : " << courseID << endl;
+//                for (auto categoryID: categories) {
+//                    dbGetUserPreferences(id, courseID, categories);
+//                    //cout << "The categoryID is : " << categoryID << endl;
+//                }
+//            }
             if( currentIndex < ui->stackedWidget->count())
             {
                 ui->stackedWidget->setCurrentIndex(YOURCLASSESPAGE);

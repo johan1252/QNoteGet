@@ -28,7 +28,6 @@ int dbCreatePreference(int courseId, const std::string& name,const std::string& 
 //given a courseId you get a vector of preferenceIds
 bool dbGetPreferenceIds(int courseId,std::vector<int>& preferences){
     std::string statement = "SELECT * FROM PREFERENCES WHERE courseid=" + std::to_string(courseId) + ";";
-    std::cout << statement << std::endl;
     pqxx::result R = dbExecuteReturn(statement);
     if (R.empty()) {
             return false;
