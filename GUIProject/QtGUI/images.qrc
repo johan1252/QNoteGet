@@ -3,5 +3,6 @@
         <file>copy.png</file>
         <file>trayIcon.png</file>
         <file>appIcon.png</file>
+        <file>appIcon_linux.png</file>
     </qresource>
 </RCC>

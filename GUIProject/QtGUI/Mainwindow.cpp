@@ -13,7 +13,11 @@ MainWindow::MainWindow(QWidget *parent) :
     createTaskBarIcon();
 
     //Set the application icon
+#ifdef Q_OS_MACX
     QApplication::setWindowIcon(QIcon(":/newPrefix/appIcon.png"));
+#else
+    QApplication::setWindowIcon(QIcon(":/newPrefix/appIcon_linux.png"));
+#endif
 
     ui->setupUi(this);
     ui->stackedWidget->setCurrentIndex(HOMEPAGE);
