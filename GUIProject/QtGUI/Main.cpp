@@ -14,5 +14,8 @@ int main(int argc, char *argv[])
     //Somehow when the application closes make sure we add the following line.
     // database::dbEndDatabaseConnection();
     dbRunDatabase();
-    return a.exec();
+
+    a.exec();
+
+    return 0;
 }

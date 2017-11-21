@@ -10,9 +10,56 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),currentUserG(0,uname,1,path,2,dummy)
 {
+    createTaskBarIcon();
+
     ui->setupUi(this);
     ui->stackedWidget->setCurrentIndex(HOMEPAGE);
-       setupDirectoryExplorer();
+    setupDirectoryExplorer();
+}
+
+void MainWindow::createTaskBarIcon() {
+    /* Create system tray icon to allow application to run in the background.
+     * Using the Quit QNoteGet option the in taskbar menu is the only way to fully quit the application!
+     */
+
+    trayMenu = new QMenu(this);
+    QAction* viewWindow = new QAction(trUtf8("View QNoteGet Window"), this);
+    QAction* quitWindow = new QAction(trUtf8("Quit QNoteGet"), this);
+
+    trayIcon = new QSystemTrayIcon(this);
+    //trayIcon->setIcon(this->style()->standardIcon(QStyle::SP_ComputerIcon));
+    trayIcon->setToolTip("QNoteGet Application");
+
+    connect(viewWindow, SIGNAL(triggered()), this, SLOT(show()));
+    connect(quitWindow, SIGNAL(triggered()),this,SLOT(quitApplication()));
+
+    trayIcon->setIcon(QIcon(":/newPrefix/trayIcon.png"));
+    trayMenu->addAction(viewWindow);
+    trayMenu->addAction(quitWindow);
+
+    trayIcon->setContextMenu(trayMenu);
+    trayIcon->show();
+}
+
+void MainWindow::quitApplication() {
+    /* Fully quit the application if the users quits through the taskbar icon */
+    qApp->quit();
+}
+
+void MainWindow::closeEvent(QCloseEvent * event)
+{
+    /* If the "X" close button is pressed on the application, we want it to go into background mode.
+     * We only want the application to fully QUIT if the "Quit QNoteGet" is triggered from the task bar.
+     * This function overrides the close event method to make the application not actually close.
+     */
+    event->ignore();
+    this->hide();
+    QSystemTrayIcon::MessageIcon icon = QSystemTrayIcon::MessageIcon(QSystemTrayIcon::Information);
+
+    trayIcon->showMessage("QNoteGet",
+                          trUtf8("QNoteGet is still running from your tray toolbar to allow you to get notes on a regular basis!"),
+                          icon,
+                          2000);
 }
 
 MainWindow::~MainWindow()
@@ -578,4 +625,9 @@ void MainWindow::populatePreDefineCourseObjects() {
         }
         preDefinedCourses.push_back(Course(courseName, coursePath, courseCategories));
     }
+}
+
+void MainWindow::on_actionHide_GUI_triggered()
+{
+    this->hide();
 }

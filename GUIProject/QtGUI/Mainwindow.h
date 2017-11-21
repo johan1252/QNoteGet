@@ -3,6 +3,7 @@
 #include <QMainWindow>
 #include <QListWidgetItem>
 #include <QFileSystemModel>
+#include <QSystemTrayIcon>
 #include <QFileDialog>
 #include <QtCore>
 #include <QtGui>
@@ -41,6 +42,10 @@ public:
 
     void populatePreDefineCourseObjects();
 
+protected:
+    /* override application close */
+    void closeEvent(QCloseEvent * event);
+
 private slots:
 
     void on_pushButton_login_clicked();
@@ -71,14 +76,23 @@ private slots:
 
     void on_button_getCredentials_clicked();
 
+    void on_actionHide_GUI_triggered();
+
+    void quitApplication();
+
 private:
     Ui::MainWindow *ui;
+
+    QSystemTrayIcon *trayIcon;
+    QMenu *trayMenu;
+
     QFileSystemModel * dirModel;
     QFileSystemModel * fileModel;
     vector<Course> preDefinedCourses;
     User currentUserG;
 
     void setupDirectoryExplorer();
+    void createTaskBarIcon();
     bool validateUser(string username, string password); //unhash and check PW
     int hashPassword(string password);
     bool createUser(string username, int password,string path, int interval, vector<Course> userCourses);
