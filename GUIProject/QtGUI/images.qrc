@@ -1,5 +1,6 @@
 <RCC>
-  <qresource prefix="newPrefix">
-    <file>copy.png</file>
-  </qresource>
+    <qresource prefix="/newPrefix">
+        <file>copy.png</file>
+        <file>trayIcon.png</file>
+    </qresource>
 </RCC>

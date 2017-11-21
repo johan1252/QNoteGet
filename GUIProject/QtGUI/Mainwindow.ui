@@ -45,7 +45,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="HomePage">
      <widget class="QFrame" name="frame_2">
@@ -1112,6 +1112,7 @@ font-family: &quot;Times New Roman&quot; serif;
      <string>File</string>
     </property>
     <addaction name="actionExit"/>
+    <addaction name="actionHide_GUI"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
@@ -1127,6 +1128,11 @@ font-family: &quot;Times New Roman&quot; serif;
   <action name="actionExit">
    <property name="text">
     <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionHide_GUI">
+   <property name="text">
+    <string>Hide GUI</string>
    </property>
   </action>
  </widget>
