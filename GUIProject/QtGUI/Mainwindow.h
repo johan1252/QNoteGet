@@ -12,6 +12,7 @@
 #include <QDesktopServices>
 #include <vector>
 #include <string>
+#include <algorithm>
 
 #include "Database/dbDatabase.h"
 #include "User.h"
@@ -41,6 +42,7 @@ public:
     ~MainWindow();
 
     void populatePreDefineCourseObjects();
+    void populateGlobalUserOnLogin(string username);
 
 protected:
     /* override application close */

@@ -45,3 +45,19 @@ bool dbDeleteExtensionByName(const std::string& name) {
     return dbExecute(statement);
 }
 
+//sets all attributes by reference for caller
+bool dbGetExtensionName(int id, std::string& name) {
+    std::string statement = "SELECT * FROM EXTENSIONS WHERE ID=" + std::to_string(id);
+    pqxx::result R = dbExecuteReturn(statement);
+    if (R.empty()) {
+            return false;
+    }
+    pqxx::result::size_type i = 0;
+    std::stringstream spath, sname;
+    for (; i < R.size(); ++i) {
+        sname << R[i][1];
+        name = sname.str();
+    }
+    return R.empty();
+}
+
