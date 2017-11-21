@@ -1,5 +1,6 @@
 ﻿#include "Mainwindow.h"
 #include "ui_Mainwindow.h"
+#include <typeinfo>
 
 static int currentIndex = 0;
 vector<Course> dummy;
@@ -613,12 +614,12 @@ void MainWindow::courseCategorySaveButtonClicked(int courseTabId) {
     // Because the User's courses will have different indices int their subscribedCourses based on what they select
     vector<Course*> *userCourses = currentUserG.getSubscribedCoursesByPtr();
     vector<Course*>::iterator it;
-    //qDebug() << "~~~~~INSIDE COURSECATEGORYSAVEBUTTON, for user: " << QString::fromStdString(currentUserG.getUsername()) << ", address of userCourses is: " << &userCourses;
-    //qDebug() << "~~~~~~ and those subscribed courses are: ";
-    /*for (it = userCourses->begin(); it != userCourses->end(); it++){
+    qDebug() << "~~~~~INSIDE COURSECATEGORYSAVEBUTTON, for user: " << QString::fromStdString(currentUserG.getUsername()) << ", address of userCourses is: " << &userCourses;
+    qDebug() << "~~~~~~ and those subscribed courses are: ";
+    for (it = userCourses->begin(); it != userCourses->end(); it++){
         qDebug() << "~~~~~ " << QString::fromStdString((*it)->getCourseName()) << " with memory address: " << *it;
     }
-    */
+
 
     int userCourseIndex;
     int i = 0;
@@ -676,11 +677,8 @@ void MainWindow::courseCategorySaveButtonClicked(int courseTabId) {
         qDebug() << QString::fromStdString(afterCats[i].getCategoryName());
     }
 
-    //delete userCourses heap allocation
-    for (it = userCourses->begin(); it != userCourses->end(); it++){
-        delete *it;
-        *it = nullptr;
-    }
+    //delete userCourses heap allocation NOTE: Since did not allocate the Courses, just pointers to courses
+    // no need to loop through and delete
     delete userCourses;
     userCourses = nullptr;
 }
