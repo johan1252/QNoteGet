@@ -63,7 +63,15 @@ private slots:
 
     void displayCategoriesForCourse(Course courseObj, int index);
 
+    void repopulateUserSubs();
+
+    void clearCourseTabs();
+
     void on_saveButton_Cisc320_clicked();
+
+    void on_saveButton_Elec451_clicked();
+
+    void on_saveButton_Cisc124_clicked();
 
     void on_pushButton_clicked();
 
@@ -71,12 +79,17 @@ private slots:
 
     void on_button_getCredentials_clicked();
 
+
+
+
 private:
     Ui::MainWindow *ui;
     QFileSystemModel * dirModel;
     QFileSystemModel * fileModel;
     vector<Course> preDefinedCourses;
     User currentUserG;
+    bool editsMade; //for use with editSubscriptions button
+    vector<Course> * beforeSubs = nullptr;
 
     void setupDirectoryExplorer();
     bool validateUser(string username, string password); //unhash and check PW
@@ -86,6 +99,8 @@ private:
     vector<Course> createUserCourseObjects();
     //void courseCategorySaveButtonClicked(int courseTabId);
     void courseCategorySaveButtonClicked(int courseTabId);
+    void compareEditedSubscriptions();
+    void tellMeCurrentUserGsCISC320Categories();
 
 };
 
