@@ -1,4 +1,4 @@
-#include "Mainwindow.h"
+﻿#include "Mainwindow.h"
 #include "ui_Mainwindow.h"
 
 static int currentIndex = 0;
@@ -78,18 +78,7 @@ void MainWindow::on_pushButton_login_clicked()
     } else {
         valid = validateUser(ui->lineEdit_loginUsername->text().toStdString(),ui->lineEdit_loginPassword->text().toStdString());
         if (valid){
-//            int id;
-//            vector<int> courses,categories;
-//            dbGetUserByName(ui->lineEdit_loginUsername->text().toStdString(),id);
-//            //cout << "user ID is:  " << id << endl;
-//            dbGetUserCourses(id,courses);
-//            for (auto courseID: courses) {
-//                //cout << "The courseID is : " << courseID << endl;
-//                for (auto categoryID: categories) {
-//                    dbGetUserPreferences(id, courseID, categories);
-//                    //cout << "The categoryID is : " << categoryID << endl;
-//                }
-//            }
+            //populateGlobalUserOnLogin(ui->lineEdit_loginUsername->text().toStdString());
             if( currentIndex < ui->stackedWidget->count())
             {
                 ui->stackedWidget->setCurrentIndex(YOURCLASSESPAGE);
@@ -101,6 +90,46 @@ void MainWindow::on_pushButton_login_clicked()
     }
 
 
+}
+
+// The following function fetches all of the information about an existing users subscription
+// This will allow the global User object to be populated with the correct vector<Courses>
+void MainWindow::populateGlobalUserOnLogin(string username){
+    //dbCreateUserPreference(104, 1, 3, 8);
+    int id;
+    vector<int> courses,categories,extensions;
+    vector<int>::iterator catUnique;
+    vector<string> extString;
+    string extName,catName,coursePathName,catPathName,courseName;
+    dbGetUserByName(username,id);
+    cout << "user ID is:  " << id << endl;
+    dbGetUserCourses(id,courses);
+    for (auto courseID: courses) {
+        //Create a Course object here
+        dbGetCourse(courseID, courseName, coursePathName);
+        cout << courseName << " - "<< "ID: " << courseID << endl;
+        dbGetUserPreferences(id, courseID, categories);
+        catUnique = std::unique(categories.begin(),categories.end());
+        categories.resize(std::distance(categories.begin(),catUnique));
+        for (auto categoryID: categories) {
+            dbGetPreference(categoryID,catName,catPathName);
+            cout << "    " << catName << " - "<< "ID: " << categoryID << endl;
+            cout << "       Path is: " << catPathName << endl;
+            dbGetUserExtensions(id, courseID, categoryID, extensions);
+            for (auto extensionID: extensions) {
+                dbGetExtensionName(extensionID, extName);
+                extString.push_back(extName);
+                cout << "           " << extName << " - "<< "ID: " << extensionID << endl;
+            }
+            //Create CourseCategoryObject here before clearing extString
+            extString.clear();
+            extensions.clear();
+        // Add courseCategoryObject to vector<CourseCategory>
+        }
+     // Add vector<CourseCategory> to Course object
+     // Add course object to vector<Courses>
+    categories.clear();
+    }
 }
 
 void MainWindow::on_pushButton_doneSubscribe_clicked()
