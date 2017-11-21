@@ -1112,7 +1112,6 @@ font-family: &quot;Times New Roman&quot; serif;
      <string>File</string>
     </property>
     <addaction name="actionExit"/>
-    <addaction name="actionHide_GUI"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
@@ -1127,7 +1126,7 @@ font-family: &quot;Times New Roman&quot; serif;
   <widget class="QStatusBar" name="statusBar"/>
   <action name="actionExit">
    <property name="text">
-    <string>Exit</string>
+    <string>Exit QNoteGet</string>
    </property>
   </action>
   <action name="actionHide_GUI">

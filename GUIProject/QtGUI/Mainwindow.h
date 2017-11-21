@@ -76,9 +76,9 @@ private slots:
 
     void on_button_getCredentials_clicked();
 
-    void on_actionHide_GUI_triggered();
-
     void quitApplication();
+
+    void on_actionExit_triggered();
 
 private:
     Ui::MainWindow *ui;

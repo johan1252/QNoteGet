@@ -12,6 +12,9 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     createTaskBarIcon();
 
+    //Set the application icon
+    QApplication::setWindowIcon(QIcon(":/newPrefix/appIcon.png"));
+
     ui->setupUi(this);
     ui->stackedWidget->setCurrentIndex(HOMEPAGE);
     setupDirectoryExplorer();
@@ -616,7 +619,8 @@ void MainWindow::populatePreDefineCourseObjects() {
     }
 }
 
-void MainWindow::on_actionHide_GUI_triggered()
+void MainWindow::on_actionExit_triggered()
 {
-    this->hide();
+    /* Use the function to fully quit the application, not just hide the application. */
+    quitApplication();
 }

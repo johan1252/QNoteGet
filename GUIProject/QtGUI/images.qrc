@@ -2,5 +2,6 @@
     <qresource prefix="/newPrefix">
         <file>copy.png</file>
         <file>trayIcon.png</file>
+        <file>appIcon.png</file>
     </qresource>
 </RCC>
