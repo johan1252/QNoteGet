@@ -1,5 +1,5 @@
 #include "Course.h"
-
+#include <QDebug>
 //Constructor
 Course::Course(string courseName, string rootUrl,vector<CourseCategory> categories) : courseName(courseName),rootUrl(rootUrl),categories(categories) {}
 
@@ -41,9 +41,14 @@ void Course::removeCategory(CourseCategory category) {
 // Marshall - I added this so I could remove a category in Mainwindow::courseCategorySaveButtonClicked using
 // the string name of the category,vs. instantiating a CourseCategory instance just to remove it
 void Course::removeCategory(string category){
-    for (int i = 0; i < categories.size(); i++){
+    for (unsigned long i = 0; i < categories.size(); i++){
         if (categories[i].getCategoryName() == category){
             categories.erase(categories.begin() + i);
+            qDebug() << "SUCCESS! REMOVED: " << QString::fromStdString(category);
+            qDebug() << "inside Course: " << QString::fromStdString(courseName);
+            for (unsigned long k = 0; k < categories.size(); k++){
+                qDebug() << "inside Course, categories @ k = " << k << " is: " << QString::fromStdString(categories[k].getCategoryName());
+            }
             break;
         }
     }

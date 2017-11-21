@@ -1,4 +1,5 @@
 #include "User.h"
+#include <QDebug>
 
 User::User(int userId, string uName,int pw,string directory,int interval, vector<Course> userCourses):userId(userId),username(uName),passwordHash(pw),fileDirectory(directory),updateInterval(interval),subscribedCourses(userCourses) {
 
@@ -32,7 +33,23 @@ void User::setUpdateInterval(int interval){
 }
 
 vector<Course>& User::getSubscribedCourses(){
+    //qDebug() << "******INSIDE USER OBJECT getSubscribedCourses for " << QString::fromStdString(username) << ", address of subscribed courses: " << &subscribedCourses;
+    //qDebug() << "****** and those courses are: ";
+    /*for (int i = 0; i < subscribedCourses.size(); i++){
+        qDebug() << "*********** " << QString::fromStdString(subscribedCourses[i].getCourseName()) << " and whose address is: " << &subscribedCourses[i];
+    }
+    */
     return subscribedCourses;
+}
+
+vector<Course*> * User::getSubscribedCoursesByPtr(){
+    vector<Course*> * coursePtrs = new vector<Course*>;
+    for (int i = 0; i < subscribedCourses.size(); i++){
+        Course * ptrToCourse = &subscribedCourses[i];
+        //qDebug() << "ptrToCourse points to course with memory address: " << &subscribedCourses[i];
+        coursePtrs->push_back(ptrToCourse);
+    }
+    return coursePtrs;
 }
 
 void User::setCourses(vector<Course> userCourses){
