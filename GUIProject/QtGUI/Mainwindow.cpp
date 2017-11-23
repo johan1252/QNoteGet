@@ -86,7 +86,6 @@ void MainWindow::on_pushButton_login_clicked()
         QMessageBox::critical(this, "Empty Fields",
                       "Please enter your username and password.");
     } else {
-        int passwordHashed = hashPassword(ui->lineEdit_loginPassword->text().toStdString());
         valid = validateUser(ui->lineEdit_loginUsername->text().toStdString(),ui->lineEdit_loginPassword->text().toStdString());
         if (valid){
 
