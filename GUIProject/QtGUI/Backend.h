@@ -20,6 +20,7 @@ public:
     static void downloadFilesForCourse(Course courseObject);
     static void daemonUpdateTask(int updateInterval);
     vector<string> getFilesAtUrl(CourseCategory categoryObject);
+    vector<string> getExtensionsAtUrl(CourseCategory categoryObject);
     vector<string> urlsVisited;
 private:
     bool urlValid(string newUrl);

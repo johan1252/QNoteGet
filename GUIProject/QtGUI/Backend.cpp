@@ -78,12 +78,12 @@ vector<string> Backend::getFilesAtUrl(CourseCategory categoryObject){
     strcpy(url, urlPath.c_str());
     //vector<string> fileExtensions = categoryObject.getExtensionPreferences();
     vector<string> fileExtensions;
-    fileExtensions.push_back(".pdf");
-    fileExtensions.push_back(".cpp");
-    fileExtensions.push_back(".zip");
-    fileExtensions.push_back(".txt");
-    fileExtensions.push_back(".pptx");
-    fileExtensions.push_back(".h");
+    fileExtensions.push_back(".pdf\"");
+    fileExtensions.push_back(".cpp\"");
+    fileExtensions.push_back(".zip\"");
+    fileExtensions.push_back(".txt\"");
+    fileExtensions.push_back(".pptx\"");
+    //fileExtensions.push_back(".h\"");
 
     CURL* curl;
     curl_global_init(CURL_GLOBAL_ALL);
@@ -98,11 +98,12 @@ vector<string> Backend::getFilesAtUrl(CourseCategory categoryObject){
     string line;
     while(getline(ss_init, line)){
         if (webpageError(curl,line)){
+            //TODO try authorized website
             break;
         }
     }
 
-    stringstream ss(data);
+    stringstream ss(data, ios_base::app | ios_base::in | ios_base::out);
     vector<string> allFiles, moreFiles;
 
 
@@ -110,45 +111,141 @@ vector<string> Backend::getFilesAtUrl(CourseCategory categoryObject){
         urlsVisited.push_back(url);
     }
 
-    while (getline(ss, line)){
-        if (line.find(".html\"") != -1){
-            unsigned first = line.find('"');
-            unsigned last = line.find(".html\"");
-            string newUrl(url);
-            newUrl.erase(newUrl.find_last_of("/"));
-            newUrl += "/" + line.substr(first+1, last-first+4);
-            if(urlValid(newUrl)){
-                urlsVisited.push_back(newUrl);
-                cout << url << endl;
-                cout << newUrl << endl;
-                //TODO call getFilesAtUrl with new URL
-                CourseCategory c = CourseCategory("intmUrl", newUrl, fileExtensions);
-                moreFiles = getFilesAtUrl(c);
-                allFiles.insert(allFiles.end(),moreFiles.begin(), moreFiles.end());
+    urlPath.erase(urlPath.find_last_of("/"));
+    vector<string> alltherest;
+    string therest;
+    while (getline(ss, line))  // for the initial scrape from the website
+    {
+        int begin = 0;
+        begin = line.find("<a href");
+        if (begin != -1){
+            int end1 = begin;
+            while (line[end1] != '.'){
+                end1++;
             }
-        }
-        for (int i = 0; i < (int)fileExtensions.size(); i++){
-            if (line.find(fileExtensions[i]+'"') != -1){
-                unsigned first = line.find('"');
-                unsigned last = line.find(fileExtensions[i]+'"');
-                string file = line.substr(first+1, last-first+(fileExtensions[i].length())-1);
-                allFiles.push_back(file);
-                cout << file << endl;
+            int end2 = end1;
+            while (line[end2] != '"'){
+                end2++;
             }
-        }
+            if ((end2 - end1) <= 5){
+                string newline = line.substr(begin, end2-begin);
+                therest = line.substr(end2, line.length()-end2);
+                alltherest.push_back(therest);
+                //cout << "Line: " << newline << endl;
+                for (auto e : fileExtensions){
+                    if (newline.find(e)){
+                        string file = urlPath + "/" + newline.substr(9,end2-begin-9); //+9 to get rid of <a href=" , -1 to get rid of "
+                        allFiles.push_back(file);
+                        cout << "File: " << file << endl;
+                        break;
+                     }
+                }
+            }
 
+            if (line.find(".html\"") != -1){
+                unsigned first = line.find('"');
+                unsigned last = line.find(".html\"");
+                string newUrl = urlPath + "/" + line.substr(first+1, last-first+4);
+                if(urlValid(newUrl)){
+                    //cout << "Recursive call" << endl;
+                    urlsVisited.push_back(newUrl);\
+                    CourseCategory c = CourseCategory("intmUrl", newUrl, fileExtensions);
+                    moreFiles = getFilesAtUrl(c);
+                    //cout << "End recursive call" << endl;
+                    allFiles.insert(allFiles.end(),moreFiles.begin(), moreFiles.end());
+                }
+            }
+        }
     }
 
     curl_easy_cleanup(curl);
     curl_global_cleanup();
 
-    for (auto i : allFiles){
-        cout << i << endl;
-    }
+    for (auto r : alltherest) //this goes through all the remainder substrings the files were taken from
+    {
+        int begin = 0;
+        begin = r.find("<a href");
+        if (begin != -1){
+            int end1 = begin;
+            while (r[end1] != '.'){
+                end1++;
+            }
+            int end2 = end1;
+            while (r[end2] != '"'){
+                end2++;
+            }
+            if ((end2 - end1) <= 5){
+                string newr = r.substr(begin, end2-begin);
+                therest = r.substr(end2, r.length()-end2);
+                alltherest.push_back(therest);
+                //cout << "r: " << newr << endl;
+                for (auto e : fileExtensions){
+                    if (newr.find(e)){
+                        string file = urlPath + "/" + newr.substr(9,end2-begin-9); //+9 to get rid of <a href=" , -1 to get rid of "
+                        allFiles.push_back(file);
+                        cout << "File: " << file << endl;
+                        break;
 
+                    }
+                }
+            }
+
+            if (r.find(".html\"") != -1){
+                unsigned first = r.find('"');
+                unsigned last = r.find(".html\"");
+                string newUrl = urlPath + "/" + r.substr(first+1, last-first+4);
+                if(urlValid(newUrl)){
+                    //cout << "Recursive call" << endl;
+                    urlsVisited.push_back(newUrl);\
+                    CourseCategory c = CourseCategory("intmUrl", newUrl, fileExtensions);
+                    moreFiles = getFilesAtUrl(c);
+                    //cout << "End recursive call" << endl;
+                    allFiles.insert(allFiles.end(),moreFiles.begin(), moreFiles.end());
+                }
+            }
+        }
+    }
     return allFiles;
 }
 
+/*vector<string> Backend::getExtensionsAtUrl(CourseCategory categoryObject){
+
+    string urlPath = categoryObject.getUrlPath();
+    vector<string> fileExtensions;
+    char url [100];
+    strcpy(url, urlPath.c_str());
+
+    CURL* curl;
+    curl_global_init(CURL_GLOBAL_ALL);
+    curl = curl_easy_init();
+    curl_easy_setopt(curl, CURLOPT_URL, url);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &writeCallback);
+    curl_easy_perform(curl);
+
+    int begin = 0;
+    begin = line.find("<a href");
+    if (begin != -1){
+        int end1 = begin;
+        while (line[end1] != '.'){
+            end1++;
+        }
+        int end2 = end1;
+        while (line[end2] != '"'){
+            end2++;
+        }
+        if ((end2 - end1) <= 5) {
+            string ext = line.substr(end1, end2-end1);
+            fileExtensions.push_back(ext);
+        }
+    }
+
+    for (auto i : fileExtensions){
+        cout << i << endl;
+    }
+
+    return fileExtensions;
+}
+*/
 bool Backend::urlValid(string newUrl){
     if (find(urlsVisited.begin(), urlsVisited.end(), newUrl) == urlsVisited.end()){
        string fullUrl = newUrl + '/';
