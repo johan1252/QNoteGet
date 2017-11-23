@@ -62,7 +62,7 @@ bool webpageError(CURL *curl, string line){
 
 void curlAtUrl(CURL* curl, string url){
 
-    curl_easy_setopt(curl, CURLOPT_URL, url);
+    curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &writeCallback);
 
     curl_easy_perform(curl);
