@@ -26,8 +26,8 @@ int dbCreatePreference(int courseId, const std::string& name,const std::string& 
 }
 
 //given a courseId you get a vector of preferenceIds
-bool dbGetPreferenceIds(int courseId,std::vector<int> preferences){
-    std::string statement = "SELECT * FROM PREFERENCES WHERE courseid='" + std::to_string(courseId) + "'";
+bool dbGetPreferenceIds(int courseId,std::vector<int>& preferences){
+    std::string statement = "SELECT * FROM PREFERENCES WHERE courseid=" + std::to_string(courseId) + ";";
     pqxx::result R = dbExecuteReturn(statement);
     if (R.empty()) {
             return false;
@@ -40,11 +40,11 @@ bool dbGetPreferenceIds(int courseId,std::vector<int> preferences){
         pid = stoi(id.str());
         preferences.push_back(pid);
     }
-    return R.empty();
+    return true;
 }
 
 bool dbGetPreference(int id,std::string& name,std::string& path) {
-    std::string statement = "SELECT * FROM PREFERENCES WHERE ID=" + std::to_string(id);
+    std::string statement = "SELECT * FROM PREFERENCES WHERE ID=" + std::to_string(id) + ";";
     pqxx::result R = dbExecuteReturn(statement);
     if (R.empty()) {
             return false;

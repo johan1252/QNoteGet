@@ -3,6 +3,7 @@
 #include <QMainWindow>
 #include <QListWidgetItem>
 #include <QFileSystemModel>
+#include <QSystemTrayIcon>
 #include <QFileDialog>
 #include <QtCore>
 #include <QtGui>
@@ -11,6 +12,7 @@
 #include <QDesktopServices>
 #include <vector>
 #include <string>
+#include <algorithm>
 
 #include "Database/dbDatabase.h"
 #include "User.h"
@@ -40,6 +42,11 @@ public:
     ~MainWindow();
 
     void populatePreDefineCourseObjects();
+    void populateGlobalUserOnLogin(string username);
+
+protected:
+    /* override application close */
+    void closeEvent(QCloseEvent * event);
 
 private slots:
 
@@ -59,11 +66,19 @@ private slots:
 
     void on_listView_courseFiles_doubleClicked(const QModelIndex &index);
 
-    void displayApplicableCourseTabs(User userObj);
+    void displayApplicableCourseTabs();
 
     void displayCategoriesForCourse(Course courseObj, int index);
 
+    void repopulateUserSubs();
+
+    void clearCourseTabs();
+
     void on_saveButton_Cisc320_clicked();
+
+    void on_saveButton_Elec451_clicked();
+
+    void on_saveButton_Cisc124_clicked();
 
     void on_pushButton_clicked();
 
@@ -71,20 +86,35 @@ private slots:
 
     void on_button_getCredentials_clicked();
 
+    void quitApplication();
+
+    void on_actionExit_triggered();
+
 private:
     Ui::MainWindow *ui;
+
+    QSystemTrayIcon *trayIcon;
+    QMenu *trayMenu;
+
     QFileSystemModel * dirModel;
     QFileSystemModel * fileModel;
     vector<Course> preDefinedCourses;
+    User currentUserG;
+    bool editsMade; //for use with editSubscriptions button
+    vector<Course> * beforeSubs = nullptr;
 
     void setupDirectoryExplorer();
+    void createTaskBarIcon();
     bool validateUser(string username, string password); //unhash and check PW
     int hashPassword(string password);
     bool createUser(string username, int password,string path, int interval, vector<Course> userCourses);
     Course createCourse(string courseName, string rootUrl, vector<CourseCategory> categorie);
     vector<Course> createUserCourseObjects();
     //void courseCategorySaveButtonClicked(int courseTabId);
-    void courseCategorySaveButtonClicked(User userObj, int courseTabId);
+    void courseCategorySaveButtonClicked(int courseTabId);
+    void compareEditedSubscriptions();
+    void tellMeCurrentUserGsCISC320Categories();
+
 };
 
 

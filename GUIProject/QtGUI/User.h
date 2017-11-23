@@ -20,6 +20,7 @@ public:
         string getFileDirectory();
         int getUpdateInterval();
         vector<Course>& getSubscribedCourses();
+        vector<Course*> * getSubscribedCoursesByPtr();
         void setPassword(int pw);
         void setUpdateInterval(int interval);
         void setCourses(vector<Course> userCourses);
