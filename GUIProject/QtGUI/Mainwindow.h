@@ -18,6 +18,7 @@
 #include "User.h"
 #include "Course.h"
 #include "Credentials.h"
+#include "boost/functional/hash.hpp"
 
 using namespace std;
 
