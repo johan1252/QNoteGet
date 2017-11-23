@@ -1,7 +1,9 @@
 #pragma once
 #include <string>
 #include <vector>
-
+#include <sstream>
+#include <iostream>
+#include <cmath>
 
 class CourseCategory;
 
