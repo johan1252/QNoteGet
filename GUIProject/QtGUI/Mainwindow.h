@@ -42,7 +42,7 @@ public:
     ~MainWindow();
 
     void populatePreDefineCourseObjects();
-    void populateGlobalUserOnLogin(string username);
+    void populateGlobalUserOnLogin(string username,int pass, string path, int interval);
 
 protected:
     /* override application close */
@@ -89,6 +89,8 @@ private slots:
     void quitApplication();
 
     void on_actionExit_triggered();
+
+    void on_pushButton_saveAccount_clicked();
 
 private:
     Ui::MainWindow *ui;
