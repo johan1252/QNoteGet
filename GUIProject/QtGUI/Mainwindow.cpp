@@ -86,6 +86,7 @@ void MainWindow::on_pushButton_login_clicked()
         QMessageBox::critical(this, "Empty Fields",
                       "Please enter your username and password.");
     } else {
+        int passwordHashed = hashPassword(ui->lineEdit_loginPassword->text().toStdString());
         valid = validateUser(ui->lineEdit_loginUsername->text().toStdString(),ui->lineEdit_loginPassword->text().toStdString());
         if (valid){
 
@@ -225,7 +226,9 @@ void MainWindow::on_pushButton_doneSignUp_clicked()
  * Function to hash a user's password before being passed to User object.
  */
 int MainWindow::hashPassword(string password) {
-    std::size_t str_password_hash = std::hash<std::string>{}(password);
+    //Use boost::hash over std::hash, as boost::hash is the same on MAC vs LINUX gcc.
+    boost::hash<std::string> string_hash;
+    std::size_t str_password_hash = string_hash(password);
     return str_password_hash;
 }
 
