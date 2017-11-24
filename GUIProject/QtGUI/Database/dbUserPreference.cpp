@@ -9,6 +9,7 @@
 #include <ostream>
 #include <vector>
 #include "dbUserPreference.h"
+#include <QDebug>
 
 //creates a UserPreference and returns their id
 int dbCreateUserPreference(int userId, int courseId, int preferenceId, int extensionId){
@@ -136,7 +137,7 @@ bool dbDeleteUserCategoryPreference(const int userId, const int courseId, const 
             }
         }
     }
-
+    qDebug() << "INSIDE dbUserPreference, statement is: " << QString::fromStdString(statement);
     return dbExecute(statement);
 }
 
