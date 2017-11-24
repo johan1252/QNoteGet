@@ -37,8 +37,8 @@ void Backend::daemonUpdateTask(int updateInterval) {
 
 
 
-size_t writeCallback(char* buf,size_t size, size_t nmemb, void* up){
-    for (int c =0; c<size*nmemb; c++){
+size_t writeCallback(char* buf,size_t size, size_t nmemb){
+    for (size_t c =0; c<size*nmemb; c++){
         data.push_back(buf[c]);
         //cout<< buf[c];
     }
@@ -141,11 +141,11 @@ vector<string> Backend::getFilesAtUrl(CourseCategory categoryObject){
                  }
             }
 
-            if (line.find("drive.google.com") != -1){
+            if (line.find("drive.google.com") != string::npos){
                 string file = line.substr(begin+9,end-begin-10);
                 allFiles.push_back(file);
             }
-            if (line.find(".html\"") != -1){
+            if (line.find(".html\"") != string::npos){
                 unsigned first = line.find('"');
                 unsigned last = line.find(".html\"");
                 string newUrl = urlPath + "/" + line.substr(first+1, last-first+4);
@@ -189,12 +189,11 @@ vector<string> Backend::getFilesAtUrl(CourseCategory categoryObject){
                 }
             }
 
-            if (line.find("drive.google.com") != -1){
+            if (line.find("drive.google.com") != string::npos){
                 string file = r.substr(begin+9,end-begin-10);
                 allFiles.push_back(file);
             }
-
-            if (r.find(".html\"") != -1){
+            if (r.find(".html\"") != string::npos){
                 unsigned first = r.find('"');
                 unsigned last = r.find(".html\"");
                 string newUrl = urlPath + "/" + r.substr(first+1, last-first+4);
@@ -279,7 +278,7 @@ bool Backend::urlValid(string newUrl){
     if (find(urlsVisited.begin(), urlsVisited.end(), newUrl) == urlsVisited.end()){
        string fullUrl = newUrl + '/';
        if (find(urlsVisited.begin(), urlsVisited.end(), fullUrl) == urlsVisited.end()){
-           if(fullUrl.find("/#") == -1){
+           if(fullUrl.find("/#") == string::npos){
                return true;
            }
        }

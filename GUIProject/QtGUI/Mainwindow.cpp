@@ -22,7 +22,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
     ui->stackedWidget->setCurrentIndex(HOMEPAGE);
-    setupDirectoryExplorer();
     editsMade = false; //for use with editSubscriptions button
 }
 
@@ -96,6 +95,8 @@ void MainWindow::on_pushButton_login_clicked()
             populateGlobalUserOnLogin(ui->lineEdit_loginUsername->text().toStdString(),dbPassword,dbPath,dbInterval);
             if( currentIndex < ui->stackedWidget->count())
             {
+                // Can only setup directory explorer once we have global user object.
+                setupDirectoryExplorer();
                 ui->stackedWidget->setCurrentIndex(YOURCLASSESPAGE);
             }
         } else {
@@ -235,7 +236,9 @@ void MainWindow::on_pushButton_doneSignUp_clicked()
  * Function to hash a user's password before being passed to User object.
  */
 int MainWindow::hashPassword(string password) {
-    std::size_t str_password_hash = std::hash<std::string>{}(password);
+    //Use boost::hash over std::hash, as boost::hash is the same on MAC vs LINUX gcc.
+    boost::hash<std::string> string_hash;
+    std::size_t str_password_hash = string_hash(password);
     return str_password_hash;
 }
 
@@ -459,7 +462,7 @@ void MainWindow::repopulateUserSubs(){
     vector<CourseCategory> currentUserGsCISC320Subs = subscriptions[0].getCategories();
     qDebug() << "sizeOf currentUserGsCISC320Subs is: " << currentUserGsCISC320Subs.size();
     qDebug() << "In repopulateUserSubs: \nCISC 320 Categories are: ";
-    for (int i = 0; i < currentUserGsCISC320Subs.size(); i++){
+    for (size_t i = 0; i < currentUserGsCISC320Subs.size(); i++){
         qDebug() << QString::fromStdString(currentUserGsCISC320Subs[i].getCategoryName());
     }
 
@@ -477,7 +480,7 @@ void MainWindow::repopulateUserSubs(){
         }
         */
 
-        for (unsigned long j = 0; j < ui->tabWidget->count(); j++){
+        for (int j = 0; j < ui->tabWidget->count(); j++){
             ui->tabWidget->setCurrentIndex(j);
 
             //Find the corresponding course tab by matching tab_CourseName to CourseName with substring Course name
@@ -503,7 +506,7 @@ void MainWindow::repopulateUserSubs(){
                 // Go through the users CourseCategories, match them to the category group boxes
                 for (unsigned long k = 0; k < cats.size(); k++){
                     //qDebug() << "k:  cat[k] is: " << QString::fromStdString(cats[k].getCategoryName());
-                    for (unsigned long l = 0; l < catGroupBoxes.size(); l++){
+                    for (int l = 0; l < catGroupBoxes.size(); l++){
                         //qDebug() << "catGroupBox size is: " << catGroupBoxes.size();
                         //qDebug() << "      l:  catGroupBox[l] is: " << catGroupBoxes[l]->title();
                         //qDebug() << "          and here, cat[k] is: " << QString::fromStdString(cats[k].getCategoryName());
@@ -518,7 +521,7 @@ void MainWindow::repopulateUserSubs(){
                             vector<string> userExtensions = cats[k].getExtensionPreferences();
 
                             for (unsigned long m = 0; m < userExtensions.size(); m++){
-                                for (unsigned long n = 0; n < extensionBoxes.size(); n++){
+                                for (int n = 0; n < extensionBoxes.size(); n++){
                                     if (QString::fromStdString(userExtensions[m]) == extensionBoxes[n]->objectName()){
                                         extensionBoxes[n]->setChecked(true);
                                         break; //break statements make everything better
@@ -771,7 +774,7 @@ vector<Course> theCors = currentUserG.getSubscribedCourses();
 vector<CourseCategory> theCats = theCors[0].getCategories();
 qDebug() << "theCats.size is: " << theCats.size();
 
-for (int i = 0; i < theCats.size(); i++){
+for (size_t i = 0; i < theCats.size(); i++){
     qDebug() << QString::fromStdString(theCats[i].getCategoryName());
 }
 
