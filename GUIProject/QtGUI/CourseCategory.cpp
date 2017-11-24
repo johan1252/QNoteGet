@@ -1,10 +1,3 @@
-#include <string>
-#include <sstream>
-#include <iostream>
-#include <cmath>
-
-using namespace std;
-
 #include "CourseCategory.h"
 
 CourseCategory::CourseCategory(string categoryName, string urlPath, vector<string> fileExtensions) : categoryName(categoryName),urlPath(urlPath),fileExtensions(fileExtensions)  {}

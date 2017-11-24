@@ -83,6 +83,8 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButton_login_clicked()
 {
     bool valid = false;
+    int dbPassword,dbInterval;
+    string dbPath;
     currentIndex = ui->stackedWidget->currentIndex();
     if((ui->lineEdit_loginUsername->text().isEmpty()) ||(ui->lineEdit_loginPassword->text().isEmpty()))
     {
@@ -91,9 +93,10 @@ void MainWindow::on_pushButton_login_clicked()
     } else {
         valid = validateUser(ui->lineEdit_loginUsername->text().toStdString(),ui->lineEdit_loginPassword->text().toStdString());
         if (valid){
-
-            //populateGlobalUserOnLogin(ui->lineEdit_loginUsername->text().toStdString());
-
+            //Determine user password, path and update interval with passing by reference
+            dbGetUserWithUsername(ui->lineEdit_loginUsername->text().toStdString(),dbPassword,dbPath,dbInterval);
+            //Populate the global user object
+            populateGlobalUserOnLogin(ui->lineEdit_loginUsername->text().toStdString(),dbPassword,dbPath,dbInterval);
             if( currentIndex < ui->stackedWidget->count())
             {
                 ui->stackedWidget->setCurrentIndex(YOURCLASSESPAGE);
@@ -103,48 +106,55 @@ void MainWindow::on_pushButton_login_clicked()
                           "No account was found with these credentials. Try Again.");
         }
     }
-
-
 }
 
 // The following function fetches all of the information about an existing users subscription
 // This will allow the global User object to be populated with the correct vector<Courses>
-void MainWindow::populateGlobalUserOnLogin(string username){
-    //dbCreateUserPreference(104, 1, 3, 8);
-    int id;
+void MainWindow::populateGlobalUserOnLogin(string username,int pass, string path, int interval){
+    int userId;
     vector<int> courses,categories,extensions;
     vector<int>::iterator catUnique;
     vector<string> extString;
     string extName,catName,coursePathName,catPathName,courseName;
-    dbGetUserByName(username,id);
-    cout << "user ID is:  " << id << endl;
-    dbGetUserCourses(id,courses);
+    vector<CourseCategory> courseCat;
+    vector<Course> coursesVec;
+
+    dbGetUserByName(username,userId); // Get the user id from db
+    dbGetUserCourses(userId,courses); //Determine all the courses user "id" subscribes to
+    //Iterate through each course the user subscribed to
     for (auto courseID: courses) {
         //Create a Course object here
         dbGetCourse(courseID, courseName, coursePathName);
-        cout << courseName << " - "<< "ID: " << courseID << endl;
-        dbGetUserPreferences(id, courseID, categories);
+        dbGetUserPreferences(userId, courseID, categories);
+        //Determine all unique categories the user subscribes to and resize "categories" vector
         catUnique = std::unique(categories.begin(),categories.end());
         categories.resize(std::distance(categories.begin(),catUnique));
+        //Iterate through each of the unique categories the user subscribed to for one course (courseID)
         for (auto categoryID: categories) {
             dbGetPreference(categoryID,catName,catPathName);
-            cout << "    " << catName << " - "<< "ID: " << categoryID << endl;
-            cout << "       Path is: " << catPathName << endl;
-            dbGetUserExtensions(id, courseID, categoryID, extensions);
+            dbGetUserExtensions(userId, courseID, categoryID, extensions);
+            //Iterate through all the extensions the user subscribed to for one category (categoryID)
             for (auto extensionID: extensions) {
                 dbGetExtensionName(extensionID, extName);
-                extString.push_back(extName);
-                cout << "           " << extName << " - "<< "ID: " << extensionID << endl;
+                extString.push_back(extName); //Add the extension string
             }
-            //Create CourseCategoryObject here before clearing extString
+            //Create CourseCategory object
+            CourseCategory cc = CourseCategory(catName, catPathName, extString);
+            // Add courseCategory object to vector<CourseCategory>
+            courseCat.push_back(cc);
+            //Clear the vector of extension strings and vector<int> of extensions which are passed by reference each
+            //iteration
             extString.clear();
             extensions.clear();
-        // Add courseCategoryObject to vector<CourseCategory>
         }
-     // Add vector<CourseCategory> to Course object
-     // Add course object to vector<Courses>
-    categories.clear();
+        //Create Course object once CourseCategory objects for that course have been populated
+        Course course = Course(courseName,coursePathName,courseCat);
+        coursesVec.push_back(course);
+        // Clear categories vector which is passed by reference each iteration
+        categories.clear();
     }
+    //Set global user
+    currentUserG = User(userId,username,pass,path,interval,coursesVec);
 }
 
 void MainWindow::on_pushButton_doneSubscribe_clicked()
@@ -228,7 +238,9 @@ void MainWindow::on_pushButton_doneSignUp_clicked()
  * Function to hash a user's password before being passed to User object.
  */
 int MainWindow::hashPassword(string password) {
-    std::size_t str_password_hash = std::hash<std::string>{}(password);
+    //Use boost::hash over std::hash, as boost::hash is the same on MAC vs LINUX gcc.
+    boost::hash<std::string> string_hash;
+    std::size_t str_password_hash = string_hash(password);
     return str_password_hash;
 }
 
