@@ -15,5 +15,6 @@ int dbCreateExtension(const std::string& name);
 bool dbDeleteExtension(int id);
 bool dbDeleteExtensionByName(const std::string& name);
 bool dbGetExtensionName(int id, std::string& name);
+bool dbGetExtensionID(int& id, const std::string& name);
 
 #endif /* EXTENSION_H_ */
