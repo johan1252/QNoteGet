@@ -45,26 +45,38 @@ size_t writeCallback(char* buf,size_t size, size_t nmemb){
     return size*nmemb;
 }
 
-bool webpageError(CURL *curl, string line){
+bool Backend::webpageError(CURL* curl, string line, string url){
     if (line.find("401 Authorization Required") != -1){
-        //TODO Try Website with Authorization
-        return true;
-    }
-    else if (line.find("301 Moved Permanently") != -1 ){
-        data="";
+        data = "";
+        string username = "elec451";
+        string password = "cmos2017";
+
+        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+        curl_easy_setopt(curl, CURLOPT_HTTPAUTH, (long)CURLAUTH_BASIC);
+        curl_easy_setopt(curl, CURLOPT_USERNAME, username.c_str());
+        curl_easy_setopt(curl, CURLOPT_PASSWORD, password.c_str());
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &writeCallback);
+        curl_easy_perform(curl);
 
         return true;
     }
-    else {
-        return false;
+    if (line.find("301 Moved Permanently") != -1 ){
+        data="";
+        auto at = find(urlsVisited.begin(), urlsVisited.end(), url);
+        if (at != urlsVisited.end()){
+            urlsVisited.erase(at);
+        }
+        curlAtUrl(curl, url);
+        return true;
     }
+    return false;
+
 }
 
-void curlAtUrl(CURL* curl, string url){
+void Backend::curlAtUrl(CURL* curl, string url){
 
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &writeCallback);
-
     curl_easy_perform(curl);
 }
 
@@ -72,76 +84,67 @@ void curlAtUrl(CURL* curl, string url){
 
 vector<string> Backend::getFilesAtUrl(CourseCategory categoryObject){
 
-    data = ""; //do I need a copy constructor? overload the assignment operator?
+    data = "";
     string urlPath = categoryObject.getUrlPath(); //a set url from the database
-    char url [100];
-    strcpy(url, urlPath.c_str());
-    //vector<string> fileExtensions = categoryObject.getExtensionPreferences();
-    vector<string> fileExtensions;
-    fileExtensions.push_back(".pdf\"");
-    fileExtensions.push_back(".cpp\"");
-    fileExtensions.push_back(".zip\"");
-    fileExtensions.push_back(".txt\"");
-    fileExtensions.push_back(".pptx\"");
-    //fileExtensions.push_back(".h\"");
+
+    vector<string> fileExtensions = categoryObject.getExtensionPreferences();
 
     CURL* curl;
     curl_global_init(CURL_GLOBAL_ALL);
     curl = curl_easy_init();
 
-    curl_easy_setopt(curl, CURLOPT_URL, url);
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &writeCallback);
-    //curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
-    curl_easy_perform(curl);
+    curlAtUrl(curl, urlPath);
 
     stringstream ss_init(data);
     string line;
     while(getline(ss_init, line)){
-        if (webpageError(curl,line)){
-            //TODO try authorized website
+        if (webpageError(curl,line,urlPath)) //error handler
+        {
             break;
         }
     }
 
-    stringstream ss(data, ios_base::app | ios_base::in | ios_base::out);
+    stringstream ss(data);
     vector<string> allFiles, moreFiles;
 
 
-    if (find(urlsVisited.begin(), urlsVisited.end(), url) == urlsVisited.end()){ //puts the root url
-        urlsVisited.push_back(url);
+    if (find(urlsVisited.begin(), urlsVisited.end(), urlPath) == urlsVisited.end()){ //puts the root url
+        urlsVisited.push_back(urlPath);
     }
 
     urlPath.erase(urlPath.find_last_of("/"));
+    //cout << urlPath << endl;
     vector<string> alltherest;
-    string therest;
     while (getline(ss, line))  // for the initial scrape from the website
     {
-        int begin = 0;
-        begin = line.find("<a href");
+        std::transform(line.begin(), line.end(), line.begin(), ::tolower);
+        int begin = line.find("<a href=\"");
         if (begin != -1){
-            int end1 = begin;
-            while (line[end1] != '.'){
-                end1++;
+
+            int end = begin+9;
+            while (line[end] != '"'){
+                end++;
             }
-            int end2 = end1;
-            while (line[end2] != '"'){
-                end2++;
-            }
-            if ((end2 - end1) <= 5){
-                string newline = line.substr(begin, end2-begin);
-                therest = line.substr(end2, line.length()-end2);
-                alltherest.push_back(therest);
-                //cout << "Line: " << newline << endl;
-                for (auto e : fileExtensions){
-                    if (newline.find(e)){
-                        string file = urlPath + "/" + newline.substr(9,end2-begin-9); //+9 to get rid of <a href=" , -1 to get rid of "
-                        allFiles.push_back(file);
-                        cout << "File: " << file << endl;
-                        break;
-                     }
-                }
+            end++; //advance one past the end quote
+
+            string newline = line.substr(begin, end-begin);
+            string therest = line.substr(end, line.length()-end);
+            alltherest.push_back(therest);
+            //cout << "Line: " << newline << endl;
+            for (auto e : fileExtensions){
+                //cout << e << endl;
+                if (newline.find(e) != -1){
+                    string file = urlPath + "/" + newline.substr(9,end-begin-10); //start at 9 to get rid of <a href=" ,length is the end - the beginning - 9 - 1 to elimnate the end quote
+                    allFiles.push_back(file);
+                    //cout << "File: " << file << endl;
+                    break;
+                 }
             }
 
+            if (line.find("drive.google.com") != string::npos){
+                string file = line.substr(begin+9,end-begin-10);
+                allFiles.push_back(file);
+            }
             if (line.find(".html\"") != string::npos){
                 unsigned first = line.find('"');
                 unsigned last = line.find(".html\"");
@@ -155,6 +158,7 @@ vector<string> Backend::getFilesAtUrl(CourseCategory categoryObject){
                     allFiles.insert(allFiles.end(),moreFiles.begin(), moreFiles.end());
                 }
             }
+
         }
     }
 
@@ -163,33 +167,32 @@ vector<string> Backend::getFilesAtUrl(CourseCategory categoryObject){
 
     for (auto r : alltherest) //this goes through all the remainder substrings the files were taken from
     {
-        int begin = 0;
-        begin = r.find("<a href");
+        int begin = r.find("<a href=\"");
         if (begin != -1){
-            int end1 = begin;
-            while (r[end1] != '.'){
-                end1++;
+            int end = begin+9;
+            while (r[end] != '"'){
+                end++;
             }
-            int end2 = end1;
-            while (r[end2] != '"'){
-                end2++;
-            }
-            if ((end2 - end1) <= 5){
-                string newr = r.substr(begin, end2-begin);
-                therest = r.substr(end2, r.length()-end2);
-                alltherest.push_back(therest);
-                //cout << "r: " << newr << endl;
-                for (auto e : fileExtensions){
-                    if (newr.find(e)){
-                        string file = urlPath + "/" + newr.substr(9,end2-begin-9); //+9 to get rid of <a href=" , -1 to get rid of "
-                        allFiles.push_back(file);
-                        cout << "File: " << file << endl;
-                        break;
+            end++; //advance to include the end quote
 
-                    }
+            string newr = r.substr(begin, end-begin);
+            string therest = r.substr(end, r.length()-end);
+            alltherest.push_back(therest);
+            //cout << "r: " << newr << endl;
+            for (auto e : fileExtensions){
+                if (newr.find(e) != -1){
+                    string file = urlPath + "/" + newr.substr(9,end-begin-10);
+                    allFiles.push_back(file);
+                    //cout << "File: " << file << endl;
+                    break;
+
                 }
             }
 
+            if (line.find("drive.google.com") != string::npos){
+                string file = r.substr(begin+9,end-begin-10);
+                allFiles.push_back(file);
+            }
             if (r.find(".html\"") != string::npos){
                 unsigned first = r.find('"');
                 unsigned last = r.find(".html\"");
@@ -208,44 +211,69 @@ vector<string> Backend::getFilesAtUrl(CourseCategory categoryObject){
     return allFiles;
 }
 
-/*vector<string> Backend::getExtensionsAtUrl(CourseCategory categoryObject){
+vector<string> Backend::getExtensionsAtUrl(CourseCategory categoryObject){
 
+    data = "";
     string urlPath = categoryObject.getUrlPath();
-    vector<string> fileExtensions;
-    char url [100];
-    strcpy(url, urlPath.c_str());
 
     CURL* curl;
     curl_global_init(CURL_GLOBAL_ALL);
     curl = curl_easy_init();
-    curl_easy_setopt(curl, CURLOPT_URL, url);
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &writeCallback);
-    curl_easy_perform(curl);
 
-    int begin = 0;
-    begin = line.find("<a href");
-    if (begin != -1){
-        int end1 = begin;
-        while (line[end1] != '.'){
-            end1++;
-        }
-        int end2 = end1;
-        while (line[end2] != '"'){
-            end2++;
-        }
-        if ((end2 - end1) <= 5) {
-            string ext = line.substr(end1, end2-end1);
-            fileExtensions.push_back(ext);
+    curlAtUrl(curl, urlPath);
+
+    stringstream ss_init(data);
+    string line;
+    while(getline(ss_init, line)){
+        if (webpageError(curl,line,urlPath)) //error handler
+        {
+            break;
         }
     }
 
-    for (auto i : fileExtensions){
-        cout << i << endl;
+    urlPath.erase(urlPath.find_last_of("/"));
+    vector<string> recursiveExt;
+    stringstream ss(data);
+
+    while (getline (ss, line)){
+
+        if (line.find("<a href=\"") != -1){
+            int end1 = line.find_last_of('.');
+            int end2 = end1;
+            while (line[end2] != '"'){
+                end2++;
+            }
+            end2++; //to advance past the endquote (we want to include it)
+            if ((end2 - end1) <= 6) {
+                string ext = line.substr(end1, end2-end1);
+                if (find(fileExt.begin(), fileExt.end(), ext) == fileExt.end() && (ext != ".html\"" || ext != ".htm\\")) {
+                    fileExt.push_back(ext);
+                    //cout << ext << endl;
+                }
+            }
+        }
+        if (line.find(".html\"") != -1){
+            unsigned first = line.find('"');
+            unsigned last = line.find(".html\"");
+            string newUrl = urlPath + "/" + line.substr(first+1, last-first+4);
+            if(urlValid(newUrl)){
+                //cout << "Recursive call" << endl;
+                urlsVisited.push_back(newUrl);\
+                CourseCategory c = CourseCategory("intmUrl", newUrl, fileExt);
+                recursiveExt = getExtensionsAtUrl(c);
+                //cout << "End recursive call" << endl;
+                fileExt.insert(fileExt.end(),recursiveExt.begin(), recursiveExt.end());
+            }
+        }
     }
 
+    curl_easy_cleanup(curl);
+    curl_global_cleanup();
+
+    vector<string> fileExtensions = fileExt;
     return fileExtensions;
 }
-*/
+
 bool Backend::urlValid(string newUrl){
     if (find(urlsVisited.begin(), urlsVisited.end(), newUrl) == urlsVisited.end()){
        string fullUrl = newUrl + '/';
@@ -259,13 +287,18 @@ bool Backend::urlValid(string newUrl){
 }
 
 //TODO downloadFilesInUrl, can use CourseScraper methods as example but use better structure.
-//void Backend::downloadFilesInUrl(CourseCategory categoryObject);
+/*void Backend::downloadFilesInUrl(CourseCategory categoryObject){
+     vector<string> fileUrls = getFilesAtUrl(categoryObject);
+    for (auto f : fileUrls){
+       // downloadFile(f, currentUserG,?, categoryObject); //some course object,??
+    }
+}*/
 
 // Note: fileUrl should contain file name with extension.
 void Backend::downloadFile(string fileUrl, User userObject, Course courseObject, CourseCategory courseCategoryObject) {
     const string dirPathRoot = userObject.getFileDirectory();
     string dirPath = dirPathRoot + "/" + courseObject.getRootUrl() + "/" + courseCategoryObject.getCategoryName();
-
+    //string dirPath = dirPathRoot + "/" + courseObject.getCourseName() + "/" + courseCategoryObject.getCategoryName();
     //Test path
     //string dirPath = "/Users/johancornelissen/Desktop/CISC320/Lectures";
 
