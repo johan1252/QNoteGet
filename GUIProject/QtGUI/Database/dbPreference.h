@@ -19,7 +19,6 @@
 
 int dbCreatePreference(int courseId, const std::string& name,const std::string& path);
 bool dbGetPreferenceIds(int courseId,std::vector<int>& preferences); //given a courseId you get a vector of preferenceIds
-bool dbGetPreferenceIdByName(const int courseId, const std::string& prefName, int& prefId);
 bool dbGetPreference(int id,std::string& name,std::string& path); //given a preferenceId you can get the name/path
 bool dbDeletePreference(int id);
 

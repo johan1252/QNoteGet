@@ -7,7 +7,6 @@
 
 #include <pqxx/pqxx>
 #include <ostream>
-#include <vector>
 #include "dbUserPreference.h"
 
 //creates a UserPreference and returns their id
@@ -26,51 +25,8 @@ int dbCreateUserPreference(int userId, int courseId, int preferenceId, int exten
     return stoi(userPreferenceId.str());
 }
 
-std::vector<int> dbCreateMultipleUserPreferences(int userId, int courseId, int preferenceId, std::vector<int> extensionsIds){
-    std::vector<int> userPrefIds;
-    if (extensionsIds.size() == 0){
-        userPrefIds.push_back(-1);
-        return userPrefIds;
-    }
 
-    std::string statement = "INSERT INTO USERPREFERENCES(USERID, COURSEID, PREFERENCEID, EXTENSIONID)";
-
-    if(extensionsIds.size() == 1){
-        statement += " VALUES ('" + std::to_string(userId) + "', '" + std::to_string(courseId) + "', '" +
-                std::to_string(preferenceId) + "', '" + std::to_string(extensionsIds[0]) + "') RETURNING ID;";
-    }
-    else{
-        statement += "VALUES ";
-        for (int i = 0; i < extensionsIds.size(); i++){
-            if (i == extensionsIds.size() - 1){
-                statement += "('" + std::to_string(userId) + "', '" + std::to_string(courseId) + "', '" +
-                        std::to_string(preferenceId) + "', '" + std::to_string(extensionsIds[0]) + "') RETURNING ID;";
-            }
-            else{
-                 statement += "('" + std::to_string(userId) + "', '" + std::to_string(courseId) + "', '" +
-                        std::to_string(preferenceId) + "', '" + std::to_string(extensionsIds[0]) + "'), ";
-            }
-        }
-    }
-
-    pqxx::result R = dbExecuteReturn(statement);
-    if (R.empty()){
-        userPrefIds.push_back(-1);
-        return userPrefIds;
-    }
-    pqxx::result::size_type i = 0;
-    std::stringstream sid;
-    int id;
-    for (; i < R.size(); ++i){
-        sid << R[i][0];
-        id = std::stoi(sid.str());
-        userPrefIds.push_back(id);
-    }
-    return userPrefIds;
-
-}
-
-bool dbGetUserPreferences(int userId, const int& courseId, std::vector<int>& preferences) {
+bool dbGetUserPreferences(int userId, int& courseId, std::vector<int>& preferences) {
     std::string statement = "SELECT PREFERENCEID FROM USERPREFERENCES";
     std::string sql = statement + " WHERE COURSEID= '" + std::to_string(courseId) + "'AND USERID= '" + std::to_string(userId) + "'" + ";";
     pqxx::result R = dbExecuteReturn(sql);
@@ -88,7 +44,7 @@ bool dbGetUserPreferences(int userId, const int& courseId, std::vector<int>& pre
     return true;
 }
 
-bool dbGetUserExtensions(int userId, const int& courseId, int& preferenceId, std::vector<int>& extensions) {
+bool dbGetUserExtensions(int userId, int& courseId, int& preferenceId, std::vector<int>& extensions) {
     std::string statement = "SELECT EXTENSIONID FROM USERPREFERENCES";
     std::string sql = statement + " WHERE COURSEID= '" + std::to_string(courseId) + "'AND USERID= '" + std::to_string(userId) + "'AND PREFERENCEID= '" + std::to_string(preferenceId) + "'" + ";";
     pqxx::result R = dbExecuteReturn(sql);
@@ -115,54 +71,6 @@ bool dbDeleteUserPreference(int id) {
     return dbExecute(statement);
 }
 
-bool dbDeleteUserCategoryPreference(const int userId, const int courseId, const std::vector<int> idsToDelete){
-    std::string beg = "DELETE FROM USERPREFERENCES ";
-    std::string statement = beg + "WHERE USERID='" + std::to_string(userId) + "' AND COURSEID='" +
-            std::to_string(courseId) + "' ";
-    if (idsToDelete.size() == 0){
-        return false;
-    }
-    else if (idsToDelete.size() == 1){
-        statement += "AND PREFERENCEID='" + std::to_string(idsToDelete[0]) + "';";
-    }
-    else{
-        statement += "AND PREFERENCEID IN (";
-        for (int i = 0; i < idsToDelete.size(); i++){
-            if ( i == idsToDelete.size() - 1){
-                statement += std::to_string(idsToDelete[i]) + ");";
-            }
-            else{
-                statement += std::to_string(idsToDelete[i]) + ", ";
-            }
-        }
-    }
 
-    return dbExecute(statement);
-}
-
-bool dbDeleteUserExtensionPreference(const int userId, const int courseId, const int preferenceId, const std::vector<int> idsToDelete){
-std::string beg = "DELETE FROM USERPREFERENCES ";
-std::string statement = beg + "WHERE USERID='" + std::to_string(userId) + "' AND COURSEID='" +
-        std::to_string(courseId) + "' AND PREFERENCEID='" + std::to_string(preferenceId) + "' ";
-if (idsToDelete.size() == 0){
-    return false;
-}
-else if(idsToDelete.size() == 1){
-    statement += "AND EXTENSIONID='" + std::to_string(idsToDelete[0]) + "';";
-}
-else{
-    statement += "AND EXTENSIONID IN (";
-    for (int i = 0; i < idsToDelete.size(); i++){
-        if (i == idsToDelete.size() - 1){
-            statement += std::to_string(idsToDelete[i]) + ");";
-        }
-        else{
-            statement += std::to_string(idsToDelete[i]) + ", ";
-        }
-    }
-}
-
-return dbExecute(statement);
-}
 
 

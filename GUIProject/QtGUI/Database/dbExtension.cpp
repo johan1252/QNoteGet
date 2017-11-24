@@ -15,7 +15,6 @@
 #include <pqxx/pqxx>
 #include <ostream>
 #include "dbCourse.h"
-#include <string>
 
 //creates a Extension and returns their id
 int dbCreateExtension(const std::string& name){
@@ -62,18 +61,3 @@ bool dbGetExtensionName(int id, std::string& name) {
     return R.empty();
 }
 
-bool dbGetExtensionID(int& id, const std::string& name){
-    std::string statement = "SELECT * FROM EXTENSIONS WHERE NAME='" + name + "';";
-    pqxx::result R = dbExecuteReturn(statement);
-    if (R.empty()){
-        return false;
-    }
-
-    pqxx::result::size_type i = 0;
-    std::stringstream sid;
-    for (; i < R.size(); i++){
-        sid << R[i][0];
-        id = std::stoi(sid.str());
-    }
-    return true;
-}

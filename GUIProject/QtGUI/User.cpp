@@ -42,8 +42,7 @@ vector<Course>& User::getSubscribedCourses(){
     return subscribedCourses;
 }
 
-vector<Course*> User::getSubscribedCoursesByPtr(){
-    /*
+vector<Course*> * User::getSubscribedCoursesByPtr(){
     vector<Course*> * coursePtrs = new vector<Course*>;
     for (int i = 0; i < subscribedCourses.size(); i++){
         Course * ptrToCourse = &subscribedCourses[i];
@@ -51,14 +50,6 @@ vector<Course*> User::getSubscribedCoursesByPtr(){
         coursePtrs->push_back(ptrToCourse);
     }
     return coursePtrs;
-    */
-
-    ptrToSubscribedCourses.reserve(subscribedCourses.size());
-    for (int i = 0; i < subscribedCourses.size(); i++){
-        Course *coursePtr = &subscribedCourses[i];
-        ptrToSubscribedCourses.push_back(coursePtr);
-    }
-    return ptrToSubscribedCourses;
 }
 
 void User::setCourses(vector<Course> userCourses){

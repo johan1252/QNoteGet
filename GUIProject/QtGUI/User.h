@@ -20,7 +20,7 @@ public:
         string getFileDirectory();
         int getUpdateInterval();
         vector<Course>& getSubscribedCourses();
-        vector<Course *> getSubscribedCoursesByPtr();
+        vector<Course*> * getSubscribedCoursesByPtr();
         void setPassword(int pw);
         void setUpdateInterval(int interval);
         void setCourses(vector<Course> userCourses);
@@ -32,5 +32,4 @@ private:
         string fileDirectory;
         int updateInterval;
         vector<Course> subscribedCourses;
-        vector<Course*> ptrToSubscribedCourses;
 };

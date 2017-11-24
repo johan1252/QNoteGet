@@ -10,18 +10,6 @@ Course::Course(const Course& preDefinedCourse) {
     categories = preDefinedCourse.getCategories();
 }
 
-Course& Course::operator=(const Course& right){
-    if (this != &right){
-        categories.clear();
-        for (unsigned long i = 0; i < right.categories.size(); i++){
-            categories.push_back(right.categories[i]);
-        }
-        courseName = right.courseName;
-        rootUrl = right.rootUrl;
-    }
-    return *this;
-}
-
 string Course::getCourseName() const {
     return courseName;
 }

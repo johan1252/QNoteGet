@@ -19,8 +19,6 @@ public:
         //Copy constructor
         Course(const Course& preDefinedCourse);
 
-        Course& operator=(const Course& right);
-
         string getCourseName() const;
         vector<CourseCategory> getCategories() const;
         string getRootUrl() const;
