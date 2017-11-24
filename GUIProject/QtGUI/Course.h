@@ -25,7 +25,6 @@ public:
         void setRootUrl(string path);
         void setCategories(vector<CourseCategory> category);
         void addCategory(CourseCategory category);
-        void removeCategory(CourseCategory category);
         void removeCategory(string category);
 
 private:
