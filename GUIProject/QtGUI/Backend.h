@@ -19,8 +19,6 @@ public:
     static CourseCategory updateCategoryExtension(CourseCategory categoryObject);
     static void downloadFilesForCourse(Course courseObject);
     static void daemonUpdateTask(int updateInterval);
-    vector<string> getFilesAtUrl(CourseCategory categoryObject);
-    vector<string> getExtensionsAtUrl(CourseCategory categoryObject);
     vector<string> urlsVisited;
 private:
     bool urlValid(string newUrl);
@@ -29,12 +27,15 @@ private:
     static void createCourseDirectory(User userObject, Course courseObject);
     static void createCourseSubDirectory(User userObject, Course courseObject, CourseCategory courseCategoryObject);
     static void downloadFile(string fileUrl, User userObject, Course courseObject, CourseCategory courseCategoryObject);
-
+    bool webpageError(CURL* curl, string line, string url);
+    void curlAtUrl(CURL* curl, string url);
+    vector<string> getFilesAtUrl(CourseCategory categoryObject);
+    vector<string> getExtensionsAtUrl(CourseCategory categoryObject);
+    vector<string> fileExt;
 };
 
 size_t writeCallback(char* buf,size_t size, size_t nmemb, void* up);
-bool webpageError(CURL* curl, string line);
-void curlAtUrl(CURL* curl, string url);
+
 extern string data;
 
 
