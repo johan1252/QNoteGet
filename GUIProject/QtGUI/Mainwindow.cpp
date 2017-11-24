@@ -22,7 +22,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
     ui->stackedWidget->setCurrentIndex(HOMEPAGE);
-    setupDirectoryExplorer();
     editsMade = false; //for use with editSubscriptions button
 }
 
@@ -96,6 +95,8 @@ void MainWindow::on_pushButton_login_clicked()
             populateGlobalUserOnLogin(ui->lineEdit_loginUsername->text().toStdString(),dbPassword,dbPath,dbInterval);
             if( currentIndex < ui->stackedWidget->count())
             {
+                // Can only setup directory explorer once we have global user object.
+                setupDirectoryExplorer();
                 ui->stackedWidget->setCurrentIndex(YOURCLASSESPAGE);
             }
         } else {
