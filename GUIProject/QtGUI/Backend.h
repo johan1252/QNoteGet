@@ -3,10 +3,8 @@
 #include "Course.h"
 #include "User.h"
 #include <string.h>
-#include <boost/filesystem.hpp>
 #include <vector>
 #include <curl/curl.h>
-
 #include <boost/filesystem.hpp>
 #include <boost/regex.h>
 
@@ -32,7 +30,7 @@ private:
 
 };
 
-size_t writeCallback(char* buf,size_t size, size_t nmemb, void* up);
+size_t writeCallback(char* buf,size_t size, size_t nmemb);
 bool webpageError(CURL* curl, string line);
 void curlAtUrl(CURL* curl, string url);
 extern string data;
