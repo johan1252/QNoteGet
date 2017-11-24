@@ -13,6 +13,7 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include <QGroupBox>
 
 #include "Database/dbDatabase.h"
 #include "User.h"
@@ -104,7 +105,7 @@ private:
     vector<Course> preDefinedCourses;
     User currentUserG;
     bool editsMade; //for use with editSubscriptions button
-    vector<Course> * beforeSubs = nullptr;
+    vector<Course*> * beforeSubs = nullptr;
 
     void setupDirectoryExplorer();
     void createTaskBarIcon();
@@ -115,7 +116,8 @@ private:
     vector<Course> createUserCourseObjects();
     //void courseCategorySaveButtonClicked(int courseTabId);
     void courseCategorySaveButtonClicked(int courseTabId);
-    void compareEditedSubscriptions();
+    vector<CourseCategory> editSubscription(vector<Course *> userCourses, int UserCourseIndex, QString thisCourse, QList<QGroupBox*> categories);
+    void compareEditedSubscriptions(const int courseID, vector<CourseCategory> beforeSubs, vector<CourseCategory> afterSubs);
     void tellMeCurrentUserGsCISC320Categories();
 
 };
