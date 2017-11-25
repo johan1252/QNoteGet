@@ -33,4 +33,5 @@ private:
         int updateInterval;
         vector<Course> subscribedCourses;
         vector<Course*> ptrToSubscribedCourses;
+
 };

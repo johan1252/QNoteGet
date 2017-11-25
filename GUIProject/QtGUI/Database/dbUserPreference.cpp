@@ -7,9 +7,9 @@
 
 #include <pqxx/pqxx>
 #include <ostream>
-#include <vector>
 #include "dbUserPreference.h"
 #include <QDebug>
+#include <vector>
 
 //creates a UserPreference and returns their id
 int dbCreateUserPreference(int userId, int courseId, int preferenceId, int extensionId){
@@ -68,6 +68,7 @@ std::vector<int> dbCreateMultipleUserPreferences(int userId, int courseId, int p
         userPrefIds.push_back(id);
     }
     return userPrefIds;
+    // comment so bitbucket reflects changes, delete afterwards
 
 }
 
@@ -165,5 +166,3 @@ else{
 
 return dbExecute(statement);
 }
-
-

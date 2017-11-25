@@ -19,15 +19,12 @@ public:
         //Copy constructor
         Course(const Course& preDefinedCourse);
 
-        Course& operator=(const Course& right);
-
         string getCourseName() const;
         vector<CourseCategory> getCategories() const;
         string getRootUrl() const;
         void setRootUrl(string path);
         void setCategories(vector<CourseCategory> category);
         void addCategory(CourseCategory category);
-        void removeCategory(CourseCategory category);
         void removeCategory(string category);
 
 private:

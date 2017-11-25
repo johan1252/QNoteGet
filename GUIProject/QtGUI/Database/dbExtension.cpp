@@ -15,7 +15,6 @@
 #include <pqxx/pqxx>
 #include <ostream>
 #include "dbCourse.h"
-#include <string>
 
 //creates a Extension and returns their id
 int dbCreateExtension(const std::string& name){
