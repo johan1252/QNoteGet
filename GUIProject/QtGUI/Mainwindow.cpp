@@ -26,7 +26,6 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
     ui->stackedWidget->setCurrentIndex(HOMEPAGE);
     setupDirectoryExplorer();
-    editsMade = false; //for use with editSubscriptions button
 }
 
 void MainWindow::createTaskBarIcon() {
@@ -266,6 +265,22 @@ bool MainWindow::createUser(string username, int password, string path, int inte
             int courseId;
             dbGetCourseId(courseId, userCourse.getCourseName());
             dbCreateUserCourse(userId,courseId);
+
+            //By default, all categories and extensions are selected, so below places in db
+            vector<CourseCategory> courseCats = userCourse.getCategories();
+            for (int i = 0; i < courseCats.size(); i++){
+                int prefID;
+                dbGetPreferenceIdByName(courseId, courseCats[i].getCategoryName(), prefID);
+                vector<string> catExt = courseCats[i].getExtensionPreferences();
+                vector<int> extIDs;
+                for (int j = 0; j < catExt.size(); j++){
+                    int extID;
+                    dbGetExtensionID(extID, catExt[j]);
+                    extIDs.push_back(extID);
+                }
+                dbCreateMultipleUserPreferences(userId, courseId, prefID, extIDs);
+            }
+
         }
         return true;
     }
@@ -304,6 +319,7 @@ vector<Course> MainWindow::createUserCourseObjects(){
         for (auto courseObj: preDefinedCourses){
             if (courseObj.getCourseName() == "CISC320") {
                 courseVector.push_back(Course(courseObj));//Copy pre-defined course for User specific course.
+                courseEditsMade.push_back(false);
             }
         }
     }
@@ -311,6 +327,7 @@ vector<Course> MainWindow::createUserCourseObjects(){
         for (auto courseObj: preDefinedCourses){
             if (courseObj.getCourseName() == "CISC124"){
                 courseVector.push_back(Course(courseObj)); //Copy pre-defined course for User specific course.
+                courseEditsMade.push_back(false);
             }
         }
     }
@@ -318,6 +335,7 @@ vector<Course> MainWindow::createUserCourseObjects(){
         for (auto courseObj: preDefinedCourses){
             if (courseObj.getCourseName() == "ELEC451") {
                 courseVector.push_back(Course(courseObj)); //Copy pre-defined course for User specific course.
+                courseEditsMade.push_back(false);
             }
         }
     }
@@ -341,7 +359,6 @@ void MainWindow::on_pushButton_editSubs_clicked()
     tellMeCurrentUserGsCISC320Categories();
     clearCourseTabs();
     repopulateUserSubs();
-    editsMade = true;
     if (currentIndex < ui->stackedWidget->count()){
         ui->stackedWidget->setCurrentIndex(EDITSUBSCRIPTIONSPAGE);
     }
@@ -432,11 +449,12 @@ void MainWindow::displayCategoriesForCourse(Course courseObj, int index){
 
             for (unsigned long j = 0; j < extensions.size(); j++){
                 QCheckBox * extension = new QCheckBox(QString::fromStdString(extensions[j]), this);
+                extension->setChecked(true);
                 extensionsBox->addWidget(extension);
             }
             catBox->setLayout(extensionsBox);
             catBox->setCheckable(true); //Category must be checked before extensions can be accessed
-            catBox->setChecked(false);
+            catBox->setChecked(true);
             categoriesBox->addWidget(catBox);
         }
         groupBox->setLayout(categoriesBox);
@@ -447,10 +465,6 @@ void MainWindow::displayCategoriesForCourse(Course courseObj, int index){
 //NOTE: Qt actually saves the state of the checkboxes when you leave the page (its all in the same window)
 //This functionality is for the hypothetical case in which a new user visits the page after another has logged out, and
 //the previous choices need to be cleared. clearCourseTabs() is called before this function.
-// As a side benefit, repopulateUserSubs provides a convenient snapshot of the "before" state of a users selections.
-// Because repopulateUserSubs is called as a precursor to changing subscriptions, it is appropriate to carry out both functionalities,
-// assigning a heap allocated copy of the users "before" state to beforeSubs, a private MainWindow attribute, so that this state
-// persists beyond the life of this function.
 void MainWindow::repopulateUserSubs(){
 
     qDebug() << "At top of repopulateUserSubs!";
@@ -635,6 +649,17 @@ void MainWindow::courseCategorySaveButtonClicked(int courseTabId) {
         break;
     }
 
+    // Because the User's courses will have different indices int their subscribedCourses based on what they select
+    vector<Course*> userCourses = currentUserG.getSubscribedCoursesByPtr();
+
+    int userCourseIndex = -1; //error if used, but shuts up uninitialized warning
+    for (unsigned long i = 0; i < userCourses.size(); i++){
+        if (userCourses[i]->getCourseName() == thisCourse.toStdString()){
+            userCourseIndex = i;
+            break;
+        }
+    }
+
     //set the CourseID
     try{
         if (dbGetCourseId(courseID, thisCourse.toStdString())){}
@@ -656,7 +681,7 @@ void MainWindow::courseCategorySaveButtonClicked(int courseTabId) {
             }
         }
         else{
-            if (!editsMade){ //behaviour only unexpected if its users first time through, otherwise they may have deleted these preferences
+            if (!courseEditsMade[userCourseIndex]){ //behaviour only unexpected if its users first time through, otherwise they may have deleted these preferences
             QString getPreferenceError = "No preferences obtained for user: " + QString::fromStdString(currentUserG.getUsername());
             throw getPreferenceError;
             }
@@ -669,16 +694,6 @@ void MainWindow::courseCategorySaveButtonClicked(int courseTabId) {
         qDebug() << "No preferences obtained for user";
     }
 
-    // Because the User's courses will have different indices int their subscribedCourses based on what they select
-    vector<Course*> userCourses = currentUserG.getSubscribedCoursesByPtr();
-
-    int userCourseIndex = -1; //error if used, but shuts up uninitialized warning
-    for (unsigned long i = 0; i < userCourses.size(); i++){
-        if (userCourses[i]->getCourseName() == thisCourse.toStdString()){
-            userCourseIndex = i;
-            break;
-        }
-    }
 
     ui->tabWidget->setCurrentIndex(courseTabId);
     //get the QGroupBox for the current tab
@@ -686,7 +701,7 @@ void MainWindow::courseCategorySaveButtonClicked(int courseTabId) {
     //get the QGroupBoxes (the Course Categories) in the parent group box
     QList<QGroupBox *> categories = groupBox->findChildren<QGroupBox *>(QString(), Qt::FindDirectChildrenOnly);
 
-    if (!editsMade){ //if its the users first time making a selection of categories
+    if (!courseEditsMade[userCourseIndex]){ //if its the users first time making a selection of categories
         QList<QGroupBox *> chosenCategories;
         vector<int> idsToDelete; //to cut down on db calls
 
@@ -739,6 +754,7 @@ void MainWindow::courseCategorySaveButtonClicked(int courseTabId) {
             }
             thisCourseCategories[i].setExtensionPreferences(categoryExtensions);
         }
+        courseEditsMade[userCourseIndex] = true; // after user clicks save for first time, edits made is true
     }
     else{ //this is not the users first time picking categories
         vector<CourseCategory> beforeSubs = userCourses[userCourseIndex]->getCategories(); // use the pointer to the users Course Category before state
@@ -754,12 +770,6 @@ void MainWindow::courseCategorySaveButtonClicked(int courseTabId) {
         qDebug() << QString::fromStdString(afterCats[i].getCategoryName());
     }
 
-    /*
-    //delete userCourses heap allocation NOTE: Since did not allocate the Courses, just pointers to courses
-    // no need to loop through and delete
-    delete userCourses;
-    userCourses = nullptr;
-    */
 }
 
 
@@ -810,7 +820,7 @@ vector<CourseCategory> MainWindow::editSubscription(vector<Course*> userCourses,
 }
 
 // Function only called if not the users first time choosing subscriptions, from courseCategorySavedButtonClicked
-// This check is made at on_pushButton_editSubs_clicked() with changing editsMade to true
+// This check is made at on_pushButton_editSubs_clicked() with changing courseEditsMade to true
 // beforeSubs is set in courseCategorySaveButtonClicked before call to editSubscription made
 // afterSubs is a copy of the results of that call.
 // compareEditedSubscriptions compares the differences and makes the appropriate db calls
@@ -885,7 +895,8 @@ void MainWindow::compareEditedSubscriptions(const int courseID, vector<CourseCat
                 vector<string> afterExtensions = afterSubs[i].getExtensionPreferences();
                 qDebug() << "beforeExtensions size is: " << beforeExtensions.size();
                 qDebug() << "afterExtensions size is: " << afterExtensions.size();
-
+                qDebug() << "size of prefIds: " << prefIDs.size();
+                qDebug() << "userID is: " << userID << "courseID is: " << courseID << " prefIDs are: " << prefIDs[i] << " and userBeforeExtensionPredIDs size is: " << userBeforeExtensionPrefIDs.size();
                 try{
                     if (dbGetUserExtensions(userID, courseID, prefIDs[i], userBeforeExtensionPrefIDs)){
                         qDebug() << "userBeforeExtensionPrefIDs size is: " << userBeforeExtensionPrefIDs.size();
@@ -915,6 +926,7 @@ void MainWindow::compareEditedSubscriptions(const int courseID, vector<CourseCat
                         }
                     }
                     if (beforeNotAfter){ //only removes extensions
+                        qDebug() << "userBeforeExtensionPrefIDs size is: " << userBeforeExtensionPrefIDs.size();
                         extensionIDsToDelete.push_back(userBeforeExtensionPrefIDs[k]);
                         userBeforeExtensionPrefIDs.clear(); // clear so can be used fresh on next category iteration
                     }
@@ -1103,6 +1115,7 @@ void MainWindow::populatePreDefineCourseObjects() {
 
     //Get all DB course IDs.
     dbGetAllCourses(courseIds);
+
     string courseName;
     string coursePath;
     string preferenceName;
@@ -1121,7 +1134,7 @@ void MainWindow::populatePreDefineCourseObjects() {
             dbGetPreference(preferenceId,preferenceName,preferencePath);
 
             //TODO: use DB for fileExtensions instead of empty vector
-            vector<string> fileExtensions = {};
+            vector<string> fileExtensions = {"pdf", "pptx", "word"};
             CourseCategory cc = CourseCategory(preferenceName, preferencePath, fileExtensions);
             courseCategories.push_back(cc);
 
