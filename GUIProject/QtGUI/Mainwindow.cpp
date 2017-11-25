@@ -1151,5 +1151,4 @@ qDebug() << "tellMeCurrentUserGsCISC320Categories finished";
 */
 }
 
-// comment so bitbucket reflects changes, delete afterwards
 
