@@ -119,6 +119,7 @@ private:
     vector<CourseCategory> editSubscription(vector<Course *> userCourses, int UserCourseIndex, QString thisCourse, QList<QGroupBox*> categories);
     void compareEditedSubscriptions(const int courseID, vector<CourseCategory> beforeSubs, vector<CourseCategory> afterSubs);
     void tellMeCurrentUserGsCISC320Categories();
+    // comment so bitbucket reflects changes, delete afterwards
 
 };
 

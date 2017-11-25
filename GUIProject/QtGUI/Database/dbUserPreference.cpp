@@ -68,6 +68,7 @@ std::vector<int> dbCreateMultipleUserPreferences(int userId, int courseId, int p
         userPrefIds.push_back(id);
     }
     return userPrefIds;
+    // comment so bitbucket reflects changes, delete afterwards
 
 }
 

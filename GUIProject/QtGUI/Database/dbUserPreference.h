@@ -29,5 +29,6 @@ bool dbGetUserExtensions(int userId, const int& courseId, int& preferenceId, std
 bool dbDeleteUserPreference(int id);
 bool dbDeleteUserCategoryPreference(const int userId, const int courseId, const std::vector<int> idsToDelete);
 bool dbDeleteUserExtensionPreference(const int userId, const int courseId, const int preferenceId, const std::vector<int> idsToDelete);
+// comment so bitbucket reflects changes, delete afterwards
 
 #endif /* USERPREFERENCE_H_ */

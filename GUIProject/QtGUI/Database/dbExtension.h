@@ -16,5 +16,6 @@ bool dbDeleteExtension(int id);
 bool dbDeleteExtensionByName(const std::string& name);
 bool dbGetExtensionName(int id, std::string& name);
 bool dbGetExtensionID(int& id, const std::string& name);
+// comment so bitbucket reflects changes, delete afterwards
 
 #endif /* EXTENSION_H_ */

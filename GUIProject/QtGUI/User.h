@@ -24,6 +24,7 @@ public:
         void setPassword(int pw);
         void setUpdateInterval(int interval);
         void setCourses(vector<Course> userCourses);
+        // comment so bitbucket reflects changes, delete afterwards
 
 private:
         int userId;

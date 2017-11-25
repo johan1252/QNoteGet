@@ -59,6 +59,8 @@ bool dbGetPreferenceIdByName(const int courseId, const std::string& prefName, in
         prefId = std::stoi(sid.str());
     }
     return true;
+    // comment so bitbucket reflects changes, delete afterwards
+
 }
 
 bool dbGetPreference(int id,std::string& name,std::string& path) {

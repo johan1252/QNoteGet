@@ -64,3 +64,4 @@ vector<Course*> User::getSubscribedCoursesByPtr(){
 void User::setCourses(vector<Course> userCourses){
     subscribedCourses = userCourses;
 }
+// comment so bitbucket reflects changes, delete afterwards

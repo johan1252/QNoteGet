@@ -65,3 +65,4 @@ void Course::removeCategory(string category){
         }
     }
 }
+// comment so bitbucket reflects changes, delete afterwards

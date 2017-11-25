@@ -29,6 +29,7 @@ public:
         void addCategory(CourseCategory category);
         void removeCategory(CourseCategory category);
         void removeCategory(string category);
+        // comment so bitbucket reflects changes, delete afterwards
 
 private:
         string courseName;

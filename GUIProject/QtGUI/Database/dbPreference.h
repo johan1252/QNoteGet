@@ -22,5 +22,6 @@ bool dbGetPreferenceIds(int courseId,std::vector<int>& preferences); //given a c
 bool dbGetPreferenceIdByName(const int courseId, const std::string& prefName, int& prefId);
 bool dbGetPreference(int id,std::string& name,std::string& path); //given a preferenceId you can get the name/path
 bool dbDeletePreference(int id);
+// comment so bitbucket reflects changes, delete afterwards
 
 #endif /* PREFERENCE_H_ */

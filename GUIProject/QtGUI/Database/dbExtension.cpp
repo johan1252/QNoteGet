@@ -60,6 +60,8 @@ bool dbGetExtensionName(int id, std::string& name) {
         name = sname.str();
     }
     return R.empty();
+    // comment so bitbucket reflects changes, delete afterwards
+
 }
 
 bool dbGetExtensionID(int& id, const std::string& name){
