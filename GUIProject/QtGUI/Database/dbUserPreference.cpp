@@ -75,6 +75,9 @@ std::vector<int> dbCreateMultipleUserPreferences(int userId, int courseId, int p
 bool dbGetUserPreferences(int userId, const int& courseId, std::vector<int>& preferences) {
     std::string statement = "SELECT PREFERENCEID FROM USERPREFERENCES";
     std::string sql = statement + " WHERE COURSEID= '" + std::to_string(courseId) + "'AND USERID= '" + std::to_string(userId) + "'" + ";";
+
+    qDebug() << "statement in dbGetUserpreferences is: " << QString::fromStdString(sql);
+
     pqxx::result R = dbExecuteReturn(sql);
     if (R.empty()) {
             return false;
@@ -93,6 +96,9 @@ bool dbGetUserPreferences(int userId, const int& courseId, std::vector<int>& pre
 bool dbGetUserExtensions(int userId, const int& courseId, int& preferenceId, std::vector<int>& extensions) {
     std::string statement = "SELECT EXTENSIONID FROM USERPREFERENCES";
     std::string sql = statement + " WHERE COURSEID= '" + std::to_string(courseId) + "'AND USERID= '" + std::to_string(userId) + "'AND PREFERENCEID= '" + std::to_string(preferenceId) + "'" + ";";
+
+    qDebug() << "in dbGetUserExtensions, statement is: " << QString::fromStdString(sql);
+
     pqxx::result R = dbExecuteReturn(sql);
     if (R.empty()) {
             return false;
