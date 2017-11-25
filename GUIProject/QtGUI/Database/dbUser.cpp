@@ -35,7 +35,7 @@ bool dbUpdateUser(int id, const std::string& name,int& password,const std::strin
 }
 
 //sets all attributes by reference for caller
-bool dbGetUser(int id, std::string& name,int password, std::string& path, int& update) {
+bool dbGetUser(int id, std::string& name,int& password, std::string& path, int& update) {
 	std::string statement = "SELECT * FROM USERS WHERE ID=" + std::to_string(id);
     pqxx::result R = dbExecuteReturn(statement);
 	if (R.empty()) {

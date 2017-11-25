@@ -4,6 +4,7 @@
 #include "Database/dbUserPreference.h"
 #include "Database/dbExtension.h"
 #include "Database/dbPreference.h"
+#include "Database/dbUser.h"
 
 static int currentIndex = 0;
 vector<Course> dummy;
@@ -1152,3 +1153,30 @@ qDebug() << "tellMeCurrentUserGsCISC320Categories finished";
 }
 
 
+
+void MainWindow::on_pushButton_saveAccount_clicked()
+{
+    std::string oldPass = ui->lineEdit_myAccountOldPass->text().toStdString();
+    std::string newPass = ui->lineEdit_myAccountNewPass->text().toStdString();
+    std::string confirmPass = ui->lineEdit_myAccountConfirmPass->text().toStdString();
+    if (oldPass.empty() || newPass.empty() || confirmPass.empty()) {
+         QMessageBox::critical(this, "Wrong Entry", "Missing entry, please re-enter");
+    }
+    else if (newPass != confirmPass) {
+        QMessageBox::critical(this, "Wrong Entry", "Your confirmation and new password don't match");
+    }
+    else if (hashPassword(oldPass) != currentUserG.getPassword()) {
+        QMessageBox::critical(this, "Wrong Entry", "Please re-enter your old password");
+
+    }
+    else {
+        std::string name, path;
+        int update;
+        int password;
+        dbGetUser(currentUserG.getUserId(), name, password, path,update);
+        int newPassInt = hashPassword(newPass);
+        dbUpdateUser(currentUserG.getUserId(), name, newPassInt,path,update);
+        QMessageBox::critical(this, "Success", "Your password has been changed");
+
+    }
+}
