@@ -42,15 +42,15 @@ vector<Course>& User::getSubscribedCourses(){
     return subscribedCourses;
 }
 
-vector<Course*> * User::getSubscribedCoursesByPtr(){
-    vector<Course*> * coursePtrs = new vector<Course*>;
-    for (size_t i = 0; i < subscribedCourses.size(); i++){
-        Course * ptrToCourse = &subscribedCourses[i];
-        //qDebug() << "ptrToCourse points to course with memory address: " << &subscribedCourses[i];
-        coursePtrs->push_back(ptrToCourse);
+vector<Course*> User::getSubscribedCoursesByPtr(){
+    ptrToSubscribedCourses.reserve(subscribedCourses.size());
+    for (int i = 0; i < subscribedCourses.size(); i++){
+        Course *coursePtr = &subscribedCourses[i];
+        ptrToSubscribedCourses.push_back(coursePtr);
     }
-    return coursePtrs;
+    return ptrToSubscribedCourses;
 }
+
 
 void User::setCourses(vector<Course> userCourses){
     subscribedCourses = userCourses;

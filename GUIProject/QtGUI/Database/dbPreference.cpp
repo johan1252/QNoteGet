@@ -43,6 +43,26 @@ bool dbGetPreferenceIds(int courseId,std::vector<int>& preferences){
     return true;
 }
 
+//given a course id and name of preference, get ID of that preference
+bool dbGetPreferenceIdByName(const int courseId, const std::string& prefName, int& prefId){
+
+    std::string statement = "SELECT * FROM PREFERENCES WHERE COURSEID='" + std::to_string(courseId) +
+            "' AND NAME='" + prefName + "';";
+    pqxx::result R = dbExecuteReturn(statement);
+    if (R.empty()){
+        return false;
+    }
+    pqxx::result::size_type i = 0;
+    std::stringstream sid;
+    for (; i < R.size(); ++i){
+        sid << R[i][0];
+        prefId = std::stoi(sid.str());
+    }
+    return true;
+    // comment so bitbucket reflects changes, delete afterwards
+
+}
+
 bool dbGetPreference(int id,std::string& name,std::string& path) {
     std::string statement = "SELECT * FROM PREFERENCES WHERE ID=" + std::to_string(id) + ";";
     pqxx::result R = dbExecuteReturn(statement);
