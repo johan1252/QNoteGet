@@ -46,7 +46,7 @@ size_t writeCallback(char* buf,size_t size, size_t nmemb){
 }
 
 bool Backend::webpageError(CURL* curl, string line, string url){
-    if (line.find("401 Authorization Required") != -1){
+    if (line.find("401 Authorization Required") != string::npos){
         data = "";
         string username = "elec451";
         string password = "cmos2017";
@@ -60,7 +60,7 @@ bool Backend::webpageError(CURL* curl, string line, string url){
 
         return true;
     }
-    if (line.find("301 Moved Permanently") != -1 ){
+    if (line.find("301 Moved Permanently") != string::npos ){
         data="";
         auto at = find(urlsVisited.begin(), urlsVisited.end(), url);
         if (at != urlsVisited.end()){
@@ -133,7 +133,7 @@ vector<string> Backend::getFilesAtUrl(CourseCategory categoryObject){
             //cout << "Line: " << newline << endl;
             for (auto e : fileExtensions){
                 //cout << e << endl;
-                if (newline.find(e) != -1){
+                if (newline.find(e) != string::npos){
                     string file = urlPath + "/" + newline.substr(9,end-begin-10); //start at 9 to get rid of <a href=" ,length is the end - the beginning - 9 - 1 to elimnate the end quote
                     allFiles.push_back(file);
                     //cout << "File: " << file << endl;
@@ -180,7 +180,7 @@ vector<string> Backend::getFilesAtUrl(CourseCategory categoryObject){
             alltherest.push_back(therest);
             //cout << "r: " << newr << endl;
             for (auto e : fileExtensions){
-                if (newr.find(e) != -1){
+                if (newr.find(e) != string::npos){
                     string file = urlPath + "/" + newr.substr(9,end-begin-10);
                     allFiles.push_back(file);
                     //cout << "File: " << file << endl;
@@ -236,8 +236,7 @@ vector<string> Backend::getExtensionsAtUrl(CourseCategory categoryObject){
     stringstream ss(data);
 
     while (getline (ss, line)){
-
-        if (line.find("<a href=\"") != -1){
+        if (line.find("<a href=\"") != string::npos){
             int end1 = line.find_last_of('.');
             int end2 = end1;
             while (line[end2] != '"'){
@@ -252,7 +251,7 @@ vector<string> Backend::getExtensionsAtUrl(CourseCategory categoryObject){
                 }
             }
         }
-        if (line.find(".html\"") != -1){
+        if (line.find(".html\"") != string::npos){
             unsigned first = line.find('"');
             unsigned last = line.find(".html\"");
             string newUrl = urlPath + "/" + line.substr(first+1, last-first+4);

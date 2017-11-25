@@ -822,7 +822,7 @@ void MainWindow::compareEditedSubscriptions(const int courseID, vector<CourseCat
         try{
             if (dbGetUserPreferences(userID, courseID, prefIDs)){ //this maps to beforeSubs since no db calls have changed subscription list
                 qDebug() << "dbGetUserPreferences called succesfully. PrefIDs are: ";
-                for (int i = 0; i < prefIDs.size(); i++){
+                for (size_t i = 0; i < prefIDs.size(); i++){
                     qDebug() << prefIDs[i];
                 }
             }
@@ -872,7 +872,7 @@ void MainWindow::compareEditedSubscriptions(const int courseID, vector<CourseCat
                 advance(it, i); //get iterator to position that is absent in afterSubs
                 afterSubs.insert(it, fakeCat);
                 qDebug() << "Insertion successful! afterSubs is now: ";
-                for (int z = 0; z < afterSubs.size(); z++){
+                for (size_t z = 0; z < afterSubs.size(); z++){
                     qDebug() << QString::fromStdString(afterSubs[z].getCategoryName());
                 }
             }
@@ -890,7 +890,7 @@ void MainWindow::compareEditedSubscriptions(const int courseID, vector<CourseCat
                     if (dbGetUserExtensions(userID, courseID, prefIDs[i], userBeforeExtensionPrefIDs)){
                         qDebug() << "userBeforeExtensionPrefIDs size is: " << userBeforeExtensionPrefIDs.size();
                         qDebug() << "dbGetUserExtensions called successfully. userBeforeExtensionPrefIDs are: ";
-                        for (int z = 0; z < userBeforeExtensionPrefIDs.size(); z++){
+                        for (size_t z = 0; z < userBeforeExtensionPrefIDs.size(); z++){
                             qDebug() << userBeforeExtensionPrefIDs[z];
                         }
                     }
@@ -963,7 +963,7 @@ void MainWindow::compareEditedSubscriptions(const int courseID, vector<CourseCat
             if (extensionIDsToDelete.size() > 0){
                 qDebug() << "GETS TO EXTENSIONIDSTODELETE";
                 qDebug() << "for prefID " << prefIDs[i] << " extensionIdsToDelete size is: " << extensionIDsToDelete.size() << " and they are: ";
-                for (int z = 0; z < extensionIDsToDelete.size(); z++){
+                for (size_t z = 0; z < extensionIDsToDelete.size(); z++){
                     qDebug() << extensionIDsToDelete[z];
                 }
                 try{
@@ -988,7 +988,7 @@ void MainWindow::compareEditedSubscriptions(const int courseID, vector<CourseCat
             qDebug() << "About to make a delete preference call";
             qDebug() << "idsToDelete.size is" << idsToDelete.size() << " and they are: ";
             if (idsToDelete.size() > 0){
-                for (int z = 0; z < idsToDelete.size(); z++){
+                for (size_t z = 0; z < idsToDelete.size(); z++){
                     qDebug() << idsToDelete[z];
                 }
             }

@@ -42,7 +42,7 @@ std::vector<int> dbCreateMultipleUserPreferences(int userId, int courseId, int p
     }
     else{
         statement += "VALUES ";
-        for (int i = 0; i < extensionsIds.size(); i++){
+        for (size_t i = 0; i < extensionsIds.size(); i++){
             if (i == extensionsIds.size() - 1){
                 statement += "('" + std::to_string(userId) + "', '" + std::to_string(courseId) + "', '" +
                         std::to_string(preferenceId) + "', '" + std::to_string(extensionsIds[0]) + "') RETURNING ID;";
@@ -129,7 +129,7 @@ bool dbDeleteUserCategoryPreference(const int userId, const int courseId, const 
     }
     else{
         statement += "AND PREFERENCEID IN (";
-        for (int i = 0; i < idsToDelete.size(); i++){
+        for (size_t i = 0; i < idsToDelete.size(); i++){
             if ( i == idsToDelete.size() - 1){
                 statement += std::to_string(idsToDelete[i]) + ");";
             }
@@ -154,7 +154,7 @@ else if(idsToDelete.size() == 1){
 }
 else{
     statement += "AND EXTENSIONID IN (";
-    for (int i = 0; i < idsToDelete.size(); i++){
+    for (size_t i = 0; i < idsToDelete.size(); i++){
         if (i == idsToDelete.size() - 1){
             statement += std::to_string(idsToDelete[i]) + ");";
         }
