@@ -10,7 +10,7 @@ void Backend::downloadFilesForCourses(User userObject) {
 
         //Create directory for course
         createCourseDirectory(userObject, course);
-
+        qDebug() << "IN downloadFilesForCourses, gets here";
         for (auto category:courseCategories) {
             vector<string> urls = getFilesAtUrl(category);
 
