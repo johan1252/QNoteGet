@@ -1186,7 +1186,6 @@ void MainWindow::addExtensionsToDb(vector<string> fileExtensions) {
     vector<pair <int, string>> idNamePairs;
     vector<string> newExtensions;
     vector<int> newExtensionIDs;
-    qDebug() << "At addExtensionsToDb";
     for (auto extension: fileExtensions){
         //Remove the period in the file extension.
         extension.erase(std::remove(extension.begin(), extension.end(), '.'), extension.end());

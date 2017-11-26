@@ -102,7 +102,6 @@ bool dbGetExtensionByName(int& id, const std::string& name) {
 }
 
 std::vector<std::pair<int, std::string> > dbGetExtensionsAndNames(){
-    qDebug() << "in dbGetExtensionsAndNames";
     std::string statement = "SELECT * FROM EXTENSIONS;";
     std::vector<std::pair <int, std::string>> pairVec;
     std::pair <int, std::string> idNamePair;
