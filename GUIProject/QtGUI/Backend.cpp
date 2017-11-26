@@ -151,7 +151,7 @@ vector<string> Backend::getFilesAtUrl(CourseCategory categoryObject){
                 string newUrl = urlPath + "/" + line.substr(first+1, last-first+4);
                 if(urlValid(newUrl)){
                     cout << "Recursive call" << newUrl << endl;
-                    urlsVisited.push_back(newUrl);
+                    urlsVisited.push_back(newUrl);\
                     CourseCategory c = CourseCategory("intmUrl", newUrl, fileExtensions);
                     moreFiles = getFilesAtUrl(c);
                     //cout << "End recursive call" << endl;
@@ -213,10 +213,9 @@ vector<string> Backend::getFilesAtUrl(CourseCategory categoryObject){
     return allFiles;
 }
 
-vector<string> Backend::getExtensionsAtUrl(CourseCategory categoryObject){
-
+vector<string> Backend::getExtensionsAtUrl(string categoryUrl){
     data = "";
-    string urlPath = categoryObject.getUrlPath();
+    string urlPath = categoryUrl;
 
     CURL* curl;
     curl_global_init(CURL_GLOBAL_ALL);
@@ -236,34 +235,115 @@ vector<string> Backend::getExtensionsAtUrl(CourseCategory categoryObject){
     urlPath.erase(urlPath.find_last_of("/"));
     vector<string> recursiveExt;
     stringstream ss(data);
+    stringstream ss2;
 
     while (getline (ss, line)){
+
+        //Handle the case where more than one href exists on a line.
         if (line.find("<a href=\"") != string::npos){
-            int end1 = line.find_last_of('.');
-            int end2 = end1;
-            while (line[end2] != '"'){
-                end2++;
+
+            //Find the closing tag for href, and then split into substring.
+            int closingTagIndex = line.find("</a>");
+            if (closingTagIndex != -1) {
+                string restOfLine = line.substr(closingTagIndex+4, line.size());
+
+                //While another href exists in the rest of the line (after cutting off the first href), keep splitting
+                //Append the cut off parts to the string stream ss2 to be parsed later.
+                while(restOfLine.find("<a href=\"") != string::npos){
+                    closingTagIndex = restOfLine.find("</a>");
+                    if(closingTagIndex != -1){
+                        restOfLine = restOfLine.substr(closingTagIndex+4, restOfLine.size());
+                        ss2 << restOfLine.substr(0, closingTagIndex+4) << endl;
+                    } else {
+                        ss2 << restOfLine << endl;
+                    }
+                }
+                //Make the line equal to just the second with the FIRST href. Other hrefs are now part of ss2.
+                line = line.substr(0,closingTagIndex);
             }
-            end2++; //to advance past the endquote (we want to include it)
-            if ((end2 - end1) <= 6) {
-                string ext = line.substr(end1, end2-end1);
-                if (find(fileExt.begin(), fileExt.end(), ext) == fileExt.end() && (ext != ".html\"" || ext != ".htm\\")) {
-                    fileExt.push_back(ext);
-                    //cout << ext << endl;
+
+            //Get the file name + extensions
+            boost::regex urlPattern("href=\"(.*\\..{1,4})\"");
+            boost::match_results<std::string::const_iterator> testMatches;
+            std::string::const_iterator startPos = line.begin();
+            if ( regex_search( startPos, line.cend(), testMatches, urlPattern ) ) {
+                //cout << testMatches[1] << endl;
+                string ext = testMatches[1];
+
+                //Don't accept http/https and htm/html files/pages
+                if (ext.find("http") == string::npos && ext.find(".htm") == string::npos){
+                    int period = ext.find_last_of('.');
+                    ext = ext.substr(period,ext.size());
+                    if (find(fileExt.begin(), fileExt.end(), ext) == fileExt.end() && (ext != ".html\"" || ext != ".htm\\")) {
+                        fileExt.push_back(ext);
+                        //cout << "Extension Added: " << ext << endl;
+                    }
                 }
             }
+        } else if (line.find("drive.google.com") != string::npos) {
+            //Cheat to make 451 google drive files show as pdf extension
+            if (find(fileExt.begin(), fileExt.end(), ".pdf") == fileExt.end()) {
+                fileExt.push_back(".pdf");
+            }
         }
+
+        //If an html page, recurse into the pages.
         if (line.find(".html\"") != string::npos){
             unsigned first = line.find('"');
             unsigned last = line.find(".html\"");
             string newUrl = urlPath + "/" + line.substr(first+1, last-first+4);
             if(urlValid(newUrl)){
-                //cout << "Recursive call" << endl;
+                //cout << "Recursive call" << newUrl << endl;
                 urlsVisited.push_back(newUrl);\
-                CourseCategory c = CourseCategory("intmUrl", newUrl, fileExt);
-                recursiveExt = getExtensionsAtUrl(c);
+                recursiveExt = getExtensionsAtUrl(newUrl);
                 //cout << "End recursive call" << endl;
-                fileExt.insert(fileExt.end(),recursiveExt.begin(), recursiveExt.end());
+
+                //TODO: Ask krysta why this was necessary!
+                //fileExt.insert(fileExt.end(),recursiveExt.begin(), recursiveExt.end());
+            }
+        }
+    }
+
+    //Follow the same procedure for the left over href's that were found earlier (more than one on a line)
+    while (getline (ss2, line)){
+        if (line.find("<a href=\"") != string::npos){
+            //Get the file name + extensions
+            boost::regex urlPattern("href=\"(.*\\..{1,4})\"");
+            boost::match_results<std::string::const_iterator> testMatches;
+            std::string::const_iterator startPos = line.begin();
+            if ( regex_search( startPos, line.cend(), testMatches, urlPattern ) ) {
+                //cout << testMatches[1] << endl;
+                string ext = testMatches[1];
+
+                //Don't accept http/https and htm/html files/pages
+                if (ext.find("http") == string::npos && ext.find(".htm") == string::npos){
+                    int period = ext.find_last_of('.');
+                    ext = ext.substr(period,ext.size());
+                    if (find(fileExt.begin(), fileExt.end(), ext) == fileExt.end() && (ext != ".html\"" || ext != ".htm\\")) {
+                        fileExt.push_back(ext);
+                        //cout << "Extension Added: " << ext << endl;
+                    }
+                }
+            }
+        } else if (line.find("drive.google.com") != string::npos) {
+            //Cheat to make 451 google drive files show as pdf extension
+            if (find(fileExt.begin(), fileExt.end(), ".pdf") == fileExt.end()) {
+                fileExt.push_back(".pdf");
+            }
+        }
+        //If an html page, recurse into the pages.
+        if (line.find(".html\"") != string::npos){
+            unsigned first = line.find('"');
+            unsigned last = line.find(".html\"");
+            string newUrl = urlPath + "/" + line.substr(first+1, last-first+4);
+            if(urlValid(newUrl)){
+                //cout << "Recursive call" << newUrl << endl;
+                urlsVisited.push_back(newUrl);
+                recursiveExt = getExtensionsAtUrl(newUrl);
+                //cout << "End recursive call" << endl;
+
+                //TODO: Ask krysta why this was necessary!
+                //fileExt.insert(fileExt.end(),recursiveExt.begin(), recursiveExt.end());
             }
         }
     }
@@ -279,7 +359,7 @@ bool Backend::urlValid(string newUrl){
     if (find(urlsVisited.begin(), urlsVisited.end(), newUrl) == urlsVisited.end()){
        string fullUrl = newUrl + '/';
        if (find(urlsVisited.begin(), urlsVisited.end(), fullUrl) == urlsVisited.end()){
-           if(fullUrl.find("/#") == string::npos){
+           if(fullUrl.find("/#") == string::npos && fullUrl.find("doc/index.html") == string::npos){
                return true;
            }
        }
