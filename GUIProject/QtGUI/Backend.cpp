@@ -113,14 +113,14 @@ vector<string> Backend::getFilesAtUrl(CourseCategory categoryObject){
     }
 
     urlPath.erase(urlPath.find_last_of("/"));
-    //cout << urlPath << endl;
     vector<string> alltherest;
     while (getline(ss, line))  // for the initial scrape from the website
     {
-        std::transform(line.begin(), line.end(), line.begin(), ::tolower);
-        int begin = line.find("<a href=\"");
+        string lowerLine = line;
+        std::transform(lowerLine.begin(), lowerLine.end(), lowerLine.begin(), ::tolower);
+        int begin = lowerLine.find("<a href=\"");
         if (begin != -1){
-
+            cout << line << endl;
             int end = begin+9;
             while (line[end] != '"'){
                 end++;
@@ -136,7 +136,7 @@ vector<string> Backend::getFilesAtUrl(CourseCategory categoryObject){
                 if (newline.find(e) != string::npos){
                     string file = urlPath + "/" + newline.substr(9,end-begin-10); //start at 9 to get rid of <a href=" ,length is the end - the beginning - 9 - 1 to elimnate the end quote
                     allFiles.push_back(file);
-                    //cout << "File: " << file << endl;
+                    cout << "File: " << file << endl;
                     break;
                  }
             }
@@ -150,12 +150,12 @@ vector<string> Backend::getFilesAtUrl(CourseCategory categoryObject){
                 unsigned last = line.find(".html\"");
                 string newUrl = urlPath + "/" + line.substr(first+1, last-first+4);
                 if(urlValid(newUrl)){
-                    //cout << "Recursive call" << endl;
-                    urlsVisited.push_back(newUrl);\
+                    cout << "Recursive call" << newUrl << endl;
+                    urlsVisited.push_back(newUrl);
                     CourseCategory c = CourseCategory("intmUrl", newUrl, fileExtensions);
                     moreFiles = getFilesAtUrl(c);
                     //cout << "End recursive call" << endl;
-                    allFiles.insert(allFiles.end(),moreFiles.begin(), moreFiles.end());
+                    //allFiles.insert(allFiles.end(),moreFiles.begin(), moreFiles.end());
                 }
             }
 
@@ -167,7 +167,9 @@ vector<string> Backend::getFilesAtUrl(CourseCategory categoryObject){
 
     for (auto r : alltherest) //this goes through all the remainder substrings the files were taken from
     {
-        int begin = r.find("<a href=\"");
+        string lowerLine = r;
+        std::transform(lowerLine.begin(), lowerLine.end(), lowerLine.begin(), ::tolower);
+        int begin = lowerLine.find("<a href=\"");
         if (begin != -1){
             int end = begin+9;
             while (r[end] != '"'){
@@ -198,7 +200,7 @@ vector<string> Backend::getFilesAtUrl(CourseCategory categoryObject){
                 unsigned last = r.find(".html\"");
                 string newUrl = urlPath + "/" + r.substr(first+1, last-first+4);
                 if(urlValid(newUrl)){
-                    //cout << "Recursive call" << endl;
+                    cout << "Recursive call" << newUrl  << endl;
                     urlsVisited.push_back(newUrl);\
                     CourseCategory c = CourseCategory("intmUrl", newUrl, fileExtensions);
                     moreFiles = getFilesAtUrl(c);

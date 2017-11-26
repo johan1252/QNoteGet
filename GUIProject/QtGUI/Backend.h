@@ -18,6 +18,8 @@ public:
     static void downloadFilesForCourse(Course courseObject);
     static void daemonUpdateTask(int updateInterval);
     vector<string> urlsVisited;
+    vector<string> getFilesAtUrl(CourseCategory categoryObject);
+
 private:
     bool urlValid(string newUrl);
     static void downloadFilesInUrl(CourseCategory categoryObject);
@@ -27,7 +29,6 @@ private:
     static void downloadFile(string fileUrl, User userObject, Course courseObject, CourseCategory courseCategoryObject);
     bool webpageError(CURL* curl, string line, string url);
     void curlAtUrl(CURL* curl, string url);
-    vector<string> getFilesAtUrl(CourseCategory categoryObject);
     vector<string> getExtensionsAtUrl(CourseCategory categoryObject);
     vector<string> fileExt;
 };

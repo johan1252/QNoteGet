@@ -91,7 +91,9 @@ void MainWindow::on_pushButton_login_clicked()
                       "Please enter your username and password.");
     } else {
         valid = validateUser(ui->lineEdit_loginUsername->text().toStdString(),ui->lineEdit_loginPassword->text().toStdString());
+
         if (valid){
+
             //Determine user password, path and update interval with passing by reference
             dbGetUserWithUsername(ui->lineEdit_loginUsername->text().toStdString(),dbPassword,dbPath,dbInterval);
             //Populate the global user object
