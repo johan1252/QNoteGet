@@ -219,6 +219,7 @@ void MainWindow::on_pushButton_doneSignUp_clicked()
              * This is then used in createUser() method to link courses to user object.
              */
             vector<Course> userCourses = createUserCourseObjects();
+            qDebug() << "This gets here after createUserCourseObjects";
 
             // make user object function which checks if the username is unique or not
             // if unique, create user object, if not unique, tell user that already exists
@@ -1172,7 +1173,6 @@ void MainWindow::populatePreDefineCourseObjects() {
             fileExtensions = b.getExtensionsAtUrl(preferencePath);
 
             addExtensionsToDb(fileExtensions);
-
             CourseCategory cc = CourseCategory(preferenceName, preferencePath, fileExtensions);
             courseCategories.push_back(cc);
 
@@ -1182,15 +1182,33 @@ void MainWindow::populatePreDefineCourseObjects() {
 }
 
 void MainWindow::addExtensionsToDb(vector<string> fileExtensions) {
-    int id;
+    vector<string> extensionNames;
+    vector<pair <int, string>> idNamePairs;
+    vector<string> newExtensions;
+    vector<int> newExtensionIDs;
     for (auto extension: fileExtensions){
         //Remove the period in the file extension.
         extension.erase(std::remove(extension.begin(), extension.end(), '.'), extension.end());
-        if (!dbGetExtensionByName(id,extension)) {
-            //If extension not already in DB table....add it.
-            dbCreateExtension(extension);
+        extensionNames.push_back(extension);
+    }
+    idNamePairs = dbGetExtensionsAndNames();
+    for (unsigned long i = 0; i < extensionNames.size(); i++){
+        bool notInDB = true;
+        for (unsigned long j = 0; j < idNamePairs.size(); j++){
+            if (extensionNames[i] == idNamePairs[j].second){
+                notInDB = false;
+                break;
+            }
+        }
+        if (notInDB){
+            qDebug() << "Not in db: " << QString::fromStdString(extensionNames[i]);
+            newExtensions.push_back(extensionNames[i]);
         }
     }
+    if (newExtensions.size() > 0){
+        newExtensionIDs = dbCreateMultipleExtensions(newExtensions);
+    }
+
 }
 
 void MainWindow::on_actionExit_triggered()

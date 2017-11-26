@@ -9,14 +9,16 @@
 #define EXTENSION_H_
 #include <pqxx/pqxx>
 #include <string>
+#include <vector>
 #include "dbExecute.h"
 
 int dbCreateExtension(const std::string& name);
+std::vector<int> dbCreateMultipleExtensions(std::vector<std::string>& names);
 bool dbDeleteExtension(int id);
 bool dbDeleteExtensionByName(const std::string& name);
 bool dbGetExtensionByName(int& id, const std::string& name);
+std::vector<std::pair <int, std::string>> dbGetExtensionsAndNames();
 bool dbGetExtensionName(int id, std::string& name);
 bool dbGetExtensionID(int& id, const std::string& name);
-// comment so bitbucket reflects changes, delete afterwards
 
 #endif /* EXTENSION_H_ */
