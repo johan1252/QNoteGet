@@ -114,8 +114,12 @@ int dbRunDatabase() {
 //	for (auto i = courses.begin(); i != courses.end(); ++i) {
 //	    std::cout << *i << ' ';
 //	}
-//	createExtension("cpp");
-//	deleteExtensionByName("cpp");
+//    int id;
+//    std::string name = "pdf";
+//    std::cout << "CHECK EXTENSION: " << dbGetExtensionByName(id,name);
+//    std::cout << "CHECK EXTENSION: " << id;
+//    std::cout << "CREATED EXTENSION" << dbCreateExtension("cpp");
+//    deleteExtensionByName("cpp");
 //    int myInt = 0;
 //    dbGetUserByName("testing", myInt);
 //    std::cout << std::to_string(myInt);

@@ -93,8 +93,6 @@ private slots:
 
     void on_actionExit_triggered();
 
-    //void on_pushButton_saveAccount_clicked();
-
 private:
     Ui::MainWindow *ui;
 
@@ -105,7 +103,7 @@ private:
     QFileSystemModel * fileModel;
     vector<Course> preDefinedCourses;
     User currentUserG;
-    bool editsMade; //for use with editSubscriptions button
+    vector<bool> courseEditsMade; //for use with editSubscriptions button
     vector<Course*> * beforeSubs = nullptr;
 
     void setupDirectoryExplorer();

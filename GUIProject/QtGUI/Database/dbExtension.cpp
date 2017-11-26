@@ -46,6 +46,25 @@ bool dbDeleteExtensionByName(const std::string& name) {
 }
 
 //sets all attributes by reference for caller
+bool dbGetExtensionByName(int& id, const std::string& name) {
+     std::string statement = "SELECT id FROM EXTENSIONS WHERE NAME='" + name + "';";
+    pqxx::result R = dbExecuteReturn(statement);
+    if (R.empty()) {
+        id = -1;
+        return false;
+    }
+    pqxx::result::size_type i = 0;
+    std::stringstream sid;
+    for (; i < R.size(); ++i) {
+        sid << R[i][0];
+        id = std::stoi(sid.str());
+    }
+    return true;
+    // comment so bitbucket reflects changes, delete afterwards
+
+}
+
+//sets all attributes by reference for caller
 bool dbGetExtensionName(int id, std::string& name) {
     std::string statement = "SELECT * FROM EXTENSIONS WHERE ID=" + std::to_string(id);
     pqxx::result R = dbExecuteReturn(statement);
