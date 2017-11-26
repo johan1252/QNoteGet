@@ -686,7 +686,7 @@
         </rect>
        </property>
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <property name="documentMode">
         <bool>false</bool>
@@ -797,19 +797,6 @@
          </property>
          <property name="text">
           <string>TextLabel</string>
-         </property>
-        </widget>
-        <widget class="QPushButton" name="button_getCredentials">
-         <property name="geometry">
-          <rect>
-           <x>20</x>
-           <y>190</y>
-           <width>121</width>
-           <height>24</height>
-          </rect>
-         </property>
-         <property name="text">
-          <string>get credentials</string>
          </property>
         </widget>
        </widget>
@@ -1176,7 +1163,6 @@ font-family: &quot;Times New Roman&quot; serif;
   <tabstop>pushButton_doneSubscribe</tabstop>
   <tabstop>lineEdit_fileDirectory</tabstop>
   <tabstop>pushButton</tabstop>
-  <tabstop>button_getCredentials</tabstop>
  </tabstops>
  <resources/>
  <connections/>

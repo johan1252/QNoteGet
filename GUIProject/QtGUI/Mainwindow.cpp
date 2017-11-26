@@ -389,6 +389,7 @@ void MainWindow::displayApplicableCourseTabs(){
 
     //TODO: Right now the download files is set here BEFORE the user selects extensions
     //This will be moved once we have the subscriptions stuff working properly.
+    qDebug() << "Already here???";
     Backend b;
     b.downloadFilesForCourses(currentUserG);
 
@@ -1136,17 +1137,6 @@ void MainWindow::on_pushButton_clicked()
     ui->lineEdit_fileDirectory->setText(noteDir);
 }
 
-void MainWindow::getCredentials()
-{
-    Credentials dialog;
-    dialog.validateCredentials("post.queensu.ca/~nm7/ELEC451/");
-}
-
-void MainWindow::on_button_getCredentials_clicked()
-{
-    getCredentials();
-}
-
 //TODO: Create a backend class that takes some of this out of main window.
 //As well, add some error checking for return codes of the DB calls.
 void MainWindow::populatePreDefineCourseObjects() {
@@ -1181,11 +1171,25 @@ void MainWindow::populatePreDefineCourseObjects() {
             b.fileExt.clear();
             fileExtensions = b.getExtensionsAtUrl(preferencePath);
 
+            addExtensionsToDb(fileExtensions);
+
             CourseCategory cc = CourseCategory(preferenceName, preferencePath, fileExtensions);
             courseCategories.push_back(cc);
 
         }
         preDefinedCourses.push_back(Course(courseName, coursePath, courseCategories));
+    }
+}
+
+void MainWindow::addExtensionsToDb(vector<string> fileExtensions) {
+    int id;
+    for (auto extension: fileExtensions){
+        //Remove the period in the file extension.
+        extension.erase(std::remove(extension.begin(), extension.end(), '.'), extension.end());
+        if (!dbGetExtensionByName(id,extension)) {
+            //If extension not already in DB table....add it.
+            dbCreateExtension(extension);
+        }
     }
 }
 
