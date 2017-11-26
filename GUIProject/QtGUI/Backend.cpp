@@ -1,11 +1,29 @@
 #include "Backend.h"
 
 string data;
-//TODO updateCategoryExtension method
-//CourseCategory Backend::updateCategoryExtension(CourseCategory categoryObject);
 
-//TODO download files for course method, should call getFilesAtUrl() method and DownloadFilesInUrl() method.
-//void Backend::downloadFilesForCourse(Course courseObject);
+//Download files for course method, calls getFilesAtUrl() method and DownloadFile() methods.
+void Backend::downloadFilesForCourses(User userObject) {
+    vector<Course> userCourses = userObject.getSubscribedCourses();
+    for (auto course:userCourses){
+        vector<CourseCategory> courseCategories = course.getCategories();
+
+        //Create directory for course
+        createCourseDirectory(userObject, course);
+
+        for (auto category:courseCategories) {
+            vector<string> urls = getFilesAtUrl(category);
+
+            //Create sub-directory for course
+            createCourseSubDirectory(userObject,course,category);
+
+            for(auto url:urls){
+                //cout << url << endl;
+                downloadFile(url,userObject,course,category);
+            }
+        }
+    }
+}
 
 /*
  * Daemon (not actually daemon task since that requires lot of OS work
@@ -120,7 +138,7 @@ vector<string> Backend::getFilesAtUrl(CourseCategory categoryObject){
         std::transform(lowerLine.begin(), lowerLine.end(), lowerLine.begin(), ::tolower);
         int begin = lowerLine.find("<a href=\"");
         if (begin != -1){
-            cout << line << endl;
+            //cout << line << endl;
             int end = begin+9;
             while (line[end] != '"'){
                 end++;
@@ -136,7 +154,7 @@ vector<string> Backend::getFilesAtUrl(CourseCategory categoryObject){
                 if (newline.find(e) != string::npos){
                     string file = urlPath + "/" + newline.substr(9,end-begin-10); //start at 9 to get rid of <a href=" ,length is the end - the beginning - 9 - 1 to elimnate the end quote
                     allFiles.push_back(file);
-                    cout << "File: " << file << endl;
+                    //cout << "File: " << file << endl;
                     break;
                  }
             }
@@ -150,7 +168,7 @@ vector<string> Backend::getFilesAtUrl(CourseCategory categoryObject){
                 unsigned last = line.find(".html\"");
                 string newUrl = urlPath + "/" + line.substr(first+1, last-first+4);
                 if(urlValid(newUrl)){
-                    cout << "Recursive call" << newUrl << endl;
+                    //cout << "Recursive call" << newUrl << endl;
                     urlsVisited.push_back(newUrl);\
                     CourseCategory c = CourseCategory("intmUrl", newUrl, fileExtensions);
                     moreFiles = getFilesAtUrl(c);
@@ -200,7 +218,7 @@ vector<string> Backend::getFilesAtUrl(CourseCategory categoryObject){
                 unsigned last = r.find(".html\"");
                 string newUrl = urlPath + "/" + r.substr(first+1, last-first+4);
                 if(urlValid(newUrl)){
-                    cout << "Recursive call" << newUrl  << endl;
+                    //cout << "Recursive call" << newUrl  << endl;
                     urlsVisited.push_back(newUrl);\
                     CourseCategory c = CourseCategory("intmUrl", newUrl, fileExtensions);
                     moreFiles = getFilesAtUrl(c);
@@ -367,47 +385,73 @@ bool Backend::urlValid(string newUrl){
     return false;
 }
 
-//TODO downloadFilesInUrl, can use CourseScraper methods as example but use better structure.
-/*void Backend::downloadFilesInUrl(CourseCategory categoryObject){
-     vector<string> fileUrls = getFilesAtUrl(categoryObject);
-    for (auto f : fileUrls){
-       // downloadFile(f, currentUserG,?, categoryObject); //some course object,??
-    }
-}*/
-
 // Note: fileUrl should contain file name with extension.
 void Backend::downloadFile(string fileUrl, User userObject, Course courseObject, CourseCategory courseCategoryObject) {
+    FILE *fp;
+    string pdfFile,id;
+    CURLcode res;
+    curl_global_init(CURL_GLOBAL_ALL);
+    CURL* curl = curl_easy_init();
+
     const string dirPathRoot = userObject.getFileDirectory();
-    string dirPath = dirPathRoot + "/" + courseObject.getRootUrl() + "/" + courseCategoryObject.getCategoryName();
-    //string dirPath = dirPathRoot + "/" + courseObject.getCourseName() + "/" + courseCategoryObject.getCategoryName();
+    string dirPath = dirPathRoot + "/" + courseObject.getCourseName() + "/" + courseCategoryObject.getCategoryName();
+
     //Test path
-    //string dirPath = "/Users/johancornelissen/Desktop/CISC320/Lectures";
+    //dirPath = "/Users/johancornelissen/Desktop/CISC320/Lectures";
 
     string url = fileUrl;
 
     //Test Url
     //url = "http://research.cs.queensu.ca/home/cisc320/Fall2017/LectureContent/CISC320_2017_19Oct.pdf";
 
-    //Find file name example, "CISC320_Lecture3.pdf"
-    string pdfFile = url.substr(url.find_last_of("\\/"),url.back());
+    if (url.find("drive.google.com") != string::npos){
+        //Want in following form
+        //curl -L -o ./test.pdf -k "https://drive.google.com/uc?export=download&id=0B949Dch_2XgWUEhtN2FIbFE3TVk"
+
+        //For google drive links, we need to extract ID and use the google download url.
+        //Download url "https://drive.google.com/uc?export=download&id="
+        boost::regex urlPattern("/d/(.*)/view?");
+        boost::match_results<std::string::const_iterator> testMatches;
+        std::string::const_iterator startPos = url.begin();
+        if ( regex_search( startPos, url.cend(), testMatches, urlPattern ) ) {
+            id = testMatches[1];
+            url = "https://drive.google.com/uc?export=download&id=" + id;
+
+            //To download google drive links, redirects need to be followed.
+            curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1);
+        } else {
+            cerr << "ERROR, google drive link failed, could not find URL id." << endl;
+            return;
+        }
+
+        pdfFile = "/" + id + ".pdf";
+    } else {
+        //Get the name at end of url. example: "http://research.cs.queensu.ca/home/cisc320/Fall2017/LectureContent/CISC320_2017_19Oct.pdf"
+        //For example pdfFile = /CISC320_2017_19Oct.pdf
+        pdfFile = url.substr(url.find_last_of("\\/"),url.back());
+    }
+
     dirPath = dirPath + pdfFile;
 
-    FILE *fp;
-    curl_global_init(CURL_GLOBAL_ALL);
-    CURL* curl = curl_easy_init();
+    if ((fp = std::fopen(dirPath.c_str(),"r"))){
+        //If file already exists, then we don't need to re-download.
+        fclose(fp);
+        return;
+    }
 
-    //Open file for writing in user's computer
+    fclose(fp);
     fp = std::fopen(dirPath.c_str(),"wb");
-    //cout << "Opening file: " << dirPath << endl;
 
     //Download file contents
     curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &Backend::write_data);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &write_data);
 
     //Uncomment for Debugging
     //curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
 
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, fp);
+
+    res = curl_easy_perform(curl);
 
     /* always cleanup */
     fclose(fp);
@@ -417,7 +461,7 @@ void Backend::downloadFile(string fileUrl, User userObject, Course courseObject,
 
 void Backend::createCourseDirectory(User userObject, Course courseObject) {
     const string dirPathRoot = userObject.getFileDirectory();
-    const string dirPath = dirPathRoot + "/" + courseObject.getRootUrl();
+    const string dirPath = dirPathRoot + "/" + courseObject.getCourseName();
 
     //Test path
     //const string dirPath = "/Users/johancornelissen/Desktop/CISC320";
@@ -434,7 +478,7 @@ void Backend::createCourseDirectory(User userObject, Course courseObject) {
 
 void Backend::createCourseSubDirectory(User userObject, Course courseObject, CourseCategory courseCategoryObject) {
     const string dirPathRoot = userObject.getFileDirectory();
-    const string dirPath = dirPathRoot + "/" + courseObject.getRootUrl() + "/" + courseCategoryObject.getCategoryName();
+    const string dirPath = dirPathRoot + "/" + courseObject.getCourseName() + "/" + courseCategoryObject.getCategoryName();
 
     //Test path
     //const string dirPath = "/Users/johancornelissen/Desktop/CISC320/Lectures";
@@ -449,7 +493,7 @@ void Backend::createCourseSubDirectory(User userObject, Course courseObject, Cou
     }
 }
 
-size_t Backend::write_data(void *ptr, size_t size, size_t nmemb, FILE *stream) {
+size_t write_data(void *ptr, size_t size, size_t nmemb, FILE *stream) {
     size_t written = std::fwrite(ptr, size, nmemb, stream);
     return written;
 }
