@@ -62,7 +62,8 @@ void dbCreatePreDefinedCourses() {
                                        "PATH)" \
                                        "VALUES ('1','Assignments','http://research.cs.queensu.ca/home/cisc320/Fall2017/Assignments.html')" \
                                        ",('1','Excercise','http://research.cs.queensu.ca/home/cisc320/Fall2017/Exercises.html')" \
-                                       ",('1','Lecture Notes','http://research.cs.queensu.ca/home/cisc320/Fall2017/LectureContent/LectureNotes.html')";
+                                       ",('1','Lecture Notes','http://research.cs.queensu.ca/home/cisc320/Fall2017/LectureContent/LectureNotes.html')" \
+                                       ",('1','Final Exam Preparation','http://research.cs.queensu.ca/home/cisc320/Fall2017/FinalExamTopics.html')";
 
     std::string course451Preferences = "INSERT INTO PREFERENCES("  \
                                        "COURSEID," \
