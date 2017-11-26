@@ -93,6 +93,9 @@ private slots:
 
     void on_actionExit_triggered();
 
+    //Save button on account edit page
+    void on_pushButton_saveAccount_clicked();
+
 private:
     Ui::MainWindow *ui;
 
