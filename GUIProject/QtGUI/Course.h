@@ -21,12 +21,12 @@ public:
 
         string getCourseName() const;
         vector<CourseCategory> getCategories() const;
+        vector<CourseCategory *> getCategoriesByPtr();
         string getRootUrl() const;
         void setRootUrl(string path);
         void setCategories(vector<CourseCategory> category);
         void addCategory(CourseCategory category);
         void removeCategory(string category);
-        // comment so bitbucket reflects changes, delete afterwards
 
 private:
         string courseName;
