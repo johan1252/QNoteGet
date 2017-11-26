@@ -25,7 +25,6 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
     ui->stackedWidget->setCurrentIndex(HOMEPAGE);
-    setupDirectoryExplorer();
     editsMade = false; //for use with editSubscriptions button
 }
 
@@ -99,6 +98,8 @@ void MainWindow::on_pushButton_login_clicked()
             populateGlobalUserOnLogin(ui->lineEdit_loginUsername->text().toStdString(),dbPassword,dbPath,dbInterval);
             if( currentIndex < ui->stackedWidget->count())
             {
+                // Can only setup directory explorer once we have global user object.
+                setupDirectoryExplorer();
                 ui->stackedWidget->setCurrentIndex(YOURCLASSESPAGE);
             }
         } else {
@@ -1107,6 +1108,7 @@ void MainWindow::populatePreDefineCourseObjects() {
     string coursePath;
     string preferenceName;
     string preferencePath;
+    Backend b;
 
     //Populate course and CourseCategory objects for all courses in DB.
     for (auto courseId : courseIds){
@@ -1120,8 +1122,14 @@ void MainWindow::populatePreDefineCourseObjects() {
         for (auto preferenceId: preferenceIds) {
             dbGetPreference(preferenceId,preferenceName,preferencePath);
 
-            //TODO: use DB for fileExtensions instead of empty vector
+            //Use course scraper to get file extensions available on the page
             vector<string> fileExtensions = {};
+
+            //Must clear urlsVisited and fileExt vectores before calling getExtensionsAtUrl.
+            b.urlsVisited.clear();
+            b.fileExt.clear();
+            fileExtensions = b.getExtensionsAtUrl(preferencePath);
+
             CourseCategory cc = CourseCategory(preferenceName, preferencePath, fileExtensions);
             courseCategories.push_back(cc);
 
