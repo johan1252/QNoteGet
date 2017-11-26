@@ -286,7 +286,6 @@ vector<string> Backend::getExtensionsAtUrl(string categoryUrl){
     stringstream ss2;
 
     while (getline (ss, line)){
-
         //Handle the case where more than one href exists on a line.
         if (line.find("<a href=\"") != string::npos){
 
@@ -304,6 +303,7 @@ vector<string> Backend::getExtensionsAtUrl(string categoryUrl){
                         ss2 << restOfLine.substr(0, closingTagIndex+4) << endl;
                     } else {
                         ss2 << restOfLine << endl;
+                        restOfLine = "";
                     }
                 }
                 //Make the line equal to just the second with the FIRST href. Other hrefs are now part of ss2.
