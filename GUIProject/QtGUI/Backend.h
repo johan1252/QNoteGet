@@ -21,6 +21,7 @@ public:
 
     vector<string> getExtensionsAtUrl(string categoryUrl);
     vector<string> urlsVisited;
+    vector<string> getFilesAtUrl(CourseCategory categoryObject);
     vector<string> fileExt;
 private:
     bool urlValid(string newUrl);
@@ -31,7 +32,6 @@ private:
     void downloadFile(string fileUrl, User userObject, Course courseObject, CourseCategory courseCategoryObject);
     bool webpageError(CURL* curl, string line, string url);
     void curlAtUrl(CURL* curl, string url);
-    vector<string> getFilesAtUrl(CourseCategory categoryObject);
 };
 
 size_t writeCallback(char* buf,size_t size, size_t nmemb);
