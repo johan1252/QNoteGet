@@ -16,6 +16,7 @@
 #include <QGroupBox>
 
 #include "Database/dbDatabase.h"
+#include "Backend.h"
 #include "User.h"
 #include "Course.h"
 #include "Credentials.h"
