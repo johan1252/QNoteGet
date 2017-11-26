@@ -65,16 +65,37 @@ size_t writeCallback(char* buf,size_t size, size_t nmemb){
 
 bool Backend::webpageError(CURL* curl, string line, string url){
     if (line.find("401 Authorization Required") != string::npos){
-        data = "";
-        string username = "elec451";
-        string password = "cmos2017";
 
-        curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-        curl_easy_setopt(curl, CURLOPT_HTTPAUTH, (long)CURLAUTH_BASIC);
-        curl_easy_setopt(curl, CURLOPT_USERNAME, username.c_str());
-        curl_easy_setopt(curl, CURLOPT_PASSWORD, password.c_str());
-        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &writeCallback);
-        curl_easy_perform(curl);
+        //Try using current username and password saved.
+        //If it fails keep asking user for new username and password.
+        if (!username.empty() && !password.empty()){
+            data = "";
+            curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+            curl_easy_setopt(curl, CURLOPT_HTTPAUTH, (long)CURLAUTH_BASIC);
+            curl_easy_setopt(curl, CURLOPT_USERNAME, username.c_str());
+            curl_easy_setopt(curl, CURLOPT_PASSWORD, password.c_str());
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &writeCallback);
+            curl_easy_perform(curl);
+        }
+
+        while(data.find("401 Authorization Required") != string::npos){
+            data = "";
+
+            //(ui->loginLineEdit_credentials->text().isEmpty()) ||(ui->passwordLineEdit_passwordCredentials->text().isEmpty())
+            Credentials loginPopup;
+            loginPopup.setModal(true);
+            loginPopup.exec();
+
+            username = loginPopup.getUsername();
+            password = loginPopup.getPassword();
+
+            curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+            curl_easy_setopt(curl, CURLOPT_HTTPAUTH, (long)CURLAUTH_BASIC);
+            curl_easy_setopt(curl, CURLOPT_USERNAME, username.c_str());
+            curl_easy_setopt(curl, CURLOPT_PASSWORD, password.c_str());
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &writeCallback);
+            curl_easy_perform(curl);
+        }
 
         return true;
     }
@@ -223,7 +244,7 @@ vector<string> Backend::getFilesAtUrl(CourseCategory categoryObject){
                     CourseCategory c = CourseCategory("intmUrl", newUrl, fileExtensions);
                     moreFiles = getFilesAtUrl(c);
                     //cout << "End recursive call" << endl;
-                    allFiles.insert(allFiles.end(),moreFiles.begin(), moreFiles.end());
+                    //allFiles.insert(allFiles.end(),moreFiles.begin(), moreFiles.end());
                 }
             }
         }
@@ -240,6 +261,15 @@ vector<string> Backend::getExtensionsAtUrl(string categoryUrl){
     curl = curl_easy_init();
 
     curlAtUrl(curl, urlPath);
+
+    if (urlPath.find("451") != string::npos) {
+        //Cheat to make 451 google drive files show as pdf extension
+        if (find(fileExt.begin(), fileExt.end(), ".pdf") == fileExt.end()) {
+            fileExt.push_back(".pdf");
+        }
+        vector<string> fileExtensions = fileExt;
+        return fileExtensions;
+    }
 
     stringstream ss_init(data);
     string line;
@@ -298,11 +328,6 @@ vector<string> Backend::getExtensionsAtUrl(string categoryUrl){
                     }
                 }
             }
-        } else if (line.find("drive.google.com") != string::npos) {
-            //Cheat to make 451 google drive files show as pdf extension
-            if (find(fileExt.begin(), fileExt.end(), ".pdf") == fileExt.end()) {
-                fileExt.push_back(".pdf");
-            }
         }
 
         //If an html page, recurse into the pages.
@@ -342,11 +367,6 @@ vector<string> Backend::getExtensionsAtUrl(string categoryUrl){
                         //cout << "Extension Added: " << ext << endl;
                     }
                 }
-            }
-        } else if (line.find("drive.google.com") != string::npos) {
-            //Cheat to make 451 google drive files show as pdf extension
-            if (find(fileExt.begin(), fileExt.end(), ".pdf") == fileExt.end()) {
-                fileExt.push_back(".pdf");
             }
         }
         //If an html page, recurse into the pages.

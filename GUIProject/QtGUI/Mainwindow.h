@@ -85,10 +85,6 @@ private slots:
 
     void on_pushButton_clicked();
 
-    void getCredentials();
-
-    void on_button_getCredentials_clicked();
-
     void quitApplication();
 
     void on_actionExit_triggered();
@@ -120,5 +116,5 @@ private:
     void courseCategorySaveButtonClicked(int courseTabId);
     vector<CourseCategory> editSubscription(vector<Course *> userCourses, int UserCourseIndex, QString thisCourse, QList<QGroupBox*> categories);
     void compareEditedSubscriptions(const int courseID, vector<CourseCategory> beforeSubs, vector<CourseCategory> afterSubs);
-
+    void addExtensionsToDb(vector<string> fileExtensions);
 };

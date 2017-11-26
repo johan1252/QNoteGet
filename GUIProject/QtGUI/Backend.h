@@ -8,6 +8,7 @@
 #include <boost/filesystem.hpp>
 #include <boost/regex.hpp>
 #include <QDebug>
+#include "Credentials.h"
 
 class Backend;
 
@@ -31,6 +32,9 @@ private:
     void downloadFile(string fileUrl, User userObject, Course courseObject, CourseCategory courseCategoryObject);
     bool webpageError(CURL* curl, string line, string url);
     void curlAtUrl(CURL* curl, string url);
+
+    string username;
+    string password;
 };
 
 size_t writeCallback(char* buf,size_t size, size_t nmemb);
