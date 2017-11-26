@@ -258,7 +258,7 @@ bool MainWindow::createUser(string username, int password, string path, int inte
         int userId = dbCreateUser(username,password,path,interval);
 
         User userAccount = User(userId,username,password,path,interval,userCourses);
-        //TODO:: check that userCourses object has filled in information from predefined
+
         currentUserG = userAccount;
         displayApplicableCourseTabs();
 
@@ -385,6 +385,12 @@ void MainWindow::on_listView_courseFiles_doubleClicked(const QModelIndex &index)
 
 
 void MainWindow::displayApplicableCourseTabs(){
+
+    //TODO: Right now the download files is set here BEFORE the user selects extensions
+    //This will be moved once we have the subscriptions stuff working properly.
+    Backend b;
+    b.downloadFilesForCourses(currentUserG);
+
     vector<Course> subscription = currentUserG.getSubscribedCourses();
 
     // all disabled by default
