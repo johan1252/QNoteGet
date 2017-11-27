@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1123</width>
-    <height>649</height>
+    <height>800</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,13 +19,13 @@
   <property name="minimumSize">
    <size>
     <width>1123</width>
-    <height>649</height>
+    <height>800</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
     <width>1123</width>
-    <height>649</height>
+    <height>800</height>
    </size>
   </property>
   <property name="focusPolicy">
@@ -41,7 +41,7 @@
       <x>10</x>
       <y>0</y>
       <width>1101</width>
-      <height>571</height>
+      <height>700</height>
      </rect>
     </property>
     <property name="currentIndex">
@@ -54,7 +54,7 @@
         <x>0</x>
         <y>10</y>
         <width>661</width>
-        <height>561</height>
+        <height>675</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -192,7 +192,7 @@
         <x>670</x>
         <y>10</y>
         <width>431</width>
-        <height>561</height>
+        <height>675</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -269,7 +269,7 @@
         <x>0</x>
         <y>10</y>
         <width>1101</width>
-        <height>561</height>
+        <height>675</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -598,7 +598,7 @@
         <x>10</x>
         <y>10</y>
         <width>1091</width>
-        <height>561</height>
+        <height>800</height>
        </rect>
       </property>
       <property name="sizePolicy">
@@ -666,8 +666,8 @@
       <widget class="QPushButton" name="pushButton_doneSubscribe">
        <property name="geometry">
         <rect>
-         <x>490</x>
-         <y>500</y>
+         <x>480</x>
+         <y>630</y>
          <width>181</width>
          <height>51</height>
         </rect>
@@ -682,7 +682,7 @@
          <x>260</x>
          <y>110</y>
          <width>651</width>
-         <height>381</height>
+         <height>511</height>
         </rect>
        </property>
        <property name="currentIndex">
@@ -855,28 +855,12 @@ font-family: &quot;Times New Roman&quot; serif;</string>
            <x>20</x>
            <y>90</y>
            <width>481</width>
-           <height>251</height>
+           <height>360</height>
           </rect>
          </property>
          <property name="title">
           <string/>
          </property>
-         <widget class="QFrame" name="frame_groupBox_CISC320">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>481</width>
-            <height>251</height>
-           </rect>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-         </widget>
         </widget>
        </widget>
        <widget class="QWidget" name="tab_elec451">
@@ -934,28 +918,12 @@ font-family: &quot;Times New Roman&quot; serif;</string>
            <x>20</x>
            <y>90</y>
            <width>481</width>
-           <height>251</height>
+           <height>360</height>
           </rect>
          </property>
          <property name="title">
           <string/>
          </property>
-         <widget class="QFrame" name="frame_groupBox_ELEC451">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>481</width>
-            <height>251</height>
-           </rect>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-         </widget>
         </widget>
        </widget>
        <widget class="QWidget" name="tab_cisc124">
@@ -1014,28 +982,12 @@ font-family: &quot;Times New Roman&quot; serif;
            <x>20</x>
            <y>90</y>
            <width>481</width>
-           <height>251</height>
+           <height>360</height>
           </rect>
          </property>
          <property name="title">
           <string/>
          </property>
-         <widget class="QFrame" name="frame_groupBox_CISC124">
-          <property name="geometry">
-           <rect>
-            <x>0</x>
-            <y>0</y>
-            <width>481</width>
-            <height>251</height>
-           </rect>
-          </property>
-          <property name="frameShape">
-           <enum>QFrame::StyledPanel</enum>
-          </property>
-          <property name="frameShadow">
-           <enum>QFrame::Raised</enum>
-          </property>
-         </widget>
         </widget>
        </widget>
       </widget>

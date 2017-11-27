@@ -276,10 +276,15 @@ bool MainWindow::createUser(string username, int password, string path, int inte
                 int prefID;
                 dbGetPreferenceIdByName(courseId, courseCats[i].getCategoryName(), prefID);
                 vector<string> catExt = courseCats[i].getExtensionPreferences();
+                for (int j = 0; j < catExt.size(); j++){
+                    qDebug() << QString::fromStdString(catExt[j]);
+                }
+                trimExtensions(catExt);
                 vector<int> extIDs;
                 for (unsigned long j = 0; j < catExt.size(); j++){
                     int extID;
                     dbGetExtensionID(extID, catExt[j]);
+                    qDebug() << "Inside createUser, extID returned from dbGetExtensionID is: " << extID;
                     extIDs.push_back(extID);
                 }
                 dbCreateMultipleUserPreferences(userId, courseId, prefID, extIDs);
@@ -434,8 +439,6 @@ void MainWindow::displayCategoriesForCourse(Course courseObj, int index){
 
     ui->tabWidget->setCurrentIndex(index);
     QGroupBox * groupBox = ui->tabWidget->currentWidget()->findChild<QGroupBox*>(QString(), Qt::FindDirectChildrenOnly);
-    QFrame * frame = groupBox->findChild<QFrame*>(QString(), Qt::FindDirectChildrenOnly);
-
     // Make sure groupBox doesnt already have children (for when this may be called from login or edit subs)
     QList<QGroupBox *> possibleChildren = groupBox->findChildren<QGroupBox *>();
 
@@ -469,35 +472,10 @@ void MainWindow::displayCategoriesForCourse(Course courseObj, int index){
             catBox->setChecked(true);
             categoriesBox->addWidget(catBox);
         }
-        categoriesBox->setSizeConstraint(QLayout::SetMinAndMaxSize);
-        frame->setLayout(categoriesBox);
-
-        QScrollArea *scrollArea = new QScrollArea(groupBox);
-        scrollArea->setBackgroundRole(QPalette::Window);
-        scrollArea->setWidget(frame);
-
-        QSize areaSize = scrollArea->size();
-        QSize widgetSize = frame->size();
-
-        QScrollBar * vBar = scrollArea->verticalScrollBar();
-        vBar->setPageStep(areaSize.height());
-        QScrollBar * hBar = scrollArea->horizontalScrollBar();
-        hBar->setPageStep(areaSize.width());
-        vBar->setRange(0, widgetSize.height() - areaSize.height());
-        hBar->setRange(0, widgetSize.width() - areaSize.width());
-        updateWidgetPosition(vBar, hBar, scrollArea, frame);
+        groupBox->setLayout(categoriesBox);
     }
 }
 
-void MainWindow::updateWidgetPosition(QScrollBar *vBar, QScrollBar *hBar, QScrollArea *scrollArea, QFrame * frame){
-
-    int hValue = hBar->value();
-    int vValue = vBar->value();
-    QPoint topLeft = scrollArea->rect().topLeft();
-
-    frame->move(topLeft.x() - hValue, topLeft.y() - vValue);
-
-}
 
 //NOTE: Qt actually saves the state of the checkboxes when you leave the page (its all in the same window)
 //This functionality is for the hypothetical case in which a new user visits the page after another has logged out, and
@@ -759,7 +737,10 @@ void MainWindow::courseCategorySaveButtonClicked(int courseTabId) {
                 else{
                     int extID;
                     try{
-                        if(dbGetExtensionID(extID, extensionCheckboxes[i]->text().toStdString())){
+                        string ext = extensionCheckboxes[i]->text().toStdString();
+                        ext.erase(std::remove(ext.begin(), ext.end(), '.'), ext.end());
+
+                        if(dbGetExtensionID(extID, ext)){
                             qDebug() << "SUccess! got extID, it is " << extID;
                         }
                         else{
@@ -884,9 +865,9 @@ void MainWindow::compareEditedSubscriptions(const int courseID, vector<CourseCat
     if (beforeSubs.size() > 0){
         try{
             if (dbGetUserPreferences(userID, courseID, prefIDs)){ //this maps to beforeSubs since no db calls have changed subscription list
-                //qDebug() << "dbGetUserPreferences called succesfully. PrefIDs are: ";
+                qDebug() << "dbGetUserPreferences called succesfully. PrefIDs are: ";
                 for (size_t i = 0; i < prefIDs.size(); i++){
-                    //qDebug() << prefIDs[i];
+                    qDebug() << prefIDs[i];
                 }
             }
             else{
@@ -898,7 +879,7 @@ void MainWindow::compareEditedSubscriptions(const int courseID, vector<CourseCat
             QMessageBox::critical(this, "Get User Preference Error", error);
         }
         catch(...){
-            //qDebug() << "ERROR: Unable to retrieve user preference IDs";
+            qDebug() << "ERROR: Unable to retrieve user preference IDs";
         }
     }
     vector<int> idsToDelete; //category preferences
@@ -917,33 +898,33 @@ void MainWindow::compareEditedSubscriptions(const int courseID, vector<CourseCat
         //check for old subscriptions not renewed
         for (unsigned long i = 0; i < beforeSubs.size(); i++){
             bool beforeNotAfter = true;
-            //qDebug() << "beforeSubs[i]: " << QString::fromStdString(beforeSubs[i].getCategoryName());
+            qDebug() << "beforeSubs[i]: " << QString::fromStdString(beforeSubs[i].getCategoryName());
             for (unsigned long j = 0; j < afterSubs.size(); j++){
-                //qDebug() << "afterSubs[j]: " << QString::fromStdString(afterSubs[j].getCategoryName());
+                qDebug() << "afterSubs[j]: " << QString::fromStdString(afterSubs[j].getCategoryName());
 
                 if (beforeSubs[i].getCategoryName() == afterSubs[j].getCategoryName()){
                     beforeNotAfter = false;
-                    //qDebug() << "beforeNotAfter changed, it is now " << beforeNotAfter;
+                    qDebug() << "beforeNotAfter changed, it is now " << beforeNotAfter;
                     break;
                 }
             }
             if (beforeNotAfter){ //Scenario 1
-                //qDebug() << "IT IS BEFORE NOT AFTER with prefID: " << prefIDs[i];
+                qDebug() << "IT IS BEFORE NOT AFTER with prefID: " << prefIDs[i];
                 idsToDelete.push_back(prefIDs[i]);
                 vector<CourseCategory>::iterator it;
                 it = afterSubs.begin();
                 advance(it, i); //get iterator to position that is absent in afterSubs
                 afterSubs.insert(it, fakeCat);
-                //qDebug() << "Insertion successful! afterSubs is now: ";
+                qDebug() << "Insertion successful! afterSubs is now: ";
                 for (size_t z = 0; z < afterSubs.size(); z++){
-                    //qDebug() << QString::fromStdString(afterSubs[z].getCategoryName());
+                    qDebug() << QString::fromStdString(afterSubs[z].getCategoryName());
                 }
             }
             else{ //Scenario 2
                 //But still need to check if extensions were changed
-                //qDebug() << "EXECUTION GETS HEREEEE TO SCENEARIO 2";
-                //qDebug() << "beforeSubs.size() is " << beforeSubs.size() << " and afterSubs.size() is " << afterSubs.size();
-                //qDebug() << "but i is: " << i;
+                qDebug() << "EXECUTION GETS HEREEEE TO SCENEARIO 2";
+                qDebug() << "beforeSubs.size() is " << beforeSubs.size() << " and afterSubs.size() is " << afterSubs.size();
+                qDebug() << "but i is: " << i;
                 //if a category's been added, shifts afterSubs so that beforeSubs[i] != afterSubs[i], so have to find matching category
                 int matchingAfterCat = -1;
                 for (unsigned long z = 0; z < afterSubs.size(); z++){
@@ -954,23 +935,23 @@ void MainWindow::compareEditedSubscriptions(const int courseID, vector<CourseCat
                 }
                 vector<string> beforeExtensions = beforeSubs[i].getExtensionPreferences();
                 vector<string> afterExtensions = afterSubs[matchingAfterCat].getExtensionPreferences();
-                //qDebug() << "beforeExtensions size is: " << beforeExtensions.size() << "for cat: " << QString::fromStdString(beforeSubs[i].getCategoryName()) << " and those extensions are: ";
-                //for (unsigned long z = 0; z < beforeExtensions.size(); z++) { //qDebug() << QString::fromStdString(beforeExtensions[z]);}
-                //qDebug() << "afterExtensions size is: " << afterExtensions.size() << " for cat: " <<QString::fromStdString(afterSubs[matchingAfterCat].getCategoryName()) << " and those extensions are: ";
-                //for (unsigned long z = 0; z < afterExtensions.size(); z++){//qDebug() << QString::fromStdString(afterExtensions[z]);}
-                //qDebug() << "size of prefIds: " << prefIDs.size();
-                //qDebug() << "userID is: " << userID << "courseID is: " << courseID << " prefIDs are: " << prefIDs[i] << " and userBeforeExtensionPredIDs size is: " << userBeforeExtensionPrefIDs.size();
+                qDebug() << "beforeExtensions size is: " << beforeExtensions.size() << "for cat: " << QString::fromStdString(beforeSubs[i].getCategoryName()) << " and those extensions are: ";
+                //for (unsigned long z = 0; z < beforeExtensions.size(); z++) { qDebug() << QString::fromStdString(beforeExtensions[z]);}
+                qDebug() << "afterExtensions size is: " << afterExtensions.size() << " for cat: " <<QString::fromStdString(afterSubs[matchingAfterCat].getCategoryName()) << " and those extensions are: ";
+                //for (unsigned long z = 0; z < afterExtensions.size(); z++){qDebug() << QString::fromStdString(afterExtensions[z]);}
+                qDebug() << "size of prefIds: " << prefIDs.size();
+                qDebug() << "userID is: " << userID << "courseID is: " << courseID << " prefIDs are: " << prefIDs[i] << " and userBeforeExtensionPredIDs size is: " << userBeforeExtensionPrefIDs.size();
                 try{
                     if (dbGetUserExtensions(userID, courseID, prefIDs[i], userBeforeExtensionPrefIDs)){
-                        //qDebug() << "userBeforeExtensionPrefIDs size is: " << userBeforeExtensionPrefIDs.size();
-                        //qDebug() << "dbGetUserExtensions called successfully. userBeforeExtensionPrefIDs are: ";
+                        qDebug() << "userBeforeExtensionPrefIDs size is: " << userBeforeExtensionPrefIDs.size();
+                        qDebug() << "dbGetUserExtensions called successfully. userBeforeExtensionPrefIDs are: ";
                         for (size_t z = 0; z < userBeforeExtensionPrefIDs.size(); z++){
-                            //qDebug() << userBeforeExtensionPrefIDs[z];
+                            qDebug() << userBeforeExtensionPrefIDs[z];
                         }
                     }
                     else{
                         QString dbError = "ERROR: Unable to retrieve user extension IDs";
-                        //qDebug() << "ERROR: Unable to retrieve user extension IDs for courseID: " << courseID << " and prefID: " << prefIDs[i];
+                        qDebug() << "ERROR: Unable to retrieve user extension IDs for courseID: " << courseID << " and prefID: " << prefIDs[i];
                         throw dbError;
                     }
                 }
@@ -978,10 +959,10 @@ void MainWindow::compareEditedSubscriptions(const int courseID, vector<CourseCat
                     QMessageBox::critical(this, "Get User Extensions Error", error);
                 }
                 catch(...){
-                    //qDebug() << "ERROR: Unable to retrieve user extension IDs";
+                    qDebug() << "ERROR: Unable to retrieve user extension IDs";
                 }
                 //do the same thing another level down
-                //qDebug() << "AND ALSO GETS HERE";
+                qDebug() << "AND ALSO GETS HERE";
                 for (unsigned long k = 0; k < beforeExtensions.size(); k++){
                     beforeNotAfter = true;
                     for (unsigned long l = 0; l < afterExtensions.size(); l++){
@@ -990,7 +971,7 @@ void MainWindow::compareEditedSubscriptions(const int courseID, vector<CourseCat
                         }
                     }
                     if (beforeNotAfter){ //only removes extensions
-                        //qDebug() << "userBeforeExtensionPrefIDs size is: " << userBeforeExtensionPrefIDs.size();
+                        qDebug() << "userBeforeExtensionPrefIDs size is: " << userBeforeExtensionPrefIDs.size();
                         extensionIDsToDelete.push_back(userBeforeExtensionPrefIDs[k]);
                     }
                 }
@@ -1019,7 +1000,7 @@ void MainWindow::compareEditedSubscriptions(const int courseID, vector<CourseCat
                             QMessageBox::critical(this, "Get Extension ID Error", error);
                         }
                         catch(...){
-                            //qDebug() << "ERROR: Unable to retrieve extension IDs";
+                            qDebug() << "ERROR: Unable to retrieve extension IDs";
                         }
                         try{
                             if (dbCreateUserPreference(userID, courseID, prefIDs[i], extID)){}
@@ -1032,17 +1013,17 @@ void MainWindow::compareEditedSubscriptions(const int courseID, vector<CourseCat
                             QMessageBox::critical(this, "Create User Preferences Error", error);
                         }
                         catch(...){
-                            //qDebug() << "ERROR: Unable to create user preferences";
+                            qDebug() << "ERROR: Unable to create user preferences";
                         }
 
                     }
                 }
             }
             if (extensionIDsToDelete.size() > 0){
-                //qDebug() << "GETS TO EXTENSIONIDSTODELETE";
-                //qDebug() << "for prefID " << prefIDs[i] << " extensionIdsToDelete size is: " << extensionIDsToDelete.size() << " and they are: ";
+                qDebug() << "GETS TO EXTENSIONIDSTODELETE";
+                qDebug() << "for prefID " << prefIDs[i] << " extensionIdsToDelete size is: " << extensionIDsToDelete.size() << " and they are: ";
                 for (size_t z = 0; z < extensionIDsToDelete.size(); z++){
-                    //qDebug() << extensionIDsToDelete[z];
+                    qDebug() << extensionIDsToDelete[z];
                 }
                 try{
                     if (dbDeleteUserExtensionPreference(userID, courseID, prefIDs[i], extensionIDsToDelete)){}
@@ -1055,7 +1036,7 @@ void MainWindow::compareEditedSubscriptions(const int courseID, vector<CourseCat
                     QMessageBox::critical(this, "Delete User Extension Preferences Error", error);
                 }
                 catch(...){
-                    //qDebug() << "ERROR: Unable to delete user extension preferences";
+                    qDebug() << "ERROR: Unable to delete user extension preferences";
                 }
 
                 extensionIDsToDelete.clear();
@@ -1064,11 +1045,11 @@ void MainWindow::compareEditedSubscriptions(const int courseID, vector<CourseCat
 
         if (idsToDelete.size() > 0){
             try{
-                //qDebug() << "About to make a delete preference call";
-                //qDebug() << "idsToDelete.size is" << idsToDelete.size() << " and they are: ";
+                qDebug() << "About to make a delete preference call";
+                qDebug() << "idsToDelete.size is" << idsToDelete.size() << " and they are: ";
                 if (idsToDelete.size() > 0){
                     for (size_t z = 0; z < idsToDelete.size(); z++){
-                        //qDebug() << idsToDelete[z];
+                        qDebug() << idsToDelete[z];
                     }
                 }
                 if (dbDeleteUserCategoryPreference(userID, courseID, idsToDelete)){}
@@ -1081,7 +1062,7 @@ void MainWindow::compareEditedSubscriptions(const int courseID, vector<CourseCat
                 QMessageBox::critical(this, "Delete User Category Preferences Error", error);
             }
             catch(...){
-                //qDebug() << "ERROR: Unable to delete user category preferences";
+                qDebug() << "ERROR: Unable to delete user category preferences";
             }
 
             idsToDelete.clear();
@@ -1101,7 +1082,7 @@ void MainWindow::compareEditedSubscriptions(const int courseID, vector<CourseCat
             // Note: making a single call to DB and getting a vector<int> of course pref IDs unfortunately doesnt
             // work here, because afterSubs is not necessarily the size of all possible category subs, and so
             // a vector<int> coursePrefIDs[i] /= afterSubs[i] in all cases
-            //qDebug() << "AFTER NOT BEFORE is true for: " << QString::fromStdString(afterSubs[i].getCategoryName());
+            qDebug() << "AFTER NOT BEFORE is true for: " << QString::fromStdString(afterSubs[i].getCategoryName());
             int prefID;
             try{
                 if (dbGetPreferenceIdByName(courseID, afterSubs[i].getCategoryName(), prefID)){}
@@ -1114,7 +1095,7 @@ void MainWindow::compareEditedSubscriptions(const int courseID, vector<CourseCat
                 QMessageBox::critical(this, "Get Preference ID by Name Error", error);
             }
             catch(...){
-                //qDebug() << "ERROR: Unable to get preference IDs by name";
+                qDebug() << "ERROR: Unable to get preference IDs by name";
             }
 
             //also need to add extensions
@@ -1133,7 +1114,7 @@ void MainWindow::compareEditedSubscriptions(const int courseID, vector<CourseCat
                     QMessageBox::critical(this, "Get Extension ID Error", error);
                 }
                 catch(...){
-                    //qDebug() << "ERROR: Unable to get extension IDs";
+                    qDebug() << "ERROR: Unable to get extension IDs";
                 }
 
                 prefExtensionIDs.push_back(prefExtensionID);
@@ -1150,7 +1131,7 @@ void MainWindow::compareEditedSubscriptions(const int courseID, vector<CourseCat
                 QMessageBox::critical(this, "Create User Preferences Error", error);
             }
             catch(...){
-                //qDebug() << "ERROR: Unable to create user preferences";
+                qDebug() << "ERROR: Unable to create user preferences";
             }
 
         } //and then Scenario 4 is do nothing
@@ -1273,4 +1254,12 @@ void MainWindow::on_pushButton_saveAccount_clicked()
         QMessageBox::critical(this, "Success", "Your password has been changed");
 
     }
+}
+
+vector<string>& MainWindow::trimExtensions(vector<string>& extIDs){
+
+    for (int i = 0; i < extIDs.size(); i++){
+        extIDs[i].erase(std::remove(extIDs[i].begin(), extIDs[i].end(), '.'), extIDs[i].end());
+    }
+    return extIDs;
 }

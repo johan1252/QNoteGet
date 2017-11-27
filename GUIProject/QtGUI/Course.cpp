@@ -23,7 +23,6 @@ vector<CourseCategory *> Course::getCategoriesByPtr(){
     vector<CourseCategory *> ptrsToCats;
     for (int i = 0; i < Course::categories.size(); i++){
         CourseCategory * ptr = &Course::categories[i];
-        qDebug() << "ptr points at " << ptr << " whose value is: " << QString::fromStdString((*ptr).getCategoryName());
         ptrsToCats.push_back(ptr);
     }
 

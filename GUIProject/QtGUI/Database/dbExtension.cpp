@@ -152,10 +152,8 @@ bool dbGetExtensionID(int& id, const std::string& name){
     }
 
     pqxx::result::size_type i = 0;
-    std::stringstream sid;
-    for (; i < R.size(); i++){
-        sid << R[i][0];
-        id = std::stoi(sid.str());
-    }
+    std::string sid;
+    sid = R[i][0].c_str();
+    id = std::stoi(sid);
     return true;
 }

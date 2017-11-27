@@ -36,6 +36,7 @@ std::vector<int> dbCreateMultipleUserPreferences(int userId, int courseId, int p
 
     std::string statement = "INSERT INTO USERPREFERENCES(USERID, COURSEID, PREFERENCEID, EXTENSIONID)";
 
+
     if(extensionsIds.size() == 1){
         statement += " VALUES ('" + std::to_string(userId) + "', '" + std::to_string(courseId) + "', '" +
                 std::to_string(preferenceId) + "', '" + std::to_string(extensionsIds[0]) + "') RETURNING ID;";
@@ -49,7 +50,7 @@ std::vector<int> dbCreateMultipleUserPreferences(int userId, int courseId, int p
             }
             else{
                  statement += "('" + std::to_string(userId) + "', '" + std::to_string(courseId) + "', '" +
-                        std::to_string(preferenceId) + "', '" + std::to_string(extensionsIds[0]) + "'), ";
+                        std::to_string(preferenceId) + "', '" + std::to_string(extensionsIds[i]) + "'), ";
             }
         }
     }
@@ -60,11 +61,11 @@ std::vector<int> dbCreateMultipleUserPreferences(int userId, int courseId, int p
         return userPrefIds;
     }
     pqxx::result::size_type i = 0;
-    std::stringstream sid;
+    std::string sid;
     int id;
-    for (; i < R.size(); ++i){
-        sid << R[i][0];
-        id = std::stoi(sid.str());
+    for (; i < R.size(); i++){
+        sid = R[i][0].c_str();
+        id = std::stoi(sid);
         userPrefIds.push_back(id);
     }
     return userPrefIds;
