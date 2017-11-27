@@ -120,5 +120,6 @@ private:
     vector<CourseCategory> editSubscription(vector<Course *> userCourses, int UserCourseIndex, QString thisCourse, QList<QGroupBox*> categories);
     void compareEditedSubscriptions(const int courseID, vector<CourseCategory> beforeSubs, vector<CourseCategory> afterSubs);
     void addExtensionsToDb(vector<string> fileExtensions);
-    void updateWidgetPosition(QScrollBar *vBar, QScrollBar *hBar, QScrollArea *scrollArea, QFrame *frame);
+    vector<string>& trimExtensions(vector<string>& extIDs);
+
 };
