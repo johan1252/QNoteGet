@@ -14,6 +14,9 @@
 #include <string>
 #include <algorithm>
 #include <QGroupBox>
+#include <QScrollArea>
+#include <QScrollBar>
+#include <QPoint>
 
 #include "Database/dbDatabase.h"
 #include "Backend.h"
@@ -117,4 +120,5 @@ private:
     vector<CourseCategory> editSubscription(vector<Course *> userCourses, int UserCourseIndex, QString thisCourse, QList<QGroupBox*> categories);
     void compareEditedSubscriptions(const int courseID, vector<CourseCategory> beforeSubs, vector<CourseCategory> afterSubs);
     void addExtensionsToDb(vector<string> fileExtensions);
+    void updateWidgetPosition(QScrollBar *vBar, QScrollBar *hBar, QScrollArea *scrollArea, QFrame *frame);
 };

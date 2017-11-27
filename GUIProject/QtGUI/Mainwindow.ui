@@ -686,7 +686,7 @@
         </rect>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>3</number>
        </property>
        <property name="documentMode">
         <bool>false</bool>
@@ -861,6 +861,22 @@ font-family: &quot;Times New Roman&quot; serif;</string>
          <property name="title">
           <string/>
          </property>
+         <widget class="QFrame" name="frame_groupBox_CISC320">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>481</width>
+            <height>251</height>
+           </rect>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+         </widget>
         </widget>
        </widget>
        <widget class="QWidget" name="tab_elec451">
@@ -924,6 +940,22 @@ font-family: &quot;Times New Roman&quot; serif;</string>
          <property name="title">
           <string/>
          </property>
+         <widget class="QFrame" name="frame_groupBox_ELEC451">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>481</width>
+            <height>251</height>
+           </rect>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+         </widget>
         </widget>
        </widget>
        <widget class="QWidget" name="tab_cisc124">
@@ -988,6 +1020,22 @@ font-family: &quot;Times New Roman&quot; serif;
          <property name="title">
           <string/>
          </property>
+         <widget class="QFrame" name="frame_groupBox_CISC124">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>481</width>
+            <height>251</height>
+           </rect>
+          </property>
+          <property name="frameShape">
+           <enum>QFrame::StyledPanel</enum>
+          </property>
+          <property name="frameShadow">
+           <enum>QFrame::Raised</enum>
+          </property>
+         </widget>
         </widget>
        </widget>
       </widget>

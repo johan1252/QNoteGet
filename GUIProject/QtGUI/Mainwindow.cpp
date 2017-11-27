@@ -392,7 +392,7 @@ void MainWindow::displayApplicableCourseTabs(){
     //This will be moved once we have the subscriptions stuff working properly.
     qDebug() << "Already here???";
     Backend b;
-    b.downloadFilesForCourses(currentUserG);
+    //b.downloadFilesForCourses(currentUserG);
 
     vector<Course> subscription = currentUserG.getSubscribedCourses();
 
@@ -434,6 +434,8 @@ void MainWindow::displayCategoriesForCourse(Course courseObj, int index){
 
     ui->tabWidget->setCurrentIndex(index);
     QGroupBox * groupBox = ui->tabWidget->currentWidget()->findChild<QGroupBox*>(QString(), Qt::FindDirectChildrenOnly);
+    QFrame * frame = groupBox->findChild<QFrame*>(QString(), Qt::FindDirectChildrenOnly);
+
     // Make sure groupBox doesnt already have children (for when this may be called from login or edit subs)
     QList<QGroupBox *> possibleChildren = groupBox->findChildren<QGroupBox *>();
 
@@ -467,10 +469,35 @@ void MainWindow::displayCategoriesForCourse(Course courseObj, int index){
             catBox->setChecked(true);
             categoriesBox->addWidget(catBox);
         }
-        groupBox->setLayout(categoriesBox);
+        categoriesBox->setSizeConstraint(QLayout::SetMinAndMaxSize);
+        frame->setLayout(categoriesBox);
+
+        QScrollArea *scrollArea = new QScrollArea(groupBox);
+        scrollArea->setBackgroundRole(QPalette::Window);
+        scrollArea->setWidget(frame);
+
+        QSize areaSize = scrollArea->size();
+        QSize widgetSize = frame->size();
+
+        QScrollBar * vBar = scrollArea->verticalScrollBar();
+        vBar->setPageStep(areaSize.height());
+        QScrollBar * hBar = scrollArea->horizontalScrollBar();
+        hBar->setPageStep(areaSize.width());
+        vBar->setRange(0, widgetSize.height() - areaSize.height());
+        hBar->setRange(0, widgetSize.width() - areaSize.width());
+        updateWidgetPosition(vBar, hBar, scrollArea, frame);
     }
 }
 
+void MainWindow::updateWidgetPosition(QScrollBar *vBar, QScrollBar *hBar, QScrollArea *scrollArea, QFrame * frame){
+
+    int hValue = hBar->value();
+    int vValue = vBar->value();
+    QPoint topLeft = scrollArea->rect().topLeft();
+
+    frame->move(topLeft.x() - hValue, topLeft.y() - vValue);
+
+}
 
 //NOTE: Qt actually saves the state of the checkboxes when you leave the page (its all in the same window)
 //This functionality is for the hypothetical case in which a new user visits the page after another has logged out, and
