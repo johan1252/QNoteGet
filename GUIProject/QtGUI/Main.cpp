@@ -6,6 +6,7 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
+   // w.setStyleSheet("QMainWindow {background-color:rgb(114,159,207);}");
     w.show(); //show window
 
     //Create global pre-defined course objects from database
