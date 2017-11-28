@@ -140,6 +140,7 @@ void MainWindow::populateGlobalUserOnLogin(string username,int pass, string path
             for (auto extensionID: extensions) {
                 dbGetExtensionName(extensionID, extName);
                 extString.push_back(extName); //Add the extension string
+                qDebug() << "Extension: " << QString::fromStdString(extName);
             }
             //Create CourseCategory object
             CourseCategory cc = CourseCategory(catName, catPathName, extString);
@@ -367,6 +368,7 @@ void MainWindow::on_pushButton_createAccount_clicked()
 
 void MainWindow::on_pushButton_editSubs_clicked()
 {
+    ui->label_myAccountUsername->setText("Hello, " + QString::fromStdString(currentUserG.getUsername()));
     displayApplicableCourseTabs();
     qDebug() << "On editSubs clicked!";
     clearCourseTabs();
@@ -515,7 +517,8 @@ void MainWindow::repopulateUserSubs(){
 
                             for (unsigned long m = 0; m < userExtensions.size(); m++){
                                 for (int n = 0; n < extensionBoxes.size(); n++){
-                                    if (QString::fromStdString(userExtensions[m]) == extensionBoxes[n]->text()){
+                                    QString userExtension = "." + QString::fromStdString(userExtensions[m]);
+                                    if (userExtension == extensionBoxes[n]->text()){
                                         extensionBoxes[n]->setChecked(true);
                                         break;
                                     }
