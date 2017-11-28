@@ -172,7 +172,7 @@ vector<string> Backend::getFilesAtUrl(CourseCategory categoryObject){
             //cout << "Line: " << newline << endl;
             for (auto e : fileExtensions){
                 //cout << e << endl;
-                if (newline.find(e) != string::npos){
+                if (newline.find(e) != string::npos && newline.find(".html") == string::npos){
                     string file = urlPath + "/" + newline.substr(9,end-begin-10); //start at 9 to get rid of <a href=" ,length is the end - the beginning - 9 - 1 to elimnate the end quote
                     allFiles.push_back(file);
                     //cout << "File: " << file << endl;
@@ -221,7 +221,7 @@ vector<string> Backend::getFilesAtUrl(CourseCategory categoryObject){
             alltherest.push_back(therest);
             //cout << "r: " << newr << endl;
             for (auto e : fileExtensions){
-                if (newr.find(e) != string::npos){
+                if (newr.find(e) != string::npos  && newr.find(".html") == string::npos){
                     string file = urlPath + "/" + newr.substr(9,end-begin-10);
                     allFiles.push_back(file);
                     //cout << "File: " << file << endl;

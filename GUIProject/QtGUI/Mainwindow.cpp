@@ -168,6 +168,10 @@ void MainWindow::on_pushButton_doneSubscribe_clicked()
       setupDirectoryExplorer();
       qDebug() << "On doneSubscribe clicked!";
 
+      //Download the course files! specific to use preferences
+      Backend b;
+      b.downloadFilesForCourses(currentUserG);
+
       ui->stackedWidget->setCurrentIndex(YOURCLASSESPAGE);
   }
 }
@@ -367,6 +371,7 @@ void MainWindow::on_pushButton_editSubs_clicked()
     qDebug() << "On editSubs clicked!";
     clearCourseTabs();
     repopulateUserSubs();
+
     if (currentIndex < ui->stackedWidget->count()){
         ui->stackedWidget->setCurrentIndex(EDITSUBSCRIPTIONSPAGE);
     }
@@ -392,12 +397,6 @@ void MainWindow::on_listView_courseFiles_doubleClicked(const QModelIndex &index)
 
 
 void MainWindow::displayApplicableCourseTabs(){
-
-    //TODO: Right now the download files is set here BEFORE the user selects extensions
-    //This will be moved once we have the subscriptions stuff working properly.
-    qDebug() << "Already here???";
-    Backend b;
-    //b.downloadFilesForCourses(currentUserG);
 
     vector<Course> subscription = currentUserG.getSubscribedCourses();
 
@@ -425,6 +424,8 @@ void MainWindow::displayApplicableCourseTabs(){
         }
     }
 
+    //Ensure edit account tab is the focused one
+    ui->tabWidget->setCurrentIndex(0);
 }
 
 // displayCategoriesForCourse is called from displayApplicableCourseTabs each time it is determined
