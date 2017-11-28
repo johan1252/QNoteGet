@@ -45,7 +45,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="HomePage">
      <widget class="QFrame" name="frame_2">
@@ -139,6 +139,10 @@
        </property>
        <property name="focusPolicy">
         <enum>Qt::StrongFocus</enum>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(114, 159, 207);
+border-radius: 10px;</string>
        </property>
        <property name="text">
         <string>Login</string>
@@ -252,6 +256,10 @@
        </property>
        <property name="focusPolicy">
         <enum>Qt::StrongFocus</enum>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(114, 159, 207);
+border-radius: 10px;</string>
        </property>
        <property name="text">
         <string>Create Account</string>
@@ -523,6 +531,10 @@
          <height>51</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(114, 159, 207);
+border-radius: 10px;</string>
+       </property>
        <property name="text">
         <string>Done</string>
        </property>
@@ -535,6 +547,10 @@
          <width>111</width>
          <height>51</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(114, 159, 207);
+border-radius: 10px;</string>
        </property>
        <property name="text">
         <string>Go Back</string>
@@ -582,6 +598,11 @@
         </item>
         <item>
          <widget class="QPushButton" name="pushButton">
+          <property name="styleSheet">
+           <string notr="true">background-color: rgb(114, 159, 207);
+border-radius: 10px;
+font: 8pt &quot;DejaVu Sans&quot;;</string>
+          </property>
           <property name="text">
            <string>Browse</string>
           </property>
@@ -671,6 +692,10 @@
          <width>181</width>
          <height>51</height>
         </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(114, 159, 207);
+border-radius: 10px;</string>
        </property>
        <property name="text">
         <string>Done Subscribe</string>
@@ -772,6 +797,10 @@
            <kerning>false</kerning>
           </font>
          </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(114, 159, 207);
+border-radius: 10px;</string>
+         </property>
          <property name="text">
           <string>Save</string>
          </property>
@@ -812,6 +841,10 @@
            <width>112</width>
            <height>32</height>
           </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(114, 159, 207);
+border-radius: 10px;</string>
          </property>
          <property name="text">
           <string>Save</string>
@@ -908,6 +941,10 @@ font-family: &quot;Times New Roman&quot; serif;</string>
            <height>32</height>
           </rect>
          </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(114, 159, 207);
+border-radius: 10px;</string>
+         </property>
          <property name="text">
           <string>Save</string>
          </property>
@@ -971,6 +1008,10 @@ font-family: &quot;Times New Roman&quot; serif;
            <width>112</width>
            <height>32</height>
           </rect>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(114, 159, 207);
+border-radius: 10px;</string>
          </property>
          <property name="text">
           <string>Save</string>
@@ -1074,6 +1115,10 @@ font-family: &quot;Times New Roman&quot; serif;
          <height>32</height>
         </rect>
        </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(114, 159, 207);
+border-radius: 10px;</string>
+       </property>
        <property name="text">
         <string>Edit Account</string>
        </property>
@@ -1103,7 +1148,7 @@ font-family: &quot;Times New Roman&quot; serif;
      <x>0</x>
      <y>0</y>
      <width>1123</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuFile">
