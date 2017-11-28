@@ -139,6 +139,10 @@ void MainWindow::populateGlobalUserOnLogin(string username,int pass, string path
             //Iterate through all the extensions the user subscribed to for one category (categoryID)
             for (auto extensionID: extensions) {
                 dbGetExtensionName(extensionID, extName);
+
+                //Add the period in extension, example "."+"cpp"
+                //Database doesn't store period
+                extName = "." + extName;
                 extString.push_back(extName); //Add the extension string
                 qDebug() << "Extension: " << QString::fromStdString(extName);
             }
@@ -517,8 +521,7 @@ void MainWindow::repopulateUserSubs(){
 
                             for (unsigned long m = 0; m < userExtensions.size(); m++){
                                 for (int n = 0; n < extensionBoxes.size(); n++){
-                                    QString userExtension = "." + QString::fromStdString(userExtensions[m]);
-                                    if (userExtension == extensionBoxes[n]->text()){
+                                    if (QString::fromStdString(userExtensions[m]) == extensionBoxes[n]->text()){
                                         extensionBoxes[n]->setChecked(true);
                                         break;
                                     }
