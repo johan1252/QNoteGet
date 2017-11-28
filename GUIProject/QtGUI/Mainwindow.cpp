@@ -774,7 +774,7 @@ void MainWindow::courseCategorySaveButtonClicked(int courseTabId) {
                     }
 
                     if(dbDeleteUserExtensionPreference(userID, courseID, prefID, extIDsToDelete)){
-                        qDebug() << "USER EXTENESIO PREFERENCES DELETED";
+                        qDebug() << "USER EXTENESION PREFERENCES DELETED";
                     }
                     else{
                         QString dbError = "ERROR: Could not delete extension preferences";
@@ -841,6 +841,11 @@ vector<CourseCategory> MainWindow::editSubscription(vector<Course*> userCourses,
                 }
             }
             preDefCats[i].setExtensionPreferences(newExtensionPrefs);
+            qDebug() << "In editSubscriptioos, new extensionPreferences for category: " << QString::fromStdString(preDefCats[i].getCategoryName()) << " are:";
+            vector<string> newExtensions = preDefCats[i].getExtensionPreferences();
+            for (int j = 0; j < newExtensions.size(); j++){
+                qDebug() << QString::fromStdString(newExtensions[j]);
+            }
 
             // Now add to newSubscriptions
             //Original categories QList based on preDefinedCourses, so have same indices
@@ -935,10 +940,12 @@ void MainWindow::compareEditedSubscriptions(const int courseID, vector<CourseCat
                 }
                 vector<string> beforeExtensions = beforeSubs[i].getExtensionPreferences();
                 vector<string> afterExtensions = afterSubs[matchingAfterCat].getExtensionPreferences();
+                trimExtensions(beforeExtensions);
+                trimExtensions(afterExtensions);
                 qDebug() << "beforeExtensions size is: " << beforeExtensions.size() << "for cat: " << QString::fromStdString(beforeSubs[i].getCategoryName()) << " and those extensions are: ";
-                //for (unsigned long z = 0; z < beforeExtensions.size(); z++) { qDebug() << QString::fromStdString(beforeExtensions[z]);}
+                for (unsigned long z = 0; z < beforeExtensions.size(); z++) { qDebug() << QString::fromStdString(beforeExtensions[z]);}
                 qDebug() << "afterExtensions size is: " << afterExtensions.size() << " for cat: " <<QString::fromStdString(afterSubs[matchingAfterCat].getCategoryName()) << " and those extensions are: ";
-                //for (unsigned long z = 0; z < afterExtensions.size(); z++){qDebug() << QString::fromStdString(afterExtensions[z]);}
+                for (unsigned long z = 0; z < afterExtensions.size(); z++){qDebug() << QString::fromStdString(afterExtensions[z]);}
                 qDebug() << "size of prefIds: " << prefIDs.size();
                 qDebug() << "userID is: " << userID << "courseID is: " << courseID << " prefIDs are: " << prefIDs[i] << " and userBeforeExtensionPredIDs size is: " << userBeforeExtensionPrefIDs.size();
                 try{
@@ -972,7 +979,14 @@ void MainWindow::compareEditedSubscriptions(const int courseID, vector<CourseCat
                     }
                     if (beforeNotAfter){ //only removes extensions
                         qDebug() << "userBeforeExtensionPrefIDs size is: " << userBeforeExtensionPrefIDs.size();
-                        extensionIDsToDelete.push_back(userBeforeExtensionPrefIDs[k]);
+
+                        //The vector beforeExtensions is based on an object updated differently from the db. The object
+                        // has its extensions removed and placed back in the correct order, the database just appends new data
+                        // to the end of the column.  Thus, calling delete, add, delete again calls delete on the wrong data
+                        // This is a bad (time consuming), but functional fix
+                        int extToDelete;
+                        dbGetExtensionID(extToDelete, beforeExtensions[k]);
+                        extensionIDsToDelete.push_back(extToDelete);
                     }
                 }
 
@@ -981,16 +995,23 @@ void MainWindow::compareEditedSubscriptions(const int courseID, vector<CourseCat
                 //but also must check if extensions added to a still-checked category
                 //do the reverse, if AfterNotBefore, add category
                 for (unsigned long k = 0; k < afterExtensions.size(); k++){
+                    qDebug() << "afterExtensions[k] = " << QString::fromStdString(afterExtensions[k]);
                     bool afterNotBefore = true;
                     for (unsigned long l = 0; l < beforeExtensions.size(); l++){
+                        qDebug() << "beforeExtensions[l] = " << QString::fromStdString(beforeExtensions[l]);
                         if (afterExtensions[k] == beforeExtensions[l]){
                             afterNotBefore = false;
+                            qDebug() << "afterExtensions[k] = " << QString::fromStdString(afterExtensions[k]) << " and beforeExtension[l] = " << QString::fromStdString(beforeExtensions[l]) << " so afterNotBefore is false";
+                            break;
                         }
                     }
                     if (afterNotBefore){ //need to add extension to db
+                        qDebug() << "afterNotBefore for extension: " << QString::fromStdString(afterExtensions[k]);
                         int extID;
                         try{
-                            if (dbGetExtensionID(extID, afterExtensions[i])){}
+                            if (dbGetExtensionID(extID, afterExtensions[k])){
+                                qDebug() << "dbGetExtensionID called, and extID is: " << extID;
+                            }
                             else{
                                 QString dbError = "ERROR: Unable to retrieve extension IDs";
                                 throw dbError;
