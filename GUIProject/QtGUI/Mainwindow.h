@@ -120,5 +120,6 @@ private:
     void compareEditedSubscriptions(const int courseID, vector<CourseCategory> beforeSubs, vector<CourseCategory> afterSubs);
     void addExtensionsToDb(vector<string> fileExtensions);
     vector<string>& trimExtensions(vector<string>& extIDs);
+    void setStyleSheets();
 
 };
