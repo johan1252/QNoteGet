@@ -105,7 +105,6 @@ private:
     QFileSystemModel * fileModel;
     vector<Course> preDefinedCourses;
     User currentUserG;
-    vector<bool> courseEditsMade; //for use with editSubscriptions button
     vector<Course*> * beforeSubs = nullptr;
 
     void setupDirectoryExplorer();
