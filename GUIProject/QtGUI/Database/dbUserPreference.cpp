@@ -46,7 +46,7 @@ std::vector<int> dbCreateMultipleUserPreferences(int userId, int courseId, int p
         for (size_t i = 0; i < extensionsIds.size(); i++){
             if (i == extensionsIds.size() - 1){
                 statement += "('" + std::to_string(userId) + "', '" + std::to_string(courseId) + "', '" +
-                        std::to_string(preferenceId) + "', '" + std::to_string(extensionsIds[0]) + "') RETURNING ID;";
+                        std::to_string(preferenceId) + "', '" + std::to_string(extensionsIds[i]) + "') RETURNING ID;";
             }
             else{
                  statement += "('" + std::to_string(userId) + "', '" + std::to_string(courseId) + "', '" +
@@ -55,6 +55,7 @@ std::vector<int> dbCreateMultipleUserPreferences(int userId, int courseId, int p
         }
     }
 
+    qDebug() << "INSIDE DBCREATEMULTIPLEUSERPREFERENCES, statement is:  " << QString::fromStdString(statement);
     pqxx::result R = dbExecuteReturn(statement);
     if (R.empty()){
         userPrefIds.push_back(-1);
@@ -74,7 +75,7 @@ std::vector<int> dbCreateMultipleUserPreferences(int userId, int courseId, int p
 }
 
 bool dbGetUserPreferences(int userId, const int& courseId, std::vector<int>& preferences) {
-    std::string statement = "SELECT PREFERENCEID FROM USERPREFERENCES";
+    std::string statement = "SELECT DISTINCT PREFERENCEID FROM USERPREFERENCES";
     std::string sql = statement + " WHERE COURSEID= '" + std::to_string(courseId) + "'AND USERID= '" + std::to_string(userId) + "'" + ";";
 
     qDebug() << "statement in dbGetUserpreferences is: " << QString::fromStdString(sql);
