@@ -45,7 +45,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>2</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="HomePage">
      <widget class="QFrame" name="frame_2">
@@ -83,8 +83,11 @@
        </property>
        <property name="font">
         <font>
-         <family>MV Boli</family>
-         <pointsize>36</pointsize>
+         <family>Krungthep</family>
+         <pointsize>43</pointsize>
+         <weight>50</weight>
+         <italic>false</italic>
+         <bold>false</bold>
         </font>
        </property>
        <property name="layoutDirection">
@@ -139,10 +142,6 @@
        </property>
        <property name="focusPolicy">
         <enum>Qt::StrongFocus</enum>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(114, 159, 207);
-border-radius: 10px;</string>
        </property>
        <property name="text">
         <string>Login</string>
@@ -225,8 +224,8 @@ border-radius: 10px;</string>
        </property>
        <property name="font">
         <font>
-         <family>MV Boli</family>
-         <pointsize>36</pointsize>
+         <family>Krungthep</family>
+         <pointsize>43</pointsize>
         </font>
        </property>
        <property name="layoutDirection">
@@ -256,10 +255,6 @@ border-radius: 10px;</string>
        </property>
        <property name="focusPolicy">
         <enum>Qt::StrongFocus</enum>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(114, 159, 207);
-border-radius: 10px;</string>
        </property>
        <property name="text">
         <string>Create Account</string>
@@ -306,8 +301,8 @@ border-radius: 10px;</string>
        </property>
        <property name="font">
         <font>
-         <family>MV Boli</family>
-         <pointsize>36</pointsize>
+         <family>Krungthep</family>
+         <pointsize>43</pointsize>
         </font>
        </property>
        <property name="layoutDirection">
@@ -531,10 +526,6 @@ border-radius: 10px;</string>
          <height>51</height>
         </rect>
        </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(114, 159, 207);
-border-radius: 10px;</string>
-       </property>
        <property name="text">
         <string>Done</string>
        </property>
@@ -547,10 +538,6 @@ border-radius: 10px;</string>
          <width>111</width>
          <height>51</height>
         </rect>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(114, 159, 207);
-border-radius: 10px;</string>
        </property>
        <property name="text">
         <string>Go Back</string>
@@ -601,15 +588,16 @@ border-radius: 10px;</string>
       <widget class="QPushButton" name="pushButton">
        <property name="geometry">
         <rect>
-         <x>770</x>
-         <y>400</y>
-         <width>71</width>
-         <height>21</height>
+         <x>780</x>
+         <y>390</y>
+         <width>81</width>
+         <height>31</height>
         </rect>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(114, 159, 207);
-border-radius: 10px;</string>
+        <string notr="true">QPushButton {background-color: cornflowerblue; border-radius: 10px; }
+                  QPushButton:hover {background-color: lightskyblue;}
+                  QPushButton:hover:pressed {background-color: steelblue; border-style: inset; border-color: slategrey;}</string>
        </property>
        <property name="text">
         <string>Browse</string>
@@ -659,8 +647,8 @@ border-radius: 10px;</string>
        </property>
        <property name="font">
         <font>
-         <family>MV Boli</family>
-         <pointsize>36</pointsize>
+         <family>Krungthep</family>
+         <pointsize>43</pointsize>
         </font>
        </property>
        <property name="layoutDirection">
@@ -703,10 +691,6 @@ border-radius: 10px;</string>
          <width>181</width>
          <height>51</height>
         </rect>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(114, 159, 207);
-border-radius: 10px;</string>
        </property>
        <property name="text">
         <string>Done Subscribe</string>
@@ -808,10 +792,6 @@ border-radius: 10px;</string>
            <kerning>false</kerning>
           </font>
          </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(114, 159, 207);
-border-radius: 10px;</string>
-         </property>
          <property name="text">
           <string>Save</string>
          </property>
@@ -830,6 +810,7 @@ border-radius: 10px;</string>
          </property>
          <property name="font">
           <font>
+           <family>Krungthep</family>
            <pointsize>30</pointsize>
            <weight>75</weight>
            <bold>true</bold>
@@ -853,10 +834,6 @@ border-radius: 10px;</string>
            <height>32</height>
           </rect>
          </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(114, 159, 207);
-border-radius: 10px;</string>
-         </property>
          <property name="text">
           <string>Save</string>
          </property>
@@ -867,7 +844,7 @@ border-radius: 10px;</string>
            <x>20</x>
            <y>20</y>
            <width>571</width>
-           <height>41</height>
+           <height>44</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_27">
@@ -917,7 +894,7 @@ font-family: &quot;Times New Roman&quot; serif;</string>
            <x>20</x>
            <y>20</y>
            <width>571</width>
-           <height>41</height>
+           <height>44</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_26">
@@ -952,10 +929,6 @@ font-family: &quot;Times New Roman&quot; serif;</string>
            <height>32</height>
           </rect>
          </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(114, 159, 207);
-border-radius: 10px;</string>
-         </property>
          <property name="text">
           <string>Save</string>
          </property>
@@ -984,7 +957,7 @@ border-radius: 10px;</string>
            <x>20</x>
            <y>20</y>
            <width>581</width>
-           <height>41</height>
+           <height>44</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_32">
@@ -1019,10 +992,6 @@ font-family: &quot;Times New Roman&quot; serif;
            <width>112</width>
            <height>32</height>
           </rect>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(114, 159, 207);
-border-radius: 10px;</string>
          </property>
          <property name="text">
           <string>Save</string>
@@ -1081,8 +1050,8 @@ border-radius: 10px;</string>
        </property>
        <property name="font">
         <font>
-         <family>MV Boli</family>
-         <pointsize>36</pointsize>
+         <family>Krungthep</family>
+         <pointsize>43</pointsize>
         </font>
        </property>
        <property name="layoutDirection">
@@ -1125,10 +1094,6 @@ border-radius: 10px;</string>
          <width>141</width>
          <height>32</height>
         </rect>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">background-color: rgb(114, 159, 207);
-border-radius: 10px;</string>
        </property>
        <property name="text">
         <string>Edit Account</string>

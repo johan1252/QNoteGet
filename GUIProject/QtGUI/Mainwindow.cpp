@@ -26,6 +26,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
     ui->stackedWidget->setCurrentIndex(HOMEPAGE);
+    setStyleSheets();
 }
 
 void MainWindow::createTaskBarIcon() {
@@ -1337,4 +1338,15 @@ vector<string>& MainWindow::trimExtensions(vector<string>& extIDs){
         extIDs[i].erase(std::remove(extIDs[i].begin(), extIDs[i].end(), '.'), extIDs[i].end());
     }
     return extIDs;
+}
+
+void MainWindow::setStyleSheets(){
+
+    setStyleSheet("QStackedWidget {background-color: aliceblue;}"
+                  "QPushButton {background-color: cornflowerblue; border-radius: 10px; padding: 10px; font-family: 'Krungthep';}"
+                  "QPushButton:hover {background-color: lightskyblue;}"
+                  "QPushButton:hover:pressed {background-color: steelblue; border: 2px inset slategrey;}"
+                  "QLineEdit {border: 2px outset gray; padding: 0 8px; background: white;}"
+                  "QLineEdit:focus {border: 2px solid lightblue;}");
+
 }
