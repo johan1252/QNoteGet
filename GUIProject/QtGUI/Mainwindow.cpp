@@ -1257,9 +1257,10 @@ void MainWindow::populatePreDefineCourseObjects() {
             fileExtensions = b.getExtensionsAtUrl(preferencePath);
 
             addExtensionsToDb(fileExtensions);
-            CourseCategory cc = CourseCategory(preferenceName, preferencePath, fileExtensions);
-            courseCategories.push_back(cc);
-
+            if (fileExtensions.size() > 0){
+                CourseCategory cc = CourseCategory(preferenceName, preferencePath, fileExtensions);
+                courseCategories.push_back(cc);
+            }
         }
         preDefinedCourses.push_back(Course(courseName, coursePath, courseCategories));
     }
